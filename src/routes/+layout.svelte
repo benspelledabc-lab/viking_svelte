@@ -3,6 +3,7 @@
 	import './layout.css';
 
 	let { children } = $props();
+	let currentYear = new Date().getFullYear();
 </script>
 
 <div class="app">
@@ -14,7 +15,7 @@
 
 	<footer>
 		<p>
-			visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to learn about SvelteKit
+			&copy;{new Date().getFullYear()} Drunken Dwarves, Irate Gnomes, Plundering Vikings and Ben SpelledABC
 		</p>
 	</footer>
 </div>
@@ -32,7 +33,7 @@
 		flex-direction: column;
 		padding: 1rem;
 		width: 100%;
-		max-width: 64rem;
+		max-width: 90rem;
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
