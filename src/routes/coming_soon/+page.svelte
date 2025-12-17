@@ -3,10 +3,12 @@
 </script>
 
 <svelte:head>
-	<title>About</title>
+	<title>Comming Soon</title>
 	<meta name="description" content="About this app" />
 </svelte:head>
 
 <div class="text-column">
-<h1>What YOU talking about willis?!</h1>
+	<h1>No content yet!</h1>
+
+	
 </div>

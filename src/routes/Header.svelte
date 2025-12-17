@@ -6,11 +6,15 @@
 </script>
 
 <header>
-	<div class="corner">
+	<!-- todo: update this image -->
+	 <div class="corner">
+		<!-- THIS IS BLANK -->
+	</div>
+	<!-- <div class="corner">
 		<a href="https://svelte.dev/docs/kit">
 			<img src={logo} alt="SvelteKit" />
 		</a>
-	</div>
+	</div> -->
 
 	<nav>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
@@ -20,23 +24,33 @@
 			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
 				<a href={resolve('/')}>Home</a>
 			</li>
+			<li aria-current={page.url.pathname === '/handloads' ? 'page' : undefined}>
+				<a href={resolve('/handloads')}>Handloads</a>
+			</li>
+			<li aria-current={page.url.pathname === '/coming_soon' ? 'page' : undefined}>
+				<a href={resolve('/coming_soon')}>Coming Soon</a>
+			</li>
 			<li aria-current={page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href={resolve('/about')}>About</a>
 			</li>
-			<li aria-current={page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
+
+			<!-- <li aria-current={page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href={resolve('/sverdle')}>Sverdle</a>
-			</li>
+			</li> -->
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
 		</svg>
 	</nav>
 
-	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
-			<img src={github} alt="GitHub" />
-		</a>
+	<!-- todo: update this image -->
+	<div class="corner">		
+		<!-- THIS IS BLANK -->	
+		<!-- <a href="https://gitlab.com/benspelledabc_group/2026/flask_api">
+			<img src={github} alt="GitLab" />
+		</a> -->
 	</div>
+
 </header>
 
 <style>
