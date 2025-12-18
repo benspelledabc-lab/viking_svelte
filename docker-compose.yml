@@ -26,8 +26,8 @@ services:
     container_name: svelte-app
     restart: unless-stopped
     command: npm run dev -- --host
-    expose:
-      - "5173"   # exposed ONLY to docker network
+    ports:
+      - "5173:5173"   # exposed ONLY to docker network
     volumes:
       - ./:/app
       - /app/node_modules
