@@ -12,7 +12,9 @@
 
   onMount(async () => {
     try {
-      const res = await fetch("http://viking.spelledabc.org:5000/api/v1/handloads");
+      // https://api.spelledabc.org/api/v1/handloads
+      const res = await fetch("https://api.spelledabc.org/api/v1/handloads");
+      // const res = await fetch("http://viking.spelledabc.org:5000/api/v1/handloads");
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       handloads = await res.json();
     } catch (err) {

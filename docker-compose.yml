@@ -1,12 +1,37 @@
+version: "3.9"
+
+networks:
+  proxy:
+    name: npm_proxy
 
 services:
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "81:81" # admin UI
+    environment:
+      DB_SQLITE_FILE: "/data/database.sqlite"
+    volumes:
+      - ./npm/data:/data
+      - ./npm/letsencrypt:/etc/letsencrypt
+    networks:
+      - proxy
+
   svelte-app:
     build: .
-    ports:
-      - "5173:5173"
+    container_name: svelte-app
+    restart: unless-stopped
+    command: npm run dev -- --host
+    expose:
+      - "5173"   # exposed ONLY to docker network
     volumes:
       - ./:/app
       - /app/node_modules
-    command: npm run dev -- --host
     environment:
       NODE_ENV: development
+    networks:
+      - proxy
