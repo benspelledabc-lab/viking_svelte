@@ -1,0 +1,97 @@
+<script>
+  import { onMount } from "svelte";
+
+  let handloads = [];
+  let loading = true;
+  let error = null;
+
+  onMount(async () => {
+    try {
+      const res = await fetch("http://viking.spelledabc.org:5000/api/v1/handloads");
+      if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+      handloads = await res.json();
+    } catch (err) {
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  });
+</script>
+
+<style>
+  table {
+    width: 90%;           
+    margin: 0 auto;       
+    border-collapse: collapse;
+    font-size: 1rem;      /* slightly larger text */
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 0.75rem 1rem; /* increased padding for more space */
+    text-align: left;
+  }
+
+  /* Header row with light brown background */
+  thead tr {
+    background-color: #d2b48c;
+    color: #000;
+  }
+
+  /* Shade every other row */
+  tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tbody tr:nth-child(odd) {
+    background-color: #efe9e9;
+  }
+
+  /* Hover effect for readability */
+  tbody tr:hover {
+    background-color: #f0e6d6;
+  }
+</style>
+
+{#if loading}
+  <p>Loading handloads...</p>
+{:else if error}
+  <p style="color:red">{error}</p>
+{:else}
+  <table>
+    <thead>
+      <tr>
+        <th>HANDLOAD_ID</th>
+        <th>Caliber</th>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Barrel Length</th>
+        <th>Twist Rate</th>
+        <th>Powder Name</th>
+        <th>Powder Charge</th>
+        <th>FPS_AVG</th>
+        <th>FPS_SD</th>
+        <th>FPS_ES</th>
+        <th>COAL</th>        
+      </tr>
+    </thead>
+    <tbody>
+      {#each handloads as h}
+        <tr>          
+          <td>{h.id}</td>
+          <td>{h.caliber}</td>
+          <td>{h.firearm.make}</td>
+          <td>{h.firearm.model}</td>
+          <td>{h.firearm.barrel_length}</td>
+          <td>{h.firearm.twist}</td>
+          <td>{h.powder_name}</td>
+          <td>{h.powder_charge}</td>
+          <td>{h.fps_avg}</td>
+          <td>{h.fps_sd}</td>
+          <td>{h.fps_es}</td>
+          <td>{h.coal}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+{/if}
