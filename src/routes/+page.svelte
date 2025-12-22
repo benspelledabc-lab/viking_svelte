@@ -2,6 +2,7 @@
 	import Counter from './Counter.svelte';
 	import welcome from '$lib/images/svelte-welcome.webp';
 	import welcomeFallback from '$lib/images/svelte-welcome.png';
+	import benEveOnlineProfile from '$lib/images/steam-punk-ben-eve.jpeg';
 </script>
 
 <svelte:head>
@@ -11,12 +12,13 @@
 
 <section>
 	<h1>
-		<span class="welcome">
+		<!-- <span class="welcome">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
 				<img src={welcomeFallback} alt="Welcome" />
-			</picture>
-		</span>
+			</picture>			
+		</span> -->
+		<img src={benEveOnlineProfile} alt="Ben SpelledABC" />
 	</h1>
 
 	<!-- <h2>
