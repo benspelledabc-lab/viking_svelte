@@ -27,8 +27,8 @@
 			<li aria-current={page.url.pathname === '/handloads' ? 'page' : undefined}>
 				<a href={resolve('/handloads')}>Handloads</a>
 			</li>
-			<li aria-current={page.url.pathname === '/coming_soon' ? 'page' : undefined}>
-				<a href={resolve('/coming_soon')}>Coming Soon</a>
+			<li aria-current={page.url.pathname === '/toolkit' ? 'page' : undefined}>
+				<a href={resolve('/toolkit')}>Toolkit</a>
 			</li>
 			<li aria-current={page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href={resolve('/about')}>About</a>

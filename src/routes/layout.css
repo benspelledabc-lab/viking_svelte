@@ -103,3 +103,33 @@ button:focus:not(:focus-visible) {
 	width: 1px;
 	white-space: nowrap;
 }
+
+  /* Container for the code block */
+  .codeblock {
+    background-color: #2d2d2d; /* Dark background */
+    color: #f8f8f2;           /* Light text */
+    padding: 1em;
+    border-radius: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95em;
+    overflow-x: auto;         /* Horizontal scroll for long lines */
+    margin: 1em 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  }
+
+  /* Optional: highlight keywords (simple example) */
+  .codeblock .keyword {
+    color: #ff79c6;
+    font-weight: bold;
+  }
+
+  /* Optional: highlight strings */
+  .codeblock .string {
+    color: #f1fa8c;
+  }
+
+  /* Optional: highlight comments */
+  .codeblock .comment {
+    color: #6272a4;
+    font-style: italic;
+  }
