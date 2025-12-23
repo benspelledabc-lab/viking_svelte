@@ -17,7 +17,7 @@
 	color: var(--color-text);
 }
 
-body {
+/* body {
 	min-height: 100vh;
 	margin: 0;
 	background-attachment: fixed;
@@ -26,7 +26,44 @@ body {
 	background-image:
 		radial-gradient(50% 50% at 50% 50%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0) 100%),
 		linear-gradient(180deg, var(--color-bg-0) 0%, var(--color-bg-1) 15%, var(--color-bg-2) 50%);
+} */
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	background-attachment: fixed;
+
+	background-image:
+		/* soft light overlay */
+		radial-gradient(50% 50% at 50% 50%,
+			rgba(255, 255, 255, 0.55) 0%,
+			rgba(255, 255, 255, 0) 100%
+		),
+
+		/* your wallpaper */
+		url("/images/wallpaper.jpg"),
+
+		/* base gradient fallback */
+		linear-gradient(180deg,
+			var(--color-bg-0) 0%,
+			var(--color-bg-1) 15%,
+			var(--color-bg-2) 50%
+		);
+
+	background-size:
+		cover,
+		cover,
+		100vw 100vh;
+
+	background-position:
+		center,
+		center,
+		center;
+
+	background-repeat: no-repeat;
 }
+
+
 
 h1,
 h2,
@@ -133,3 +170,51 @@ button:focus:not(:focus-visible) {
     color: #6272a4;
     font-style: italic;
   }
+
+
+  /* Frosted glass paragraph bubble */
+.p-bubble {
+	background: rgba(255, 255, 255, 0.35); /* translucent body */
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px); /* Safari support */
+
+	border-radius: 12px;
+	padding: 1rem 1.25rem;
+	margin: 1rem 0;
+
+	box-shadow:
+		0 8px 24px rgba(0, 0, 0, 0.12),
+		inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+
+	color: var(--color-text);
+}
+
+/* Optional: slightly stronger blur on larger screens */
+@media (min-width: 720px) {
+	.p-bubble {
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+	}
+}
+
+
+.app {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh; /* ensures it fills the screen */
+	justify-content: center; /* vertically centers the content */
+	align-items: center;    /* horizontally centers */
+	text-align: center;     /* optional: center text */
+	
+	background-image:
+		radial-gradient(
+			50% 50% at 50% 50%,
+			rgba(255, 255, 255, 0.55) 0%,
+			rgba(255, 255, 255, 0) 100%
+		),
+		var(--wallpaper);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}

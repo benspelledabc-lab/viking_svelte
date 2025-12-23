@@ -1,12 +1,13 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import './layout.css';
+	import wallpaper from '$lib/images/anna-may_boobs.jpg'; // import your wallpaper
 
 	let { children } = $props();
 	let currentYear = new Date().getFullYear();
 </script>
 
-<div class="app">
+<div class="app" style="--wallpaper: url('{wallpaper}')">
 	<Header />
 
 	<main>
@@ -15,7 +16,7 @@
 
 	<footer>
 		<p>
-			&copy;{new Date().getFullYear()} Drunken Dwarves, Irate Gnomes, Plundering Vikings and Ben SpelledABC
+			&copy;{currentYear} Drunken Dwarves, Irate Gnomes, Plundering Vikings and Ben SpelledABC
 		</p>
 	</footer>
 </div>
@@ -25,6 +26,20 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+
+		/* Wallpaper + gradient overlay */
+		background-image:
+			radial-gradient(
+				50% 50% at 50% 50%,
+				rgba(255, 255, 255, 0.55) 0%,
+				rgba(255, 255, 255, 0) 100%
+			),
+			var(--wallpaper);
+
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
 	}
 
 	main {

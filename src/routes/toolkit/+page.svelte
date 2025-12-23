@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-    import swagger from "$lib/images/viking_swagger_steampunk.png";
+    import swagger from "$lib/images/viking_swagger_steampunk.png";	
 </script>
 
 <svelte:head>
@@ -10,7 +10,13 @@
 
 <div class="text-column">
 	
+	
+	<p class="p-bubble">
+	There will be more tools added later, for now. Please use the swagger toolkit I've exposed.
+	</p>
+	<div>
 	<a href="https://api.spelledabc.org/swagger"><img src={swagger} alt="Viking Swagger" width="400" height="300" /></a>
+	</div>
 
 	
 </div>

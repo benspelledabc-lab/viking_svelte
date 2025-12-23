@@ -11,21 +11,22 @@
 </svelte:head>
 
 <section>
-	<h1>
-		<!-- <span class="welcome">
+	<!-- <h1>
+		<span class="welcome">
 			<picture>
 				<source srcset={welcome} type="image/webp" />
 				<img src={welcomeFallback} alt="Welcome" />
 			</picture>			
-		</span> -->
+		</span>
 		<img src={benEveOnlineProfile} alt="Ben SpelledABC" />
-	</h1>
-
-	<!-- <h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2> -->
-
+	</h1> -->
 	<!-- <Counter /> -->
+
+	<p class="p-bubble">
+	This paragraph floats above the background.  
+	You can see the image underneath, but it’s blurred instead of sharp.</p>
+
+
 </section>
 
 <style>
