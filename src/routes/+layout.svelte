@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Header from './Header.svelte';
 	import './layout.css';
-	import wallpaper from '$lib/images/anna-may_boobs.jpg'; // import your wallpaper
+	// import wallpaper from '$lib/images/anna-may_boobs.jpg'; // import your wallpaper
+	import wallpaper from '$lib/images/viking-wallpaper.jpg'; // import your wallpaper
+	
 
 	let { children } = $props();
 	let currentYear = new Date().getFullYear();
