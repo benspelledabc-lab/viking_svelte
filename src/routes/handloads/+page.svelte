@@ -67,6 +67,7 @@
     <thead>
       <tr>
         <th>HANDLOAD_ID</th>
+        <th>Is OCW</th>
         <th>Caliber</th>
         <th>Make</th>
         <th>Model</th>
@@ -84,6 +85,7 @@
       {#each handloads as h}
         <tr>
           <td>{h.id}</td>
+          <td>{h.is_ocw}</td>
           <td>{h.caliber}</td>
           <td>{h.firearm.make}</td>
           <td>{h.firearm.model}</td>
