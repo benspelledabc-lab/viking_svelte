@@ -1,8 +1,19 @@
 <script lang="ts">
-	// import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcomeFallback from '$lib/images/svelte-welcome.png';
-	import benEveOnlineProfile from '$lib/images/steam-punk-ben-eve.jpeg';
+	import { onMount } from 'svelte';
+
+	// Dynamic content
+	let content: { paragraphs: string[] } | null = null;
+
+	onMount(async () => {
+		try {
+			const res = await fetch('/home.json');
+			if (res.ok) {
+				content = await res.json();
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	});
 </script>
 
 <svelte:head>
@@ -11,50 +22,14 @@
 </svelte:head>
 
 <section>
-	<!-- <h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcomeFallback} alt="Welcome" />
-			</picture>			
-		</span>
-		<img src={benEveOnlineProfile} alt="Ben SpelledABC" />
-	</h1> -->
-	<!-- <Counter /> -->
-
-	<p class="p-bubble">
-	This paragraph floats above the background.  
-	You can see the image underneath, but it’s blurred instead of sharp.</p>
-
-
+	{#if content}
+		<!-- Parent bubble wrapping all paragraphs -->
+		<div class="p-bubble parent-bubble">
+			{#each content.paragraphs as paragraph, i}
+				<p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{paragraph}</p>
+			{/each}
+		</div>
+	{:else}
+		<p class="p-bubble">/static/home.json not found or no dynamic content.</p>
+	{/if}
 </section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-</style>
