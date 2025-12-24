@@ -66,13 +66,9 @@
   <table>
     <thead>
       <tr>
-        <th>HANDLOAD_ID</th>
+        <th>Handload Id</th>
         <th>Is OCW</th>
-        <th>Caliber</th>
-        <th>Make</th>
-        <th>Model</th>
-        <th>Barrel Length</th>
-        <th>Twist Rate</th>
+        <th>Caliber</th>        
         <th>Powder Name</th>
         <th>Powder Charge</th>
         <th>FPS_AVG</th>
@@ -84,13 +80,9 @@
     <tbody>
       {#each handloads as h}
         <tr>
-          <td>{h.id}</td>
+          <td><a href={`/handloads/${h.id}`} style="color: blue; text-decoration: underline;">{h.id}</a></td>
           <td>{h.is_ocw}</td>
-          <td>{h.caliber}</td>
-          <td>{h.firearm.make}</td>
-          <td>{h.firearm.model}</td>
-          <td>{h.firearm.barrel_length}</td>
-          <td>{h.firearm.twist}</td>
+          <td>{h.caliber}</td>          
           <td>{h.powder_name}</td>
           <td>{h.powder_charge}</td>
           <td>{h.fps_avg}</td>
