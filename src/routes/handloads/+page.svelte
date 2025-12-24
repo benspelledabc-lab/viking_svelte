@@ -68,13 +68,10 @@
       <tr>
         <th>Handload Id</th>
         <th>Is OCW</th>
-        <th>Caliber</th>        
-        <th>Powder Name</th>
-        <th>Powder Charge</th>
-        <th>FPS_AVG</th>
-        <th>FPS_SD</th>
-        <th>FPS_ES</th>
-        <th>COAL</th>        
+        <th>Caliber</th>    
+        <th>Bullet Name</th>    
+        <th>Bullet Weight</th>    
+        <th>Powder Name</th> 
       </tr>
     </thead>
     <tbody>
@@ -82,13 +79,10 @@
         <tr>
           <td><a href={`/handloads/${h.id}`} style="color: blue; text-decoration: underline;">{h.id}</a></td>
           <td>{h.is_ocw}</td>
-          <td>{h.caliber}</td>          
-          <td>{h.powder_name}</td>
-          <td>{h.powder_charge}</td>
-          <td>{h.fps_avg}</td>
-          <td>{h.fps_sd}</td>
-          <td>{h.fps_es}</td>
-          <td>{h.coal}</td>
+          <td>{h.caliber}</td>    
+          <td>{h.bullet_name}</td>          
+          <td>{h.bullet_weight}</td>          
+          <td>{h.powder_name}</td>       
         </tr>
       {/each}
     </tbody>

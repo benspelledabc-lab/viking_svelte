@@ -46,44 +46,103 @@
 {:else if error}
   <p style="color:red;">Error: {error}</p>
 {:else if handload}
-  <div class="table-container">
-    <table>
-      <thead>
+<div class="table-container">
+  <table>
+    <tbody>
+      <tr>        
+        <th colspan="2" style="text-align:center; background:#d2b48c;">Handload {handload.id} Details</th>        
+      </tr>
+
+      <tr>
+        <th>Caliber</th>
+        <td>{handload.caliber}</td>
+      </tr>
+
+      <tr>
+        <th>Bullet</th>
+        <td>
+          {handload.bullet_name
+            ? `${handload.bullet_name} (${handload.bullet_weight} gr)`
+            : `${handload.bullet_weight} gr`}
+        </td>
+      </tr>
+
+      <tr>
+        <th>COAL</th>
+        <td>{handload.coal}</td>
+      </tr>
+
+      <tr>
+        <th>Powder</th>
+        <td>{handload.powder_name}</td>
+      </tr>
+
+      <tr>
+        <th>Powder Charge</th>
+        <td>{handload.powder_charge} gr</td>
+      </tr>
+
+      <tr>
+        <th>FPS (Avg)</th>
+        <td>{handload.fps_avg}</td>
+      </tr>
+
+      <tr>
+        <th>FPS SD</th>
+        <td>{handload.fps_sd}</td>
+      </tr>
+
+      <tr>
+        <th>FPS ES</th>
+        <td>{handload.fps_es}</td>
+      </tr>
+
+      <tr>
+        <th>OCW Load</th>
+        <td>{handload.is_ocw ? "Yes" : "No"}</td>
+      </tr>
+
+      <!-- <tr>
+        <th>Created</th>
+        <td>
+          {handload.created_at
+            ? new Date(handload.created_at).toLocaleString()
+            : "—"}
+        </td>
+      </tr> -->
+
+      {#if handload.firearm}
         <tr>
-          <th>Handload ID</th>
-          <th>Is OCW</th>
-          <th>Caliber</th>
+          <th colspan="2" style="text-align:center; background:#d2b48c;">
+            Firearm
+          </th>
+        </tr>
+
+        <tr>
           <th>Make</th>
-          <th>Model</th>
-          <th>Barrel Length</th>
-          <th>Twist Rate</th>
-          <th>Powder Name</th>
-          <th>Powder Charge</th>
-          <th>FPS_AVG</th>
-          <th>FPS_SD</th>
-          <th>FPS_ES</th>
-          <th>COAL</th>
+          <td>{handload.firearm.make}</td>
         </tr>
-      </thead>
-      <tbody>
+
         <tr>
-          <td>{handload.id}</td>
-          <td>{handload.is_ocw}</td>
-          <td>{handload.caliber}</td>
-          <td>{handload.firearm?.make}</td>
-          <td>{handload.firearm?.model}</td>
-          <td>{handload.firearm?.barrel_length}</td>
-          <td>{handload.firearm?.twist}</td>
-          <td>{handload.powder_name}</td>
-          <td>{handload.powder_charge}</td>
-          <td>{handload.fps_avg}</td>
-          <td>{handload.fps_sd}</td>
-          <td>{handload.fps_es}</td>
-          <td>{handload.coal}</td>
+          <th>Model</th>
+          <td>{handload.firearm.model}</td>
         </tr>
-      </tbody>
-    </table>
-  </div>
+
+        <tr>
+          <th>Barrel Length</th>
+          <td>{handload.firearm.barrel_length}"</td>
+        </tr>
+
+        <tr>
+          <th>Twist Rate</th>
+          <td>1:{handload.firearm.twist}</td>
+        </tr>
+      {/if}
+    </tbody>
+  </table>
+</div>
+
+
 {:else}
   <p>No handload found for ID {handload_id}</p>
 {/if}
