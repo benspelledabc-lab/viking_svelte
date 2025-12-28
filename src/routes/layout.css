@@ -224,9 +224,8 @@ button:focus:not(:focus-visible) {
               inset 0 0 0 1px rgba(255,255,255,0.15);
   
   text-align: left;     /* text stays left-aligned */
+  animation: fadeIn 0.5s ease forwards;
 }
-
-
 
 
 
