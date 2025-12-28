@@ -26,12 +26,12 @@
 			</li>
 			<li aria-current={page.url.pathname === '/handloads' ? 'page' : undefined}>
 				<a href={resolve('/handloads')}>Handloads</a>
+			</li>			
+			<li aria-current={page.url.pathname === '/pages' ? 'page' : undefined}>
+				<a href={resolve('/pages')}>Pages</a>
 			</li>
 			<li aria-current={page.url.pathname === '/toolkit' ? 'page' : undefined}>
 				<a href={resolve('/toolkit')}>Toolkit</a>
-			</li>
-			<li aria-current={page.url.pathname === '/bookmarks' ? 'page' : undefined}>
-				<a href={resolve('/bookmarks')}>Bookmarks</a>
 			</li>
 			<li aria-current={page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href={resolve('/about')}>About</a>

@@ -1,0 +1,102 @@
+<script>
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
+
+  let page_content = null;
+  let groupedParagraphs = [];
+  let loading = true;
+  let error = null;
+
+  // reactive route param
+  $: page_name = $page.params.page_name;
+
+  // helper function to group paragraphs by block_id
+  function groupByBlock(paragraphs) {
+    const groups = {};
+    for (const p of paragraphs) {
+      if (!groups[p.block_id]) groups[p.block_id] = [];
+      groups[p.block_id].push(p.paragraph);
+    }
+    // convert to array sorted by block_id
+    return Object.entries(groups)
+                 .sort(([a],[b]) => a - b)
+                 .map(([block_id, paras]) => ({ block_id, paras }));
+  }
+
+  onMount(async () => {
+    loading = true;
+    error = null;
+    page_content = null;
+    groupedParagraphs = [];
+
+    try {
+      const res = await fetch(`https://api.spelledabc.org/api/v1/page-content/${page_name}`);
+      if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+      page_content = await res.json();
+
+      groupedParagraphs = groupByBlock(page_content.paragraphs);
+
+    } catch (err) {
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  });
+</script>
+
+<svelte:head>
+  <title>{page_content ? page_content.display_name : "Loading..."}</title>
+  <meta name="description" content="Dynamic page content from the database" />
+</svelte:head>
+
+<div class="table-container">
+  {#if loading}
+    <p>Loading page: {page_name}...</p>
+  {:else if error}
+    <p style="color:red;">Error: {error}</p>
+  {:else if page_content}
+    <h2>{page_content.display_name}</h2>
+
+    {#each groupedParagraphs as block}
+      <div class="p-bubble parent-bubble">
+        {#each block.paras as para, i}
+          <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{para}</p>
+        {/each}
+      </div>
+    {/each}
+
+  {:else}
+    <p>No page content found for page called {page_name}.</p>
+  {/if}
+</div>
+
+<style>
+  .table-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .p-bubble {
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    margin: 0.5rem 0;
+    background-color: #f0e6d6;
+  }
+
+  .parent-bubble {
+    background-color: #d2b48c;
+    padding: 1rem;
+  }
+
+  .child-bubble {
+    background-color: #e1dede;
+    margin-left: 1rem;
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+</style>
