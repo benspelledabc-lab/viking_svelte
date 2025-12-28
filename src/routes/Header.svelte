@@ -30,6 +30,9 @@
 			<li aria-current={page.url.pathname === '/toolkit' ? 'page' : undefined}>
 				<a href={resolve('/toolkit')}>Toolkit</a>
 			</li>
+			<li aria-current={page.url.pathname === '/bookmarks' ? 'page' : undefined}>
+				<a href={resolve('/bookmarks')}>Bookmarks</a>
+			</li>
 			<li aria-current={page.url.pathname === '/about' ? 'page' : undefined}>
 				<a href={resolve('/about')}>About</a>
 			</li>
