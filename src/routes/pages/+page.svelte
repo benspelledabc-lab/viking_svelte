@@ -45,7 +45,8 @@
     {#each groupedParagraphs as block}
       <div class="p-bubble parent-bubble">
         {#each block.paras as para, i}
-          <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{para}</p>
+        <!-- dont auto escape the html -->
+          <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{@html para}</p>
         {/each}
       </div>
     {/each}
