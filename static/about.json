@@ -1,7 +1,7 @@
 {
   "title": "About This Site",
   "paragraphs": [
-    "Welcome to the About page! Here we explain who we are and what this site is about.",
-    "The author of this content has been lazy. No not lazy but working on other things for now."
+    "This page is driven by a JSON file on the server. I left it that way to use as an example but also incase there's ever database problems, there is a backup 'about' page.",
+    "Check the database driven <a href='/pages/about'>about</a> page."
   ]
 }

@@ -19,7 +19,7 @@
 		<!-- Parent bubble wrapping all paragraphs -->
 		<div class="p-bubble parent-bubble">
 			{#each content.paragraphs as paragraph, i}
-				<p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{paragraph}</p>
+				<p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{@html paragraph}</p>
 			{/each}
 		</div>
 	{:else}
