@@ -19,7 +19,7 @@
   let isMobile = false;
 
   function checkMobile() {
-    isMobile = window.innerWidth <= 480; // adjust threshold if needed
+    isMobile = window.innerWidth <= 480; // adjust threshold as needed
   }
 
   onMount(async () => {
@@ -45,16 +45,32 @@
 </script>
 
 <style>
+  /* Bubble container */
+  .p-bubble.parent-bubble {
+    background-color: #f9f5f0;
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 900px;
+  }
+
+  .p-bubble.child-bubble {
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #333;
+  }
+
   .table-container {
     width: 100%;
     margin: 0 auto;
     text-align: center;
+    overflow-x: auto;
   }
 
   table {
     border-collapse: collapse;
     font-size: 0.85rem;
-    margin: 0 auto;
+    width: 100%;
     table-layout: auto;
   }
 
@@ -67,28 +83,15 @@
   }
 
   th:nth-child(2),
-  td:nth-child(2) {
-    min-width: 120px;
-  }
+  td:nth-child(2) { min-width: 120px; }
   th:nth-child(3),
-  td:nth-child(3) {
-    min-width: 150px;
-  }
+  td:nth-child(3) { min-width: 150px; }
 
-  thead tr {
-    background-color: #d2b48c;
-    color: #000;
-  }
+  thead tr { background-color: #d2b48c; color: #000; }
 
-  tbody tr:nth-child(even) {
-    background-color: #e1dede;
-  }
-  tbody tr:nth-child(odd) {
-    background-color: #fff;
-  }
-  tbody tr:hover {
-    background-color: #f0e6d6;
-  }
+  tbody tr:nth-child(even) { background-color: #e1dede; }
+  tbody tr:nth-child(odd)  { background-color: #fff; }
+  tbody tr:hover { background-color: #f0e6d6; }
 
   /* Truncation only for mobile */
   .truncated {
@@ -102,7 +105,7 @@
 
   .tooltip {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(0,0,0,0.85);
     color: #fff;
     padding: 0.4rem 0.6rem;
     border-radius: 4px;
@@ -115,91 +118,37 @@
   }
 </style>
 
+<!-- Mobile message remains exactly as before -->
 {#if isMobile}
 <div class="p-bubble parent-bubble">      
     <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
       Some text has been shortened to fit. Tap or click to see the full value.
     </p>  
 </div>
-{:else}
-<div class="p-bubble parent-bubble">  
-    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      The text has NOT been shortened to fit because you're not registered as being on a mobile device.
-    </p>  
-</div>
-{/if}      
+{/if}
 
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Load #</th>
-        <th>Caliber</th>
-        <th>Bullet Weight/Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each handloads as h}
+<!-- Desktop table wrapped in bubble -->
+{#if !isMobile}
+<div class="p-bubble parent-bubble">
+  <div class="table-container">
+    <table>
+      <thead>
         <tr>
-          <!-- H-Id -->
-          <td style="position: relative;">
-            {#if isMobile}
-              <span
-                class="truncated"
-                title={h.id}
-                on:click={() => showIdTooltip[h.id] = !showIdTooltip[h.id]}
-              >
-                <a href={`/handloads/${h.id}`} style="color: blue; text-decoration: underline;">
-                  {h.id}
-                </a>
-              </span>
-              {#if showIdTooltip[h.id]}
-                <div class="tooltip">{h.id}</div>
-              {/if}
-            {:else}
-              <a href={`/handloads/${h.id}`} style="color: blue; text-decoration: underline;">
-                {h.id}
-              </a>
-            {/if}
-          </td>
-
-          <!-- Caliber -->
-          <td style="position: relative;">
-            {#if isMobile}
-              <span
-                class="truncated"
-                title={h.caliber}
-                on:click={() => showCaliberTooltip[h.id] = !showCaliberTooltip[h.id]}
-              >
-                {h.caliber.slice(0, 12)}
-              </span>
-              {#if showCaliberTooltip[h.id]}
-                <div class="tooltip">{h.caliber}</div>
-              {/if}
-            {:else}
-              {h.caliber}
-            {/if}
-          </td>
-
-          <!-- Bullet Weight/Name -->
-          <td style="position: relative;">
-            {#if isMobile}
-              <span
-                class="truncated"
-                title={`${h.bullet_weight}gr - ${h.bullet_name}`}
-                on:click={() => showBulletTooltip[h.id] = !showBulletTooltip[h.id]}
-              >
-                {h.bullet_weight}gr - {h.bullet_name.slice(0, 12)}
-              </span>
-              {#if showBulletTooltip[h.id]}
-                <div class="tooltip">{h.bullet_weight}gr - {h.bullet_name}</div>
-              {/if}
-            {:else}
-              {h.bullet_weight}gr - {h.bullet_name}
-            {/if}
-          </td>
+          <th>Load #</th>
+          <th>Caliber</th>
+          <th>Bullet Weight/Name</th>
         </tr>
-      {/each}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {#each handloads as h}
+          <tr>
+            <td>{h.id}</td>
+            <td>{h.caliber}</td>
+            <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
 </div>
+{/if}
