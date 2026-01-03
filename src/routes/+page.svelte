@@ -1,35 +1,65 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+  let page = null; // stores the page object
+  let loading = true;
+  let error = null;
+  import { apiUrl } from "$lib/api"; // <-- helper for global API base
 
-	// Dynamic content
-	let content: { paragraphs: string[] } | null = null;
+  import { onMount } from "svelte";
 
-	onMount(async () => {
-		try {
-			const res = await fetch('/home.json');
-			if (res.ok) {
-				content = await res.json();
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	});
+  // Dynamic content
+  let content: { paragraphs: string[] } | null = null;
+
+  onMount(async () => {
+    try {
+      const res = await fetch("/home.json");
+      if (res.ok) {
+        content = await res.json();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
 </script>
 
-<svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
-</svelte:head>
+<selection>
+  {#if content}
+    <!-- <h2>Svelte is pimptastic... ish.</h2> -->
+    <h2>{content.title}</h2>
 
-<section>
-	{#if content}
-		<!-- Parent bubble wrapping all paragraphs -->
-		<div class="p-bubble parent-bubble">
-			{#each content.paragraphs as paragraph, i}
-				<p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{paragraph}</p>
-			{/each}
-		</div>
-	{:else}
-		<p class="p-bubble">/static/home.json not found or no dynamic content.</p>
-	{/if}
-</section>
+    <!-- Parent bubble wrapping all paragraphs -->
+    <div class="p-bubble parent-bubble">
+      {#each content.paragraphs as paragraph, i}
+        <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">
+          {paragraph}
+        </p>
+      {/each}
+    </div>
+  {:else}
+    <div class="table-container">
+      <h2>Static Default Page Header</h2>
+      <div class="p-bubble parent-bubble">
+        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+          Sample text....
+        </p>
+        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Placerat in id
+          cursus mi pretium tellus duis. Urna tempor pulvinar vivamus fringilla
+          lacus nec metus.
+        </p>
+        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+          nunc posuere ut hendrerit semper vel class. Conubia nostra inceptos
+          himenaeos orci varius natoque penatibus. Mus donec rhoncus eros
+          lobortis nulla molestie mattis. Purus est efficitur laoreet mauris
+          pharetra vestibulum fusce. Sodales consequat magna ante condimentum
+          neque at luctus. Ligula congue sollicitudin erat viverra ac tincidunt
+          nam. Lectus commodo augue arcu dignissim velit aliquam imperdiet. Cras
+          eleifend turpis fames primis vulputate ornare sagittis. Libero feugiat
+          tristique accumsan maecenas potenti ultricies habitant. Cubilia curae
+          hac habitasse platea dictumst lorem ipsum. Faucibus ex sapien vitae
+          pellentesque sem placerat in. Tempus leo eu aenean sed diam urna
+          tempor.
+        </p>
+      </div>
+    </div>
+  {/if}
+</selection>
