@@ -24,10 +24,10 @@
 			<li aria-current={page.url.pathname === '/' ? 'page' : undefined}>
 				<a href={resolve('/')}>Home</a>
 			</li>
-			<li aria-current={page.url.pathname === '/handloads' ? 'page' : undefined}>
+			<li aria-current={page.url.pathname.startsWith('/handloads') ? 'page' : undefined}>
 				<a href={resolve('/handloads')}>Handloads</a>
 			</li>			
-			<li aria-current={page.url.pathname === '/pages' ? 'page' : undefined}>
+			<li aria-current={page.url.pathname.startsWith('/pages') ? 'page' : undefined}>
 				<a href={resolve('/pages')}>Pages</a>
 			</li>
 			<li aria-current={page.url.pathname === '/toolkit' ? 'page' : undefined}>
