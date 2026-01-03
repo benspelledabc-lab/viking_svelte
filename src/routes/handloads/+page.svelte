@@ -48,6 +48,7 @@
 </svelte:head>
 
 {#if isMobile}
+  <h2>My handloads are not your handloads, use caution.</h2>
   <div class="p-bubble parent-bubble">
     <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
       Some text has been shortened to fit. Tap or click to see the full value.
@@ -57,6 +58,7 @@
 
 <!-- Bubble wrapper for desktop -->
 {#if !isMobile}
+  <h2>My handloads are not your handloads, use caution.</h2>
   <div class="p-bubble parent-bubble bubble-table">
     <div class="table-container">
       <table>
