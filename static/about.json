@@ -2,6 +2,6 @@
   "title": "About This Site",
   "paragraphs": [
     "This page is driven by a JSON file on the server. I left it that way to use as an example but also incase there's ever database problems, there is a backup 'about' page.",
-    "Check the database driven <a href='/pages/about'>about</a> page."
+    "Check the database driven <a href='/pages/about'>about</a> page. This will show as being in the 'pages' parent item. This is intentional."
   ]
 }
