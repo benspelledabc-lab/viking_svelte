@@ -1,5 +1,8 @@
 node_modules
-npm/data/
+
+# Nginx Proxy Manager data (never commit)
+npm/
+
 
 # Output
 .output
