@@ -1,10 +1,6 @@
-<svelte:head>
-  <title>Handloads</title>
-  <meta name="description" content="Handloads for me!" />
-</svelte:head>
-
 <script>
   import { onMount } from "svelte";
+  import { apiUrl } from "$lib/api"; // <-- helper for global API base
 
   let handloads = [];
   let loading = true;
@@ -27,12 +23,14 @@
     window.addEventListener("resize", checkMobile);
 
     try {
-      const res = await fetch("https://api.spelledabc.org/api/v1/handloads");
+      // import { apiUrl } from "$lib/api"; // <-- helper for global API base
+      const res = await fetch(apiUrl(`/handloads`));
+
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       handloads = await res.json();
 
       handloads.sort((a, b) =>
-        a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase())
+        a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase()),
       );
     } catch (err) {
       error = err.message;
@@ -44,17 +42,95 @@
   });
 </script>
 
+<svelte:head>
+  <title>Handloads</title>
+  <meta name="description" content="Handloads for me!" />
+</svelte:head>
+
+{#if isMobile}
+  <div class="p-bubble parent-bubble">
+    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+      Some text has been shortened to fit. Tap or click to see the full value.
+    </p>
+  </div>
+{/if}
+
+<!-- Bubble wrapper for desktop -->
+{#if !isMobile}
+  <div class="p-bubble parent-bubble bubble-table">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Load #</th>
+            <th>Caliber</th>
+            <th>Bullet Weight/Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each handloads as h}
+            <tr>
+              <td
+                ><a
+                  href={`/handloads/${h.id}`}
+                  style="color: blue; text-decoration: underline;">{h.id}</a
+                ></td
+              >
+              <td>{h.caliber}</td>
+              <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{/if}
+
+{#if isMobile}
+  <table>
+    <thead>
+      <tr>
+        <th>Load #</th>
+        <th>Caliber</th>
+        <th>Bullet Weight/Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each handloads as h}
+        <tr>
+          <td
+            ><a
+              href={`/handloads/${h.id}`}
+              style="color: blue; text-decoration: underline;">{h.id}</a
+            ></td
+          >
+          <td>{h.caliber}</td>
+          <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+{/if}
+
 <style>
+  /* Bubble styling */
+  .bubble-table {
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 1rem;
+    background-color: #f7f3f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
   .table-container {
     width: 100%;
-    margin: 0 auto;
     text-align: center;
   }
 
   table {
     border-collapse: collapse;
     font-size: 0.85rem;
-    margin: 0 auto;
+    width: 100%;
     table-layout: auto;
   }
 
@@ -79,7 +155,6 @@
     background-color: #d2b48c;
     color: #000;
   }
-
   tbody tr:nth-child(even) {
     background-color: #e1dede;
   }
@@ -90,7 +165,7 @@
     background-color: #f0e6d6;
   }
 
-  /* Truncation only for mobile */
+  /* Mobile truncation */
   .truncated {
     cursor: pointer;
     display: inline-block;
@@ -114,92 +189,3 @@
     margin-top: 2px;
   }
 </style>
-
-{#if isMobile}
-<div class="p-bubble parent-bubble">      
-    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      Some text has been shortened to fit. Tap or click to see the full value.
-    </p>  
-</div>
-{:else}
-<div class="p-bubble parent-bubble">  
-    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      The text has NOT been shortened to fit because you're not registered as being on a mobile device.
-    </p>  
-</div>
-{/if}      
-
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Load #</th>
-        <th>Caliber</th>
-        <th>Bullet Weight/Name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each handloads as h}
-        <tr>
-          <!-- H-Id -->
-          <td style="position: relative;">
-            {#if isMobile}
-              <span
-                class="truncated"
-                title={h.id}
-                on:click={() => showIdTooltip[h.id] = !showIdTooltip[h.id]}
-              >
-                <a href={`/handloads/${h.id}`} style="color: blue; text-decoration: underline;">
-                  {h.id}
-                </a>
-              </span>
-              {#if showIdTooltip[h.id]}
-                <div class="tooltip">{h.id}</div>
-              {/if}
-            {:else}
-              <a href={`/handloads/${h.id}`} style="color: blue; text-decoration: underline;">
-                {h.id}
-              </a>
-            {/if}
-          </td>
-
-          <!-- Caliber -->
-          <td style="position: relative;">
-            {#if isMobile}
-              <span
-                class="truncated"
-                title={h.caliber}
-                on:click={() => showCaliberTooltip[h.id] = !showCaliberTooltip[h.id]}
-              >
-                {h.caliber.slice(0, 12)}
-              </span>
-              {#if showCaliberTooltip[h.id]}
-                <div class="tooltip">{h.caliber}</div>
-              {/if}
-            {:else}
-              {h.caliber}
-            {/if}
-          </td>
-
-          <!-- Bullet Weight/Name -->
-          <td style="position: relative;">
-            {#if isMobile}
-              <span
-                class="truncated"
-                title={`${h.bullet_weight}gr - ${h.bullet_name}`}
-                on:click={() => showBulletTooltip[h.id] = !showBulletTooltip[h.id]}
-              >
-                {h.bullet_weight}gr - {h.bullet_name.slice(0, 12)}
-              </span>
-              {#if showBulletTooltip[h.id]}
-                <div class="tooltip">{h.bullet_weight}gr - {h.bullet_name}</div>
-              {/if}
-            {:else}
-              {h.bullet_weight}gr - {h.bullet_name}
-            {/if}
-          </td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
-</div>

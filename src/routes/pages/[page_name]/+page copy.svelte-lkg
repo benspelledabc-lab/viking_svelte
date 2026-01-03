@@ -1,7 +1,8 @@
 <script>
   import { onMount } from "svelte";
   import { page } from "$app/stores";
-
+  import { apiUrl } from "$lib/api"; // <-- helper for global API base
+  
   let page_content = null;
   let groupedParagraphs = [];
   let loading = true;
@@ -29,8 +30,9 @@
     page_content = null;
     groupedParagraphs = [];
 
-    try {
-      const res = await fetch(`https://api.spelledabc.org/api/v1/page-content/${page_name}`);
+    try {     
+      // import { apiUrl } from "$lib/api"; // <-- helper for global API base
+      const res = await fetch(apiUrl(`/page-content/${page_name}`));
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       page_content = await res.json();
 
