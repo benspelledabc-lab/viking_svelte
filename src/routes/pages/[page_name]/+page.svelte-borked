@@ -1,0 +1,51 @@
+<script>
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
+
+  let page_content = null;
+  let loading = true;
+  let error = null;
+
+  $: page_name = $page.params.page_name;
+
+  onMount(async () => {
+    loading = true;
+    error = null;
+
+    try {
+      const res = await fetch(`/api/v1/page-content/${page_name}`);
+      if (!res.ok) throw new Error(`${res.status}: ${res.statusText}`);
+      page_content = await res.json();
+    } catch (err) {
+      error = err.message;
+    } finally {
+      loading = false;
+    }
+  });
+</script>
+
+<div class="table-container">
+  {#if loading}
+    <p>Loading page: {page_name}...</p>
+  {:else if error}
+    <p style="color:red;">{error}</p>
+  {:else if page_content}
+    <h2>{page_content.display_name}</h2>
+
+    {#each page_content.paragraphs as para, i}
+      <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">
+        {@html para.paragraph}
+      </p>
+    {/each}
+
+  {:else}
+    <p>No page content found for page called {page_name}.</p>
+  {/if}
+</div>
+
+<style>
+  .table-container { width: 100%; margin: 0 auto; text-align: center; }
+  .p-bubble { border-radius: 1rem; padding: 0.5rem 1rem; margin: 0.5rem 0; background-color: #f0e6d6; }
+  .child-bubble { background-color: #e1dede; animation: fadeIn 0.5s ease forwards; opacity: 0; }
+  @keyframes fadeIn { to { opacity: 1; } }
+</style>
