@@ -1,0 +1,437 @@
+{
+  "success": true,
+  "build": {
+    "name": "Flitty",
+    "class": "Monk",
+    "dualClass": null,
+    "level": 4,
+    "xp": 1000,
+    "ancestry": "Gnome",
+    "heritage": "Umbral Gnome",
+    "background": "Farmhand",
+    "alignment": "N",
+    "gender": "Female",
+    "age": "Not set",
+    "deity": "Not set",
+    "size": 1,
+    "sizeName": "Small",
+    "keyability": "dex",
+    "languages": [
+      "Common",
+      "Elven",
+      "Fey",
+      "Gnomish",
+      "Goblin",
+      "Ysoki"
+    ],
+    "rituals": [],
+    "resistances": [],
+    "inventorMods": [],
+    "abilities": {
+      "str": 14,
+      "dex": 18,
+      "con": 14,
+      "int": 10,
+      "wis": 10,
+      "cha": 12,
+      "breakdown": {
+        "ancestryFree": [
+          "Str",
+          "Dex"
+        ],
+        "ancestryBoosts": [],
+        "ancestryFlaws": [],
+        "backgroundBoosts": [
+          "Con",
+          "Dex"
+        ],
+        "classBoosts": [
+          "Dex"
+        ],
+        "mapLevelledBoosts": {
+          "1": [
+            "Str",
+            "Dex",
+            "Con",
+            "Cha"
+          ]
+        }
+      }
+    },
+    "attributes": {
+      "ancestryhp": 8,
+      "classhp": 10,
+      "bonushp": 0,
+      "bonushpPerLevel": 0,
+      "speed": 25,
+      "speedBonus": 10
+    },
+    "proficiencies": {
+      "classDC": 2,
+      "perception": 2,
+      "fortitude": 4,
+      "reflex": 4,
+      "will": 4,
+      "heavy": 0,
+      "medium": 0,
+      "light": 0,
+      "unarmored": 4,
+      "advanced": 0,
+      "martial": 0,
+      "simple": 2,
+      "unarmed": 2,
+      "castingArcane": 0,
+      "castingDivine": 0,
+      "castingOccult": 0,
+      "castingPrimal": 2,
+      "acrobatics": 0,
+      "arcana": 0,
+      "athletics": 4,
+      "crafting": 0,
+      "deception": 2,
+      "diplomacy": 0,
+      "intimidation": 2,
+      "medicine": 0,
+      "nature": 2,
+      "occultism": 0,
+      "performance": 0,
+      "religion": 0,
+      "society": 0,
+      "stealth": 2,
+      "survival": 0,
+      "thievery": 0,
+      "piloting": 0,
+      "computers": 0
+    },
+    "mods": {},
+    "feats": [
+      [
+        "Assurance",
+        "Athletics",
+        "Awarded Feat",
+        1
+      ],
+      [
+        "Umbral Gnome",
+        null,
+        "Heritage",
+        1,
+        "Heritage Feat",
+        "standardChoice",
+        null
+      ],
+      [
+        "Stumbling Stance",
+        null,
+        "Class Feat",
+        1,
+        "Monk Feat 1",
+        "standardChoice",
+        null
+      ],
+      [
+        "Gnome Polyglot",
+        null,
+        "Ancestry Feat",
+        1,
+        "Gnome Feat 1",
+        "standardChoice",
+        null
+      ],
+      [
+        "Titan Wrestler",
+        null,
+        "Skill Feat",
+        2,
+        "Skill Feat 2",
+        "standardChoice",
+        null
+      ],
+      [
+        "Stunning Blows",
+        null,
+        "Class Feat",
+        2,
+        "Monk Feat 2",
+        "standardChoice",
+        null
+      ],
+      [
+        "Beastmaster Dedication",
+        null,
+        "Archetype Feat",
+        2,
+        "Free Archetype 2",
+        "standardChoice",
+        null
+      ],
+      [
+        "Incredible Initiative",
+        null,
+        "General Feat",
+        3,
+        "General Feat 3",
+        "standardChoice",
+        null
+      ],
+      [
+        "Group Coercion",
+        null,
+        "Skill Feat",
+        4,
+        "Skill Feat 4",
+        "standardChoice",
+        null
+      ],
+      [
+        "Deflect Projectile",
+        null,
+        "Class Feat",
+        4,
+        "Monk Feat 4",
+        "standardChoice",
+        null
+      ],
+      [
+        "Mature Beastmaster Companion",
+        null,
+        "Archetype Feat",
+        4,
+        "Free Archetype 4",
+        "standardChoice",
+        null
+      ]
+    ],
+    "specials": [
+      "Flurry of Blows",
+      "Powerful Fist",
+      "Low-Light Vision",
+      "Darkvision",
+      "Call Companion",
+      "Incredible Movement",
+      "Mystic Strikes",
+      "Umbral Gnome"
+    ],
+    "lores": [
+      [
+        "Rat",
+        0
+      ],
+      [
+        "Farming",
+        2
+      ]
+    ],
+    "equipmentContainers": {
+      "ef30ddba-bad9-4d5b-9a41-560b1e955a27": {
+        "containerName": "Backpack",
+        "bagOfHolding": false,
+        "backpack": true,
+        "augmentations": false
+      }
+    },
+    "equipment": [
+      [
+        "Waterskin",
+        1,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Onyx Panther",
+        1,
+        "Invested"
+      ],
+      [
+        "Soap",
+        1,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Grappling Hook",
+        1,
+        "Invested"
+      ],
+      [
+        "Torch",
+        5,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Backpack",
+        1,
+        "Invested"
+      ],
+      [
+        "Flint and Steel",
+        1,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Healer's Toolkit",
+        1,
+        "Invested"
+      ],
+      [
+        "Disguise Kit",
+        1,
+        "Invested"
+      ],
+      [
+        "Chalk",
+        10,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Rations",
+        1,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Thieves' Toolkit",
+        1,
+        "Invested"
+      ],
+      [
+        "Climbing Kit",
+        1,
+        "Invested"
+      ],
+      [
+        "Rope",
+        1,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Bedroll",
+        1,
+        "ef30ddba-bad9-4d5b-9a41-560b1e955a27",
+        "Invested"
+      ],
+      [
+        "Earplugs",
+        1,
+        "Invested"
+      ],
+      [
+        "Potion of Emergency Escape",
+        1,
+        "Invested"
+      ]
+    ],
+    "specificProficiencies": {
+      "trained": [],
+      "expert": [],
+      "master": [],
+      "legendary": []
+    },
+    "weapons": [
+      {
+        "name": "Special Unarmed (1d6)",
+        "qty": 1,
+        "prof": "unarmed",
+        "die": "d6",
+        "pot": 1,
+        "str": "",
+        "mat": null,
+        "display": "NON Stumbling Stance",
+        "runes": [],
+        "damageType": "B, P or S",
+        "attack": 11,
+        "damageBonus": 2,
+        "extraDamage": [],
+        "increasedDice": false,
+        "isInventor": false
+      },
+      {
+        "name": "Special Unarmed (1d8)",
+        "qty": 1,
+        "prof": "unarmed",
+        "die": "d8",
+        "pot": 1,
+        "str": "",
+        "mat": null,
+        "display": "Stumbling Stance",
+        "runes": [],
+        "damageType": "B, P or S",
+        "attack": 11,
+        "damageBonus": 2,
+        "extraDamage": [],
+        "increasedDice": false,
+        "isInventor": false
+      },
+      {
+        "name": "Flintlock Pistol",
+        "qty": 1,
+        "prof": "simple",
+        "die": "d4",
+        "pot": 0,
+        "str": "",
+        "mat": null,
+        "display": "Flintlock Pistol",
+        "runes": [],
+        "damageType": "P",
+        "attack": 10,
+        "damageBonus": 0,
+        "extraDamage": [],
+        "increasedDice": false,
+        "isInventor": false
+      }
+    ],
+    "money": {
+      "cp": 8,
+      "sp": 3,
+      "gp": 13,
+      "pp": 0
+    },
+    "armor": [
+      {
+        "name": "Explorer's Clothing",
+        "qty": 1,
+        "prof": "unarmored",
+        "pot": 0,
+        "res": "",
+        "mat": null,
+        "display": "Explorer's Clothing",
+        "worn": true,
+        "runes": []
+      }
+    ],
+    "spellCasters": [],
+    "focusPoints": 0,
+    "focus": {},
+    "formula": [],
+    "acTotal": {
+      "acProfBonus": 8,
+      "acAbilityBonus": 4,
+      "acItemBonus": 0,
+      "acTotal": 22,
+      "shieldBonus": null
+    },
+    "pets": [
+      {
+        "type": "Animal Companion",
+        "name": "Sr Trotsalot (goat pig) - Mature Goat",
+        "equipment": [
+          [
+            "Steadyfoot Tassel",
+            1
+          ]
+        ],
+        "animal": "Goat",
+        "mature": true,
+        "incredible": false,
+        "incredibleType": "Nimble",
+        "specializations": [],
+        "armor": "Unarmored"
+      }
+    ],
+    "familiars": []
+  }
+}
