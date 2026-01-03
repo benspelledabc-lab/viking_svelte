@@ -1,8 +1,3 @@
-<svelte:head>
-  <title>Handloads</title>
-  <meta name="description" content="Handloads for me!" />
-</svelte:head>
-
 <script>
   import { onMount } from "svelte";
 
@@ -19,7 +14,7 @@
   let isMobile = false;
 
   function checkMobile() {
-    isMobile = window.innerWidth <= 480; // adjust threshold as needed
+    isMobile = window.innerWidth <= 480; // adjust threshold if needed
   }
 
   onMount(async () => {
@@ -32,7 +27,7 @@
       handloads = await res.json();
 
       handloads.sort((a, b) =>
-        a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase())
+        a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase()),
       );
     } catch (err) {
       error = err.message;
@@ -44,27 +39,89 @@
   });
 </script>
 
+<svelte:head>
+  <title>Handloads</title>
+  <meta name="description" content="Handloads for me!" />
+</svelte:head>
+
+{#if isMobile}
+  <div class="p-bubble parent-bubble">
+    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+      Some text has been shortened to fit. Tap or click to see the full value.
+    </p>
+  </div>
+{/if}
+
+<!-- Bubble wrapper for desktop -->
+{#if !isMobile}
+  <div class="p-bubble parent-bubble bubble-table">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Load #</th>
+            <th>Caliber</th>
+            <th>Bullet Weight/Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each handloads as h}
+            <tr>
+              <td
+                ><a
+                  href={`/handloads/${h.id}`}
+                  style="color: blue; text-decoration: underline;">{h.id}</a
+                ></td
+              >
+              <td>{h.caliber}</td>
+              <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{/if}
+
+{#if isMobile}
+  <table>
+    <thead>
+      <tr>
+        <th>Load #</th>
+        <th>Caliber</th>
+        <th>Bullet Weight/Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each handloads as h}
+        <tr>
+          <td
+            ><a
+              href={`/handloads/${h.id}`}
+              style="color: blue; text-decoration: underline;">{h.id}</a
+            ></td
+          >
+          <td>{h.caliber}</td>
+          <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+        </tr>
+      {/each}
+    </tbody>
+  </table>
+{/if}
+
 <style>
-  /* Bubble container */
-  .p-bubble.parent-bubble {
-    background-color: #f9f5f0;
-    border-radius: 12px;
+  /* Bubble styling */
+  .bubble-table {
     padding: 1rem;
     margin: 1rem auto;
-    max-width: 900px;
-  }
-
-  .p-bubble.child-bubble {
-    margin-bottom: 0.5rem;
-    font-size: 0.85rem;
-    color: #333;
+    border-radius: 1rem;
+    background-color: #f7f3f0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 
   .table-container {
     width: 100%;
-    margin: 0 auto;
     text-align: center;
-    overflow-x: auto;
   }
 
   table {
@@ -83,17 +140,29 @@
   }
 
   th:nth-child(2),
-  td:nth-child(2) { min-width: 120px; }
+  td:nth-child(2) {
+    min-width: 120px;
+  }
   th:nth-child(3),
-  td:nth-child(3) { min-width: 150px; }
+  td:nth-child(3) {
+    min-width: 150px;
+  }
 
-  thead tr { background-color: #d2b48c; color: #000; }
+  thead tr {
+    background-color: #d2b48c;
+    color: #000;
+  }
+  tbody tr:nth-child(even) {
+    background-color: #e1dede;
+  }
+  tbody tr:nth-child(odd) {
+    background-color: #fff;
+  }
+  tbody tr:hover {
+    background-color: #f0e6d6;
+  }
 
-  tbody tr:nth-child(even) { background-color: #e1dede; }
-  tbody tr:nth-child(odd)  { background-color: #fff; }
-  tbody tr:hover { background-color: #f0e6d6; }
-
-  /* Truncation only for mobile */
+  /* Mobile truncation */
   .truncated {
     cursor: pointer;
     display: inline-block;
@@ -105,7 +174,7 @@
 
   .tooltip {
     position: absolute;
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0, 0, 0, 0.85);
     color: #fff;
     padding: 0.4rem 0.6rem;
     border-radius: 4px;
@@ -117,38 +186,3 @@
     margin-top: 2px;
   }
 </style>
-
-<!-- Mobile message remains exactly as before -->
-{#if isMobile}
-<div class="p-bubble parent-bubble">      
-    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      Some text has been shortened to fit. Tap or click to see the full value.
-    </p>  
-</div>
-{/if}
-
-<!-- Desktop table wrapped in bubble -->
-{#if !isMobile}
-<div class="p-bubble parent-bubble">
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Load #</th>
-          <th>Caliber</th>
-          <th>Bullet Weight/Name</th>
-        </tr>
-      </thead>
-      <tbody>
-        {#each handloads as h}
-          <tr>
-            <td>{h.id}</td>
-            <td>{h.caliber}</td>
-            <td>{h.bullet_weight}gr - {h.bullet_name}</td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
-  </div>
-</div>
-{/if}
