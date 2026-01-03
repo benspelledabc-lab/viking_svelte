@@ -53,14 +53,23 @@
   {#if loading}
     <p>Loading page: {page_name}...</p>
   {:else if error}
-    <p style="color:red;">Error: {error}</p>
+    <div class="p-bubble parent-bubble">
+      <p class="p-bubble child-bubble" style="color:red;">
+        {#if error.includes("404") || error.toLowerCase().includes("not found")}
+          If the page called <i>'{page_name}'</i> was here before, it's not anymore.
+        {:else}
+          Error: {error}
+        {/if}
+      </p>
+    </div>
   {:else if page_content}
     <h2>{page_content.display_name}</h2>
 
     {#each groupedParagraphs as block}
       <div class="p-bubble parent-bubble">
         {#each block.paras as para, i}
-          <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{para}</p>
+          <!-- dont auto escape the HTML -->
+          <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{@html para}</p>
         {/each}
       </div>
     {/each}
@@ -69,34 +78,3 @@
     <p>No page content found for page called {page_name}.</p>
   {/if}
 </div>
-
-<style>
-  .table-container {
-    width: 100%;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .p-bubble {
-    border-radius: 1rem;
-    padding: 0.5rem 1rem;
-    margin: 0.5rem 0;
-    background-color: #f0e6d6;
-  }
-
-  .parent-bubble {
-    background-color: #d2b48c;
-    padding: 1rem;
-  }
-
-  .child-bubble {
-    background-color: #e1dede;
-    margin-left: 1rem;
-    animation: fadeIn 0.5s ease forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-</style>

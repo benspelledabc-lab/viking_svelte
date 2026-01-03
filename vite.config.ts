@@ -7,6 +7,6 @@ export default defineConfig({
   server: {
     host: true, // listen on all network interfaces
     port: 5173,
-    allowedHosts: ['viking.spelledabc.org','ben.spelledabc.org', 'localhost', '127.0.0.1']
+    allowedHosts: ['viking.spelledabc.org', 'api.spelledabc.org', 'dev.spelledabc.org', 'dev-api.spelledabc.org', 'ben.spelledabc.org', 'localhost', '127.0.0.1']
   }
 });
