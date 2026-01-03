@@ -1,11 +1,7 @@
-<svelte:head>
-  <title>Handload Details</title>
-  <meta name="description" content="Detailed info about a single handload" />
-</svelte:head>
-
 <script>
   import { onMount } from "svelte";
   import { page } from "$app/stores";
+  import { apiUrl } from "$lib/api"; // <-- helper for global API base
 
   let handload = null;
   let loading = true;
@@ -19,7 +15,8 @@
     error = null;
 
     try {
-      const res = await fetch(`https://api.spelledabc.org/api/v1/handload/${handload_id}`);
+      // import { apiUrl } from "$lib/api"; // <-- helper for global API base
+      const res = await fetch(apiUrl(`/handload/${handload_id}`));
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       handload = await res.json();
     } catch (err) {
@@ -30,79 +27,75 @@
   });
 </script>
 
-<style>
-  /* similar table styling as main page */
-  .table-container { width: 100%; margin: 0 auto; text-align: center; }
-  table { border-collapse: collapse; margin: 1rem auto; font-size: 0.9rem; }
-  th, td { border: 1px solid #ccc; padding: 0.6rem 1rem; text-align: left; }
-  thead tr { background-color: #d2b48c; color: #000; }
-  tbody tr:nth-child(even) { background-color: #e1dede; }
-  tbody tr:nth-child(odd) { background-color: #fff; }
-  tbody tr:hover { background-color: #f0e6d6; }
-</style>
+<svelte:head>
+  <title>Handload Details</title>
+  <meta name="description" content="Detailed info about a single handload" />
+</svelte:head>
 
 {#if loading}
   <p>Loading handload #{handload_id}...</p>
 {:else if error}
   <p style="color:red;">Error: {error}</p>
 {:else if handload}
-<div class="table-container">
-  <table>
-    <tbody>
-      <tr>        
-        <th colspan="2" style="text-align:center; background:#d2b48c;">Handload {handload.id} Details</th>        
-      </tr>
+  <div class="table-container">
+    <table>
+      <tbody>
+        <tr>
+          <th colspan="2" style="text-align:center; background:#d2b48c;"
+            >Handload {handload.id} Details</th
+          >
+        </tr>
 
-      <tr>
-        <th>Caliber</th>
-        <td>{handload.caliber}</td>
-      </tr>
+        <tr>
+          <th>Caliber</th>
+          <td>{handload.caliber}</td>
+        </tr>
 
-      <tr>
-        <th>Bullet</th>
-        <td>
-          {handload.bullet_name
-            ? `${handload.bullet_name} (${handload.bullet_weight} gr)`
-            : `${handload.bullet_weight} gr`}
-        </td>
-      </tr>
+        <tr>
+          <th>Bullet</th>
+          <td>
+            {handload.bullet_name
+              ? `${handload.bullet_name} (${handload.bullet_weight} gr)`
+              : `${handload.bullet_weight} gr`}
+          </td>
+        </tr>
 
-      <tr>
-        <th>COAL</th>
-        <td>{handload.coal}</td>
-      </tr>
+        <tr>
+          <th>COAL</th>
+          <td>{handload.coal}</td>
+        </tr>
 
-      <tr>
-        <th>Powder</th>
-        <td>{handload.powder_name}</td>
-      </tr>
+        <tr>
+          <th>Powder</th>
+          <td>{handload.powder_name}</td>
+        </tr>
 
-      <tr>
-        <th>Powder Charge</th>
-        <td>{handload.powder_charge} gr</td>
-      </tr>
+        <tr>
+          <th>Powder Charge</th>
+          <td>{handload.powder_charge} gr</td>
+        </tr>
 
-      <tr>
-        <th>FPS (Avg)</th>
-        <td>{handload.fps_avg}</td>
-      </tr>
+        <tr>
+          <th>FPS (Avg)</th>
+          <td>{handload.fps_avg}</td>
+        </tr>
 
-      <tr>
-        <th>FPS SD</th>
-        <td>{handload.fps_sd}</td>
-      </tr>
+        <tr>
+          <th>FPS SD</th>
+          <td>{handload.fps_sd}</td>
+        </tr>
 
-      <tr>
-        <th>FPS ES</th>
-        <td>{handload.fps_es}</td>
-      </tr>
+        <tr>
+          <th>FPS ES</th>
+          <td>{handload.fps_es}</td>
+        </tr>
 
-      <tr>
-        <th>OCW Load</th>
-        <td>{handload.is_ocw ? "Yes" : "No"}</td>
-      </tr>
+        <tr>
+          <th>OCW Load</th>
+          <td>{handload.is_ocw ? "Yes" : "No"}</td>
+        </tr>
 
-      <!-- <tr>
+        <!-- <tr>
         <th>Created</th>
         <td>
           {handload.created_at
@@ -111,38 +104,69 @@
         </td>
       </tr> -->
 
-      {#if handload.firearm}
-        <tr>
-          <th colspan="2" style="text-align:center; background:#d2b48c;">
-            Firearm
-          </th>
-        </tr>
+        {#if handload.firearm}
+          <tr>
+            <th colspan="2" style="text-align:center; background:#d2b48c;">
+              Firearm
+            </th>
+          </tr>
 
-        <tr>
-          <th>Make</th>
-          <td>{handload.firearm.make}</td>
-        </tr>
+          <tr>
+            <th>Make</th>
+            <td>{handload.firearm.make}</td>
+          </tr>
 
-        <tr>
-          <th>Model</th>
-          <td>{handload.firearm.model}</td>
-        </tr>
+          <tr>
+            <th>Model</th>
+            <td>{handload.firearm.model}</td>
+          </tr>
 
-        <tr>
-          <th>Barrel Length</th>
-          <td>{handload.firearm.barrel_length}"</td>
-        </tr>
+          <tr>
+            <th>Barrel Length</th>
+            <td>{handload.firearm.barrel_length}"</td>
+          </tr>
 
-        <tr>
-          <th>Twist Rate</th>
-          <td>1:{handload.firearm.twist}</td>
-        </tr>
-      {/if}
-    </tbody>
-  </table>
-</div>
-
-
+          <tr>
+            <th>Twist Rate</th>
+            <td>1:{handload.firearm.twist}</td>
+          </tr>
+        {/if}
+      </tbody>
+    </table>
+  </div>
 {:else}
   <p>No handload found for ID {handload_id}</p>
 {/if}
+
+<style>
+  /* similar table styling as main page */
+  .table-container {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 1rem auto;
+    font-size: 0.9rem;
+  }
+  th,
+  td {
+    border: 1px solid #ccc;
+    padding: 0.6rem 1rem;
+    text-align: left;
+  }
+  thead tr {
+    background-color: #d2b48c;
+    color: #000;
+  }
+  tbody tr:nth-child(even) {
+    background-color: #e1dede;
+  }
+  tbody tr:nth-child(odd) {
+    background-color: #fff;
+  }
+  tbody tr:hover {
+    background-color: #f0e6d6;
+  }
+</style>

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { apiUrl } from "$lib/api"; // <-- helper for global API base
 
   let handloads = [];
   let loading = true;
@@ -22,7 +23,9 @@
     window.addEventListener("resize", checkMobile);
 
     try {
-      const res = await fetch("https://api.spelledabc.org/api/v1/handloads");
+      // import { apiUrl } from "$lib/api"; // <-- helper for global API base
+      const res = await fetch(apiUrl(`/handloads`));
+
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       handloads = await res.json();
 
