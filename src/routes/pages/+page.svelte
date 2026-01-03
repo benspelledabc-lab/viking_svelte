@@ -45,6 +45,16 @@
     <p style="color:red;">{error}</p>
   {:else if page}
     <h2>{page.display_name}</h2>
+    <div class="p-bubble parent-bubble">
+      <h2>Steam Stuff</h2>
+      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+        <span class="bullet"
+          ><a href="/pages/steam/recently-played">Recently Played Games</a
+          ></span
+        ><br />
+        <span class="bullet"><a href="/pages/steam/friends">Friends</a></span>
+      </p>
+    </div>
 
     {#each groupedParagraphs as block}
       <div class="p-bubble parent-bubble">

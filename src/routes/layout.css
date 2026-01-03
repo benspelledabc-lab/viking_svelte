@@ -307,3 +307,13 @@ h2 {
   margin-bottom: 0.4em;
   font-weight: bold;
 }
+
+
+.bullet::before {
+	content: "• ";
+}
+
+.bullet {
+	display: inline-block;
+	margin-right: 1em;
+}
