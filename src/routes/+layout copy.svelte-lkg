@@ -13,8 +13,8 @@
   onMount(() => {
     checkApiStatus();
 
-    // refresh every 15 seconds
-    const interval = setInterval(checkApiStatus, 15000);
+    // refresh every 5 seconds
+    const interval = setInterval(checkApiStatus, 5000);
     return () => clearInterval(interval);
   });
 </script>
@@ -28,7 +28,7 @@
 
   <footer>
     <!-- API Status Row -->
-    <div class="api-status footer-bubble p-bubble">
+    <div class="api-status">
       {#if $apiStatus === "checking"}
         <span class="status checking">
           <img
@@ -48,7 +48,7 @@
             width="100"
             height="100"
           />
-          <span class="status-text">-Online-</span>
+          <span class="status-text">Online</span>
         </span>
       {:else}
         <span class="status offline">
@@ -62,10 +62,11 @@
           <span class="status-text">Offline</span>
         </span>
       {/if}
-      <p>
-        &copy;{currentYear} Irate Gnomes, Plundering Vikings &amp; Ben SpelledABC
-      </p>
     </div>
+    <p>
+      &copy;{currentYear} Drunken Dwarves, Irate Gnomes, Plundering Vikings and Ben
+      SpelledABC
+    </p>
   </footer>
 </div>
 
@@ -124,7 +125,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     opacity: 0.9;
     margin-top: 6px;
   }
@@ -140,15 +141,15 @@
   }
 
   .status.online .status-text {
-    color: #010101;
+    color: #2ecc71;
   }
 
   .status.offline .status-text {
-    color: #f8f802;
+    color: #e74c3c;
   }
 
   .status.checking .status-text {
-    color: #4c02f8;
+    color: #999;
   }
 
   .grayscale {
