@@ -7,6 +7,10 @@
   let loading = true;
   let error = null;
 
+  //loading spinner
+  import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
+  import { fade } from "svelte/transition";
+
   // route param
   $: handload_id = $page.params.handload_id;
 
@@ -15,7 +19,9 @@
     error = null;
 
     try {
-      // import { apiUrl } from "$lib/api"; // <-- helper for global API base
+      // 🔧 simulate work (0.5 seconds)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const res = await fetch(apiUrl(`/handload/${handload_id}`));
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       handload = await res.json();
@@ -33,7 +39,10 @@
 </svelte:head>
 
 {#if loading}
-  <p>Loading handload #{handload_id}...</p>
+  <div in:fade class="p-bubble parent-bubble spinner-container">
+    <LoadingSpinner size={92} thickness={18} />
+    <h2>Fetching data from database....</h2>
+  </div>
 {:else if error}
   <p style="color:red;">Error: {error}</p>
 {:else if handload}

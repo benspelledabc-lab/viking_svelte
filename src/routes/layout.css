@@ -317,3 +317,19 @@ h2 {
 	display: inline-block;
 	margin-right: 1em;
 }
+
+.spinner-container {
+	display: grid;
+	place-items: center;
+	height: 100%;
+}
+
+/* use the componant! */
+.spinner {
+	width: 32px;
+	height: 32px;
+	border: 6px solid #e0e0e0;      /* ⬅ thickness */
+	border-top: 6px solid #ff3e00; /* ⬅ thickness */
+	border-radius: 50%;
+	animation: spin 0.8s linear infinite;
+}
