@@ -5,6 +5,10 @@
   let error = null;
   import { apiUrl } from "$lib/api";
 
+  //loading spinner
+  import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
+  import { fade } from "svelte/transition";
+
   // Helper: convert minutes to "X days Y hours"
   function formatPlaytime(minutes) {
     if (!minutes) return "0h";
@@ -21,6 +25,9 @@
 
   onMount(async () => {
     try {
+      // 🔧 simulate work (1.5 seconds)
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
       const res = await fetch(apiUrl(`/steam/recent-games`));
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       page = await res.json();
@@ -35,7 +42,10 @@
 
 <div class="table-container">
   {#if loading}
-    <p>Loading...</p>
+    <div in:fade class="p-bubble parent-bubble spinner-container">
+      <LoadingSpinner size={92} thickness={18} />
+      <h2>Fetching data from database....</h2>
+    </div>
   {:else if error}
     <p style="color:red;">{error}</p>
   {:else if page}
