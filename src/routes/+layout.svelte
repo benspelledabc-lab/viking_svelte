@@ -48,7 +48,17 @@
             width="100"
             height="100"
           />
-          <span class="status-text">-Online-</span>
+          <span class="status-text">Online</span>
+        </span>
+      {:else if $apiStatus === "degraded"}
+        <span class="status degraded">
+          <img
+            src={api_image}
+            alt="API Health: Degraded"
+            width="100"
+            height="100"
+          />
+          <span class="status-text">Degraded</span>
         </span>
       {:else}
         <span class="status offline">
