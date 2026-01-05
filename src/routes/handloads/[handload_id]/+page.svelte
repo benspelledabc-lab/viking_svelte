@@ -104,6 +104,19 @@
           <td>{handload.is_ocw ? "Yes" : "No"}</td>
         </tr>
 
+        {#if handload.path_to_grt}
+          <tr>
+            <th>Path to GRT</th>
+            <td
+              ><a
+                href={handload.path_to_grt}
+                title="path to grt"
+                target="_blank">HERE</a
+              ></td
+            >
+          </tr>
+        {/if}
+
         <!-- <tr>
         <th>Created</th>
         <td>
