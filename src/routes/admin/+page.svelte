@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { resolve } from "$app/paths";
   let page = null; // stores the page object
   let loading = true;
   let error = null;
@@ -40,7 +41,8 @@
       <h2>Placeholder</h2>
       <div class="p-bubble parent-bubble">
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          A nice, empty page.
+          <a href={resolve("/admin/firearm/add")}>Add Firearm</a><br />
+          <a href={resolve("/admin/handload/add")}>Add Handload</a><br />
         </p>
       </div>
     </div>
