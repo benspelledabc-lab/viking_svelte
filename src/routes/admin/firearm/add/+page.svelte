@@ -1,5 +1,6 @@
 <script lang="ts">
   import { apiUrl } from "$lib/api";
+  import { goto } from "$app/navigation";
 
   let make = "";
   let model = "";
@@ -8,6 +9,8 @@
   let twist: number;
   let apiKey = "";
   let message = "";
+
+  let createdFirearmId: number | null = null;
 
   const handleSubmit = async () => {
     if (!make || !model || !caliber || !barrelLength || !twist || !apiKey) {
@@ -31,16 +34,27 @@
         }),
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        message = "Firearm inserted successfully!";
+        // <-- use `id` from as_dict()
+        createdFirearmId = data.id;
+        message = `Firearm inserted successfully! (ID: ${createdFirearmId})`;
+
+        // reset form
         make = model = caliber = apiKey = "";
         barrelLength = twist = undefined;
       } else {
-        const data = await res.json();
         message = `Error: ${data.error || res.statusText}`;
       }
     } catch (err) {
       message = `Request failed: ${err}`;
+    }
+  };
+
+  const goToHandload = () => {
+    if (createdFirearmId) {
+      goto(`/handloads/new?firearm_id=${createdFirearmId}`);
     }
   };
 </script>
@@ -69,6 +83,12 @@
       <div class="message">{message}</div>
     {/if}
   </form>
+
+  <!-- {#if createdFirearmId}
+    <button on:click={goToHandload} style="margin-top: 1rem;">
+      Create Handload for This Firearm
+    </button>
+  {/if} -->
 </div>
 
 <style>
