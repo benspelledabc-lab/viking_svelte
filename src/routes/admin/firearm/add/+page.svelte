@@ -35,10 +35,11 @@
       });
 
       const data = await res.json();
+      console.log("Firearm POST response:", data);
 
       if (res.ok) {
         // <-- use `id` from as_dict()
-        createdFirearmId = data.id;
+        createdFirearmId = data.firearm_id;
         message = `Firearm inserted successfully! (ID: ${createdFirearmId})`;
 
         // reset form
