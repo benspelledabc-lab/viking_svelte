@@ -54,16 +54,6 @@
         ><br />
         <span class="bullet"><a href="/pages/steam/friends">Friends</a></span>
       </p>
-
-      <h2>DB Admin Stuff</h2>
-      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-        <span class="bullet"
-          ><a href={resolve("/admin/firearm/add")}>Add Firearm</a></span
-        ><br />
-        <span class="bullet"
-          ><a href={resolve("/admin/handload/add")}>Add Handload</a></span
-        >
-      </p>
     </div>
 
     {#each groupedParagraphs as block}
