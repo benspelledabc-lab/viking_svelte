@@ -1,9 +1,11 @@
 <script lang="ts">
+  import swagger from "$lib/images/viking_swagger_steampunk.png";
+
   import { resolve } from "$app/paths";
   let page = null; // stores the page object
   let loading = true;
   let error = null;
-  import { apiUrl } from "$lib/api"; // <-- helper for global API base
+  import { apiUrl, swaggerUrl } from "$lib/api"; // <-- helper for global API base
 
   import { onMount } from "svelte";
 
@@ -38,7 +40,7 @@
     </div>
   {:else}
     <div class="table-container">
-      <h2>Placeholder</h2>
+      <h2>The CRUDy stuff</h2>
       <div class="p-bubble parent-bubble">
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
           <a href={resolve("/admin/firearm/add")}>Add Firearm</a><br />
@@ -46,5 +48,9 @@
         </p>
       </div>
     </div>
+
+    <a href={swaggerUrl(`/swagger`)}>
+      <img src={swagger} alt="Viking Swagger" width="400" height="300" />
+    </a>
   {/if}
 </selection>

@@ -29,9 +29,10 @@
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       handloads = await res.json();
 
-      handloads.sort((a, b) =>
-        a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase()),
-      );
+      // lets sort by flask, not here...
+      // handloads.sort((a, b) =>
+      //   a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase()),
+      // );
     } catch (err) {
       error = err.message;
     } finally {
@@ -64,7 +65,6 @@
       <table>
         <thead>
           <tr>
-            <th>Load #</th>
             <th>Caliber</th>
             <th>Bullet Weight/Name</th>
           </tr>
@@ -75,10 +75,10 @@
               <td
                 ><a
                   href={`/handloads/${h.id}`}
-                  style="color: blue; text-decoration: underline;">{h.id}</a
+                  style="color: blue; text-decoration: underline;"
+                  >{h.caliber}</a
                 ></td
               >
-              <td>{h.caliber}</td>
               <td>{h.bullet_weight}gr - {h.bullet_name}</td>
             </tr>
           {/each}
@@ -92,7 +92,7 @@
   <table>
     <thead>
       <tr>
-        <th>Load #</th>
+        <!-- <th>Load #</th> -->
         <th>Caliber</th>
         <th>Bullet Weight/Name</th>
       </tr>
@@ -103,10 +103,9 @@
           <td
             ><a
               href={`/handloads/${h.id}`}
-              style="color: blue; text-decoration: underline;">{h.id}</a
+              style="color: blue; text-decoration: underline;">{h.caliber}</a
             ></td
           >
-          <td>{h.caliber}</td>
           <td>{h.bullet_weight}gr - {h.bullet_name}</td>
         </tr>
       {/each}
