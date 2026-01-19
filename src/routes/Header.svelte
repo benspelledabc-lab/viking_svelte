@@ -38,9 +38,9 @@
       >
         <a href={resolve("/pages")}>Pages</a>
       </li>
-      <li aria-current={page.url.pathname === "/toolkit" ? "page" : undefined}>
+      <!-- <li aria-current={page.url.pathname === "/toolkit" ? "page" : undefined}>
         <a href={resolve("/toolkit")}>Toolkit</a>
-      </li>
+      </li> -->
       <li
         aria-current={page.url.pathname.startsWith("/admin")
           ? "page"
