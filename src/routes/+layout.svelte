@@ -3,23 +3,46 @@
   import "./layout.css";
   import wallpaper from "$lib/images/viking-wallpaper.jpg";
   import api_image from "$lib/images/api.jpg";
+  import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
 
   import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import { apiStatus, checkApiStatus } from "$lib/stores/apiStatus";
 
   let { children } = $props();
   let currentYear = new Date().getFullYear();
+  let showSpinner = $state(false);
+  let spinnerTimeout: ReturnType<typeof setTimeout>;
+
+  // Show spinner on page change (minimum 0.5 seconds)
+  $effect(() => {
+    $page; // subscribe to page changes
+    showSpinner = true;
+    clearTimeout(spinnerTimeout);
+    spinnerTimeout = setTimeout(() => {
+      showSpinner = false;
+    }, 500);
+  });
 
   onMount(() => {
     checkApiStatus();
 
     // refresh every 15 seconds
     const interval = setInterval(checkApiStatus, 15000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(spinnerTimeout);
+    };
   });
 </script>
 
 <div class="app" style="--wallpaper: url('{wallpaper}')">
+  {#if showSpinner}
+    <div class="page-transition-spinner">
+      <LoadingSpinner size={92} thickness={18} />
+    </div>
+  {/if}
+
   <Header />
 
   <main>
@@ -163,5 +186,19 @@
 
   .grayscale {
     filter: grayscale(100%);
+  }
+
+  .page-transition-spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    backdrop-filter: blur(2px);
   }
 </style>
