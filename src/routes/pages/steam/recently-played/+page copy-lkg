@@ -23,31 +23,6 @@
     return parts.join(" ");
   }
 
-  // Rewrite Steam URLs to route through your proxy
-  function proxifySteamContent(html) {
-    if (!html) return html;
-
-    return html
-      .replace(
-        /href="(https:\/\/store\.steampowered\.com[^"]*)/g,
-        (match, url) => {
-          return `href="${apiUrl("/steam/proxy")}?url=${encodeURIComponent(url)}`;
-        },
-      )
-      .replace(
-        /src="(https:\/\/cdn\.cloudflare\.steamstatic\.com[^"]*)/g,
-        (match, url) => {
-          return `src="${apiUrl("/steam/proxy")}?url=${encodeURIComponent(url)}`;
-        },
-      )
-      .replace(
-        /src="(https:\/\/steamcdn-a\.akamaihd\.net[^"]*)/g,
-        (match, url) => {
-          return `src="${apiUrl("/steam/proxy")}?url=${encodeURIComponent(url)}`;
-        },
-      );
-  }
-
   onMount(async () => {
     try {
       // 🔧 simulate work (1.5 seconds)
@@ -90,7 +65,7 @@
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
           <strong>{@html block.name}</strong> -
           <i>{formatPlaytime(block.playtime_forever)}</i><br /><br />
-          {@html proxifySteamContent(block.about_the_game)}
+          {@html block.about_the_game}
         </p>
       </div>
     {/each}
