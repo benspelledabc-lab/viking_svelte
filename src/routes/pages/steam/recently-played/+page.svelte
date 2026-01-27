@@ -65,36 +65,43 @@
   });
 </script>
 
-<div class="table-container">
-  {#if loading}
-    <div in:fade class="p-bubble parent-bubble spinner-container">
-      <LoadingSpinner size={92} thickness={18} />
-      <h2>Fetching data from database....</h2>
-    </div>
-  {:else if error}
-    <p style="color:red;">{error}</p>
-  {:else if page}
-    <h2>{page.display_name}</h2>
-    <div class="p-bubble parent-bubble">
-      <h2>Steam Recently Played</h2>
-      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-        OOf. Yes, the formatting/layout is bufugly on a mobile device. I'm just
-        pulling the 'about_the_game' tag from Steam's API and shoving it into
-        the site. This is not ALL of the games I've played. These are just the
-        games in the last two weeks or so, that are also on steam.
-      </p>
-    </div>
+<svelte:head>
+  <title>Steam: Recently Played</title>
+  <meta name="description" content="Steam Recently Played" />
+</svelte:head>
 
-    {#each page.recent_games as block}
+<selection>
+  <div class="table-container">
+    {#if loading}
+      <div in:fade class="p-bubble parent-bubble spinner-container">
+        <LoadingSpinner size={92} thickness={18} />
+        <h2>Fetching data from database....</h2>
+      </div>
+    {:else if error}
+      <p style="color:red;">{error}</p>
+    {:else if page}
+      <h2>{page.display_name}</h2>
       <div class="p-bubble parent-bubble">
+        <h2>Steam Recently Played</h2>
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <strong>{@html block.name}</strong> -
-          <i>{formatPlaytime(block.playtime_forever)}</i><br /><br />
-          {@html proxifySteamContent(block.about_the_game)}
+          OOf. Yes, the formatting/layout is bufugly on a mobile device. I'm
+          just pulling the 'about_the_game' tag from Steam's API and shoving it
+          into the site. This is not ALL of the games I've played. These are
+          just the games in the last two weeks or so, that are also on steam.
         </p>
       </div>
-    {/each}
-  {:else}
-    <p>No page content found.</p>
-  {/if}
-</div>
+
+      {#each page.recent_games as block}
+        <div class="p-bubble parent-bubble">
+          <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+            <strong>{@html block.name}</strong> -
+            <i>{formatPlaytime(block.playtime_forever)}</i><br /><br />
+            {@html proxifySteamContent(block.about_the_game)}
+          </p>
+        </div>
+      {/each}
+    {:else}
+      <p>No page content found.</p>
+    {/if}
+  </div>
+</selection>

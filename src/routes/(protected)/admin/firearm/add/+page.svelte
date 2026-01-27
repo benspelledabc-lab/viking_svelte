@@ -50,6 +50,12 @@
   };
 </script>
 
+<!-- This doesnt seem to work... -->
+<svelte:head>
+  <title>Add: Firearm</title>
+  <meta name="description" content="Add a new firearm to the database" />
+</svelte:head>
+
 <div class="table-container">
   <h2>Admin: Insert Firearm</h2>
 

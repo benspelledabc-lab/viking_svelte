@@ -21,6 +21,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>Home</title>
+  <meta name="description" content="The home page" />
+</svelte:head>
+
 <selection>
   {#if content}
     <!-- <h2>Svelte is pimptastic... ish.</h2> -->

@@ -71,36 +71,43 @@
   });
 </script>
 
-<div class="table-container">
-  {#if loading}
-    <div in:fade class="p-bubble parent-bubble spinner-container">
-      <LoadingSpinner size={92} thickness={18} />
-      <h2>Fetching data from database....</h2>
-    </div>
-  {:else if error}
-    <p style="color:red;">{error}</p>
-  {:else if page}
-    <h2>{page.display_name}</h2>
-    <div class="p-bubble parent-bubble">
-      <h2>Friends List</h2>
-      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-        Sorting "friends" by their displayed 'lastlogoff' value, then by name
-        for tie breakers.
-      </p>
-    </div>
+<svelte:head>
+  <title>Steam: Friends</title>
+  <meta name="description" content="Steam Friends" />
+</svelte:head>
 
-    {#each page.players as block}
+<selection>
+  <div class="table-container">
+    {#if loading}
+      <div in:fade class="p-bubble parent-bubble spinner-container">
+        <LoadingSpinner size={92} thickness={18} />
+        <h2>Fetching data from database....</h2>
+      </div>
+    {:else if error}
+      <p style="color:red;">{error}</p>
+    {:else if page}
+      <h2>{page.display_name}</h2>
       <div class="p-bubble parent-bubble">
+        <h2>Friends List</h2>
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <img src={block.avatar} alt={block.personaname} /> -
-          <a href={block.profileurl} title={block.personaname}
-            ><strong>{@html block.personaname}</strong></a
-          ><br />
-          ( Last online: {formatLastLogoff(block.lastlogoff)} )
+          Sorting "friends" by their displayed 'lastlogoff' value, then by name
+          for tie breakers.
         </p>
       </div>
-    {/each}
-  {:else}
-    <p>No page content found.</p>
-  {/if}
-</div>
+
+      {#each page.players as block}
+        <div class="p-bubble parent-bubble">
+          <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+            <img src={block.avatar} alt={block.personaname} /> -
+            <a href={block.profileurl} title={block.personaname}
+              ><strong>{@html block.personaname}</strong></a
+            ><br />
+            ( Last online: {formatLastLogoff(block.lastlogoff)} )
+          </p>
+        </div>
+      {/each}
+    {:else}
+      <p>No page content found.</p>
+    {/if}
+  </div>
+</selection>

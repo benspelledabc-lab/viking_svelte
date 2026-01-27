@@ -21,6 +21,11 @@
   });
 </script>
 
+<svelte:head>
+  <title>About</title>
+  <meta name="description" content="About us and more." />
+</svelte:head>
+
 <selection>
   {#if content}
     <!-- <h2>Svelte is pimptastic... ish.</h2> -->
