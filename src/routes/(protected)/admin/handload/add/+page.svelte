@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { apiUrl } from "$lib/api";
+  import { apiRequest } from "$lib/api";
 
   let bulletName = "";
   let bulletWeight: number;
@@ -14,7 +14,6 @@
   let powderCharge: number;
   let powderName = "";
 
-  let apiKey = "";
   let message = "";
 
   const handleSubmit = async () => {
@@ -23,20 +22,15 @@
       !bulletWeight ||
       !caliber ||
       firearmId === undefined ||
-      !powderName ||
-      !apiKey
+      !powderName
     ) {
       message = "Please fill in all required fields.";
       return;
     }
 
     try {
-      const res = await fetch(apiUrl("/handload"), {
+      const data = await apiRequest("/handload", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": apiKey,
-        },
         body: JSON.stringify({
           bullet_name: bulletName,
           bullet_weight: bulletWeight,
@@ -53,24 +47,19 @@
         }),
       });
 
-      if (res.ok) {
-        message = "Handload inserted successfully!";
-        bulletName = caliber = powderName = pathToGrt = apiKey = "";
-        bulletWeight =
-          coal =
-          firearmId =
-          fpsAvg =
-          fpsEs =
-          fpsSd =
-          powderCharge =
-            undefined;
-        isOcw = false;
-      } else {
-        const data = await res.json();
-        message = `Error: ${data.error || res.statusText}`;
-      }
+      message = "Handload inserted successfully!";
+      bulletName = caliber = powderName = pathToGrt = "";
+      bulletWeight =
+        coal =
+        firearmId =
+        fpsAvg =
+        fpsEs =
+        fpsSd =
+        powderCharge =
+          undefined;
+      isOcw = false;
     } catch (err) {
-      message = `Request failed: ${err}`;
+      message = `Request failed: ${err instanceof Error ? err.message : err}`;
     }
   };
 </script>
@@ -106,8 +95,6 @@
       bind:value={powderCharge}
     />
     <input placeholder="Path to GRT" bind:value={pathToGrt} />
-
-    <input type="password" placeholder="API Key" bind:value={apiKey} />
 
     <button type="submit">Submit</button>
 
