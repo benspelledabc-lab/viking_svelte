@@ -1,8 +1,15 @@
 <script lang="ts">
   import { resolve } from "$app/paths";
   import { page } from "$app/state";
+  import { authStore } from "$lib/stores/auth";
+  import { goto } from "$app/navigation";
   import logo from "$lib/images/svelte-logo.svg";
   import github from "$lib/images/github.svg";
+
+  async function handleLogout() {
+    await authStore.logout();
+    goto("/login");
+  }
 </script>
 
 <header>
@@ -61,12 +68,16 @@
     </svg>
   </nav>
 
-  <!-- todo: update this image -->
-  <div class="corner">
-    <!-- THIS IS BLANK -->
-    <!-- <a href="https://gitlab.com/benspelledabc_group/2026/flask_api">
-			<img src={github} alt="GitLab" />
-		</a> -->
+  <!-- User section -->
+  <div class="corner user-section">
+    {#if $authStore.isLoggedIn && $authStore.user}
+      <div class="user-info">
+        <span class="username">{$authStore.user.username}</span>
+        <button class="logout-btn" on:click={handleLogout} title="Logout">
+          Logout
+        </button>
+      </div>
+    {/if}
   </div>
 </header>
 
@@ -93,6 +104,40 @@
     width: 2em;
     height: 2em;
     object-fit: contain;
+  }
+
+  .user-section {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    width: auto;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .username {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .logout-btn {
+    padding: 0.25rem 0.75rem;
+    background-color: var(--color-theme-1);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .logout-btn:hover {
+    opacity: 0.8;
   }
 
   nav {
