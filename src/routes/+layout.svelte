@@ -8,6 +8,7 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { apiStatus, checkApiStatus } from "$lib/stores/apiStatus";
+  import { authStore } from "$lib/stores/auth";
 
   let { children } = $props();
   let currentYear = new Date().getFullYear();
@@ -26,6 +27,9 @@
 
   onMount(() => {
     checkApiStatus();
+
+    // Check auth on mount
+    authStore.checkAuth();
 
     // refresh every 15 seconds
     const interval = setInterval(checkApiStatus, 15000);

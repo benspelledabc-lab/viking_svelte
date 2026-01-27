@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
-  import { apiUrl } from "$lib/api"; // <-- helper for global API base
+  import { apiRequest } from "$lib/api"; // <-- helper with auth
 
-  let handloads = [];
+  let handloads: any[] = [];
   let loading = true;
-  let error = null;
+  let error: string | null = null;
 
   // Track tooltip visibility for mobile taps
   let showCaliberTooltip = {};
@@ -23,18 +23,14 @@
     window.addEventListener("resize", checkMobile);
 
     try {
-      // import { apiUrl } from "$lib/api"; // <-- helper for global API base
-      const res = await fetch(apiUrl(`/handloads`));
-
-      if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
-      handloads = await res.json();
+      handloads = await apiRequest(`/handloads`);
 
       // lets sort by flask, not here...
       // handloads.sort((a, b) =>
       //   a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase()),
       // );
     } catch (err) {
-      error = err.message;
+      error = err instanceof Error ? err.message : "Failed to load handloads";
     } finally {
       loading = false;
     }

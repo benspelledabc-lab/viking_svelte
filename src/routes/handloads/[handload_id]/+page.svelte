@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import { page } from "$app/stores";
-  import { apiUrl } from "$lib/api"; // <-- helper for global API base
+  import { apiRequest } from "$lib/api"; // <-- helper with auth
 
-  let handload = null;
+  let handload: any = null;
   let loading = true;
-  let error = null;
+  let error: string | null = null;
 
   //loading spinner
   import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
@@ -22,11 +22,9 @@
       // 🔧 simulate work (0.5 seconds)
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      const res = await fetch(apiUrl(`/handload/${handload_id}`));
-      if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
-      handload = await res.json();
+      handload = await apiRequest(`/handload/${handload_id}`);
     } catch (err) {
-      error = err.message;
+      error = err instanceof Error ? err.message : "Failed to load handload";
     } finally {
       loading = false;
     }
