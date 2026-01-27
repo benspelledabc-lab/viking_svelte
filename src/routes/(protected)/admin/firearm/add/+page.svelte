@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { apiUrl } from "$lib/api";
+  import { apiRequest } from "$lib/api";
   import { goto } from "$app/navigation";
 
   let make = "";
@@ -7,24 +7,19 @@
   let caliber = "";
   let barrelLength: number;
   let twist: number;
-  let apiKey = "";
   let message = "";
 
   let createdFirearmId: number | null = null;
 
   const handleSubmit = async () => {
-    if (!make || !model || !caliber || !barrelLength || !twist || !apiKey) {
+    if (!make || !model || !caliber || !barrelLength || !twist) {
       message = "Please fill in all fields.";
       return;
     }
 
     try {
-      const res = await fetch(apiUrl("/firearm"), {
+      const data = await apiRequest("/firearm", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-Key": apiKey,
-        },
         body: JSON.stringify({
           make,
           model,
@@ -34,22 +29,17 @@
         }),
       });
 
-      const data = await res.json();
       console.log("Firearm POST response:", data);
 
-      if (res.ok) {
-        // <-- use `id` from as_dict()
-        createdFirearmId = data.firearm_id;
-        message = `Firearm inserted successfully! (ID: ${createdFirearmId})`;
+      // <-- use `id` from as_dict()
+      createdFirearmId = data.firearm_id;
+      message = `Firearm inserted successfully! (ID: ${createdFirearmId})`;
 
-        // reset form
-        make = model = caliber = apiKey = "";
-        barrelLength = twist = undefined;
-      } else {
-        message = `Error: ${data.error || res.statusText}`;
-      }
+      // reset form
+      make = model = caliber = "";
+      barrelLength = twist = undefined;
     } catch (err) {
-      message = `Request failed: ${err}`;
+      message = `Request failed: ${err instanceof Error ? err.message : err}`;
     }
   };
 
@@ -75,8 +65,6 @@
     />
 
     <input type="number" placeholder="Twist" bind:value={twist} />
-
-    <input type="password" placeholder="API Key" bind:value={apiKey} />
 
     <button type="submit">Submit</button>
 
