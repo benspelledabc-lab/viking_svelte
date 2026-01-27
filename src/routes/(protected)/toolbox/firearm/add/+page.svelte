@@ -50,10 +50,10 @@
   };
 </script>
 
-<div class="table-container">
-  <h2>Admin: Insert Firearm</h2>
+<div class="p-bubble parent-bubble bubble-table">
+  <div class="table-container">
+    <h2>Insert Firearm</h2>
 
-  <div class="p-bubble parent-bubble">
     <form on:submit|preventDefault={handleSubmit}>
       <input placeholder="Make" bind:value={make} />
       <input placeholder="Model" bind:value={model} />
@@ -73,6 +73,12 @@
         <div class="message">{message}</div>
       {/if}
     </form>
+
+    <!-- {#if createdFirearmId}
+    <button on:click={goToHandload} style="margin-top: 1rem;">
+      Create Handload for This Firearm
+    </button>
+  {/if} -->
   </div>
 </div>
 

@@ -64,57 +64,49 @@
   };
 </script>
 
-<div class="table-container">
-  <h2>Admin: Insert Handload</h2>
+<div class="p-bubble parent-bubble bubble-table">
+  <div class="table-container">
+    <h2>Insert Handload</h2>
 
-  <div class="form-card">
     <form on:submit|preventDefault={handleSubmit}>
-    <input placeholder="Bullet Name" bind:value={bulletName} />
-    <input
-      type="number"
-      placeholder="Bullet Weight (gr)"
-      bind:value={bulletWeight}
-    />
-    <input placeholder="Caliber" bind:value={caliber} />
-    <input type="number" step="0.001" placeholder="COAL" bind:value={coal} />
-    <input type="number" placeholder="Firearm ID" bind:value={firearmId} />
+      <input placeholder="Bullet Name" bind:value={bulletName} />
+      <input
+        type="number"
+        placeholder="Bullet Weight (gr)"
+        bind:value={bulletWeight}
+      />
+      <input placeholder="Caliber" bind:value={caliber} />
+      <input type="number" step="0.001" placeholder="COAL" bind:value={coal} />
+      <input type="number" placeholder="Firearm ID" bind:value={firearmId} />
 
-    <input type="number" placeholder="FPS Avg" bind:value={fpsAvg} />
-    <input type="number" placeholder="FPS ES" bind:value={fpsEs} />
-    <input type="number" placeholder="FPS SD" bind:value={fpsSd} />
+      <input type="number" placeholder="FPS Avg" bind:value={fpsAvg} />
+      <input type="number" placeholder="FPS ES" bind:value={fpsEs} />
+      <input type="number" placeholder="FPS SD" bind:value={fpsSd} />
 
-    <label class="checkbox">
-      <input type="checkbox" bind:checked={isOcw} />
-      OCW Load
-    </label>
+      <label class="checkbox">
+        <input type="checkbox" bind:checked={isOcw} />
+        OCW Load
+      </label>
 
-    <input placeholder="Powder Name" bind:value={powderName} />
-    <input
-      type="number"
-      step="0.01"
-      placeholder="Powder Charge (gr)"
-      bind:value={powderCharge}
-    />
-    <input placeholder="Path to GRT" bind:value={pathToGrt} />
+      <input placeholder="Powder Name" bind:value={powderName} />
+      <input
+        type="number"
+        step="0.01"
+        placeholder="Powder Charge (gr)"
+        bind:value={powderCharge}
+      />
+      <input placeholder="Path to GRT" bind:value={pathToGrt} />
 
-    <button type="submit">Submit</button>
+      <button type="submit">Submit</button>
 
-    {#if message}
-      <div class="message">{message}</div>
-    {/if}
-  </form>
+      {#if message}
+        <div class="message">{message}</div>
+      {/if}
+    </form>
   </div>
+</div>
 
 <style>
-  .form-card {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 1rem;
-    padding: 2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: auto;
-  }
-
   form {
     display: flex;
     flex-direction: column;

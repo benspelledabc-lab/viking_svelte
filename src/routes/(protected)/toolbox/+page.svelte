@@ -43,8 +43,8 @@
       <h2>The CRUDy stuff</h2>
       <div class="p-bubble parent-bubble">
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <a href={resolve("/admin/firearm/add")}>Add Firearm</a><br />
-          <a href={resolve("/admin/handload/add")}>Add Handload</a><br />
+          <a href={resolve("/toolbox/firearm/add")}>Add Firearm</a><br />
+          <a href={resolve("/toolbox/handload/add")}>Add Handload</a><br />
         </p>
       </div>
     </div>

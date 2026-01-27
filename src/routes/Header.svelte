@@ -48,16 +48,32 @@
       <!-- <li aria-current={page.url.pathname === "/toolkit" ? "page" : undefined}>
         <a href={resolve("/toolkit")}>Toolkit</a>
       </li> -->
-      <li
-        aria-current={page.url.pathname.startsWith("/admin")
-          ? "page"
-          : undefined}
-      >
-        <a href={resolve("/admin")}>Admin</a>
-      </li>
       <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
         <a href={resolve("/about")}>About</a>
       </li>
+
+      {#if $authStore.isLoggedIn}
+        <li
+          class="auth-action"
+          aria-current={page.url.pathname.startsWith("/toolbox")
+            ? "page"
+            : undefined}
+        >
+          <a href={resolve("/toolbox")}>Toolbox</a>
+        </li>
+      {/if}
+
+      {#if !$authStore.isLoggedIn}
+        <li aria-current={page.url.pathname === "/login" ? "page" : undefined}>
+          <a href={resolve("/login")}>Login</a>
+        </li>
+      {:else}
+        <li class="auth-action">
+          <a href="#" on:click|preventDefault={handleLogout}>
+            Logout: {$authStore.user?.username}
+          </a>
+        </li>
+      {/if}
 
       <!-- <li aria-current={page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href={resolve('/sverdle')}>Sverdle</a>
@@ -69,7 +85,7 @@
   </nav>
 
   <!-- User section -->
-  <div class="corner user-section">
+  <!-- <div class="corner user-section">
     {#if $authStore.isLoggedIn && $authStore.user}
       <div class="user-info">
         <span class="username">{$authStore.user.username}</span>
@@ -78,7 +94,7 @@
         </button>
       </div>
     {/if}
-  </div>
+  </div> -->
 </header>
 
 <style>
@@ -202,5 +218,14 @@
 
   a:hover {
     color: var(--color-theme-1);
+  }
+
+  li.auth-action a {
+    color: var(--color-theme-1);
+    font-weight: 900;
+  }
+
+  li.auth-action a:hover {
+    opacity: 0.8;
   }
 </style>
