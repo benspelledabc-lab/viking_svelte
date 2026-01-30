@@ -5,20 +5,10 @@
   import { apiUrl } from "$lib/api"; // <-- helper for global API base
 
   import { onMount } from "svelte";
-
-  // Dynamic content
-  let content: { paragraphs: string[] } | null = null;
-
-  onMount(async () => {
-    try {
-      const res = await fetch("/home.json");
-      if (res.ok) {
-        content = await res.json();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  });
+  import Insult from "$lib/components/Insult.svelte";
+  import InsultNoTheme from "$lib/components/InsultNoTheme.svelte";
+  import InsultNoThemeRepeat from "$lib/components/InsultNoThemeRepeat.svelte";
+  import Baconsum from "$lib/components/Baconsum.svelte";
 </script>
 
 <svelte:head>
@@ -27,44 +17,36 @@
 </svelte:head>
 
 <selection>
-  {#if content}
-    <!-- <h2>Svelte is pimptastic... ish.</h2> -->
-    <h2>{content.title}</h2>
+  <h2>Love Bacon?</h2>
+  <div class="p-bubble parent-bubble">
+    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+      I love bacon so Lorem Ipsum Bacon is my favorite filler text. Svelte has a
+      component system also called components. Fancy that! To demonstrate this,
+      I made a Baconsum component. Which uses the BaconSum API endpoint. Now I
+      can generate random bacon text on demand.
+    </p>
+    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+      It defaults to 4 paragraphs but you can change that by passing a "p"
+      property to the Baconsum component. <br />
+      <br />
+      &lt;Baconsum p=2 /&gt; for 2 paragraphs, <br />
+      &lt;Baconsum p=3 /&gt; for 3 paragraphs, etc. <br />
+      &lt;Baconsum /&gt; will default to 4 paragraphs, <br />
+    </p>
+    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+      But wait, there's more! Lets add a delay instead of hard coding the delay
+      of 5000ms. Default but also allow an override. Now I can do p or d or dp,
+      I guess pd also.<br />
+      <br />
+      &lt;Baconsum d=500 p=2 /&gt; for 2 paragraphs and refresh in 500ms, <br />
+      &lt;Baconsum d=2000 p=3 /&gt; for 3 paragraphs and refresh in 2000ms
+      <br />
+      &lt;Baconsum /&gt; will default to 4 paragraphs and will refresh in 5000ms
+      (default) <br />
+    </p>
+  </div>
 
-    <!-- Parent bubble wrapping all paragraphs -->
-    <div class="p-bubble parent-bubble">
-      {#each content.paragraphs as paragraph, i}
-        <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">
-          {paragraph}
-        </p>
-      {/each}
-    </div>
-  {:else}
-    <div class="table-container">
-      <h2>Static Default Page Header</h2>
-      <div class="p-bubble parent-bubble">
-        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          Sample text....
-        </p>
-        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Placerat in id
-          cursus mi pretium tellus duis. Urna tempor pulvinar vivamus fringilla
-          lacus nec metus.
-        </p>
-        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          nunc posuere ut hendrerit semper vel class. Conubia nostra inceptos
-          himenaeos orci varius natoque penatibus. Mus donec rhoncus eros
-          lobortis nulla molestie mattis. Purus est efficitur laoreet mauris
-          pharetra vestibulum fusce. Sodales consequat magna ante condimentum
-          neque at luctus. Ligula congue sollicitudin erat viverra ac tincidunt
-          nam. Lectus commodo augue arcu dignissim velit aliquam imperdiet. Cras
-          eleifend turpis fames primis vulputate ornare sagittis. Libero feugiat
-          tristique accumsan maecenas potenti ultricies habitant. Cubilia curae
-          hac habitasse platea dictumst lorem ipsum. Faucibus ex sapien vitae
-          pellentesque sem placerat in. Tempus leo eu aenean sed diam urna
-          tempor.
-        </p>
-      </div>
-    </div>
-  {/if}
+  <Baconsum d={500} p={2} />
+  <Baconsum d={2000} p={3} />
+  <Baconsum d={5000} />
 </selection>
