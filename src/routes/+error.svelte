@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { apiUrl } from '$lib/api';
+  import { authStore } from "$lib/stores/auth";
 
   let errorContent = null;
   let loading = true;
@@ -73,6 +74,8 @@
 {/if}
 
 <!-- Debug output for testing -->
-<!-- {#if postResult}
-  <pre style="background:#222;color:#fff;padding:1em;">POST result: {JSON.stringify(postResult, null, 2)}</pre>
-{/if} -->
+{#if $authStore.isLoggedIn}
+  {#if postResult}
+    <pre style="background:#222;color:#fff;padding:1em;">POST result: {JSON.stringify(postResult, null, 2)}</pre>
+  {/if}
+{/if}
