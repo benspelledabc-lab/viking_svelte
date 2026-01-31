@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { apiRequest } from "$lib/api";
 
-  export let count: number = 3;
+  export let count: number = 10;
   let top404 = [];
   let loading = true;
   let error: string | null = null;
