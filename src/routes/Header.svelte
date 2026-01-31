@@ -6,6 +6,15 @@
   import logo from "$lib/images/svelte-logo.svg";
   import github from "$lib/images/github.svg";
 
+  let pagesDropdownOpen = false;
+
+  function openPagesDropdown() {
+    pagesDropdownOpen = true;
+  }
+  function closePagesDropdown() {
+    pagesDropdownOpen = false;
+  }
+
   async function handleLogout() {
     await authStore.logout();
     goto("/login");
@@ -23,6 +32,7 @@
 		</a>
 	</div> -->
 
+
   <nav>
     <svg viewBox="0 0 2 3" aria-hidden="true">
       <path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
@@ -38,8 +48,18 @@
       >
         <a href={resolve("/handloads")}>Handloads</a>
       </li>
-      <li aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}>
-        <a href={resolve("/pages")}>Pages</a>
+      <li class="dropdown" aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}
+        on:mouseenter={openPagesDropdown} on:mouseleave={closePagesDropdown}
+      >
+        <a href={resolve("/pages")}
+          on:focus={openPagesDropdown} on:blur={closePagesDropdown}
+        >Pages ▾</a>
+        <ul class="dropdown-menu" class:open={pagesDropdownOpen}>
+          <li><a href={resolve("/pages")}>All Pages</a></li>
+          <li><a href={resolve("/pages/about")}>About</a></li>
+          <li><a href={resolve("/pages/contact")}>Contact</a></li>
+          <!-- Add more dropdown links here -->
+        </ul>
       </li>
       <!-- <li aria-current={page.url.pathname === "/toolkit" ? "page" : undefined}>
         <a href={resolve("/toolkit")}>Toolkit</a>
@@ -93,6 +113,56 @@
 </header>
 
 <style>
+    /* Dropdown styles */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown > a {
+      cursor: pointer;
+      user-select: none;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 10em;
+      background: rgba(255,255,255,0.98); /* nearly opaque */
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      z-index: 100;
+      padding: 0.5em 0;
+      border-radius: 0.25em;
+      list-style: none;
+      margin: 0;
+      border: none;
+    }
+    .dropdown-menu.open {
+      display: block;
+      animation: fadeIn 0.2s;
+    }
+    .dropdown-menu li {
+      width: 100%;
+      padding: 0;
+    }
+    .dropdown-menu a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.25em 0.75em;
+      color: var(--color-text);
+      text-decoration: none;
+      font-size: 0.78em;
+      transition: background 0.2s;
+      height: 2em;
+    }
+    .dropdown-menu a:hover {
+      background: var(--color-theme-1, #ff3e00);
+      color: #fff;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   header {
     display: flex;
     justify-content: space-between;
