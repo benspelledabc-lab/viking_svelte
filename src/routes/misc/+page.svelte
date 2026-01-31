@@ -1,7 +1,7 @@
 <script lang="ts">
     import Top404s from "$lib/components/Top404s.svelte";
     import { fly } from 'svelte/transition';
-    let show404s = false;
+    let show404s = true;
   let page = null; // stores the page object
   let loading = true;
   let error = null;
@@ -36,7 +36,7 @@
       <br /><span class="bullet"><a href="/misc/examples/badlink">Bad Link Tracker Demo</a></span>
       <br /><span class="bullet"><a href="/pages/404_history">404 History</a></span>
     </p>
-    <button on:click={() => show404s = true} style="margin: 1em 0;">Show Recent 404s</button>
+    <!-- Modal auto-shows on page load -->
     {#if show404s}
       <div class="modal-overlay" on:click={() => show404s = false}>
         <div class="modal-window" transition:fly="{{ x: -200, duration: 350 }}" on:click|stopPropagation>
@@ -63,7 +63,7 @@
   .modal-window {
     background: #fff;
     border-radius: 1em;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    box-shadow: none;
     padding: 2em 1.5em 1.5em 1.5em;
     min-width: 320px;
     max-width: 90vw;
