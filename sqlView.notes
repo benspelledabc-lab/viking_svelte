@@ -1,0 +1,37 @@
+SELECT *
+FROM get_page_content('home');
+
+
+
+CREATE OR REPLACE FUNCTION get_page_content(p_page_name TEXT)
+RETURNS TABLE (
+    page_id INTEGER,
+    paragraph_id INTEGER,
+    page_name TEXT,
+    display_name TEXT,
+    block_id INTEGER,
+    paragraph_order INTEGER,
+    paragraph TEXT
+)
+LANGUAGE sql
+STABLE
+AS $$
+    SELECT
+        pc.id AS page_id,
+        pg.id AS paragraph_id,
+        pc.page_name,
+        pc.display_name,
+        pg.block_id,
+        pg.paragraph_order,
+        pg.paragraph
+    FROM page_content AS pc
+    INNER JOIN page_paragraphs AS pg
+        ON pc.id = pg.page_id
+    WHERE pc.page_name = p_page_name
+    ORDER BY
+        pg.block_id,
+        pg.paragraph_order;
+$$;
+
+
+
