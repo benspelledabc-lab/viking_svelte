@@ -1,13 +1,19 @@
 <script lang="ts">
     import Top404s from "$lib/components/Top404s.svelte";
     import { fly } from 'svelte/transition';
-    let show404s = true;
+    import { onMount } from "svelte";
+    let show404s = false;
+
+    onMount(() => {
+      setTimeout(() => {
+        show404s = true;
+      }, 2500); // 2.5 seconds delay
+    });
   let page = null; // stores the page object
   let loading = true;
   let error = null;
   import { apiUrl } from "$lib/api"; // <-- helper for global API base
-
-  import { onMount } from "svelte";
+  
   import Insult from "$lib/components/Insult.svelte";
   import InsultNoTheme from "$lib/components/InsultNoTheme.svelte";
   import InsultNoThemeRepeat from "$lib/components/InsultNoThemeRepeat.svelte";
@@ -51,28 +57,30 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.25);
+    width: auto;
+    height: auto;
+    background: none;
     z-index: 1000;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 3em 0 0 3em;
+    pointer-events: none;
   }
   .modal-window {
     background: #fff;
     border-radius: 1em;
     box-shadow: none;
-    padding: 2em 1.5em 1.5em 1.5em;
-    min-width: 320px;
-    max-width: 90vw;
-    min-height: 120px;
+    padding: 1.2em 1em 1em 1em;
+    min-width: 260px;
+    max-width: 350px;
+    min-height: 80px;
     position: relative;
     z-index: 1001;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    pointer-events: auto;
   }
   .close-btn {
     position: absolute;
