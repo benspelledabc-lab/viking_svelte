@@ -47,7 +47,7 @@
       <div class="modal-overlay" on:click={() => show404s = false}>
         <div class="modal-window" transition:fly="{{ x: -200, duration: 350 }}" on:click|stopPropagation>
           <button class="close-btn" on:click={() => show404s = false}>&times;</button>
-          <Top404s count={3} />
+          <Top404s count={10} />
         </div>
       </div>
     {/if}
