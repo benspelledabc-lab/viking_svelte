@@ -4,7 +4,7 @@
   import { apiRequest } from "$lib/api";
 
   export let p = 4;
-  export let d = 5000; // refresh delay in ms
+  export let d = 4 * 60 * 60 * 1000; // 4 hours in ms
   export const baconsum = writable([]);
 
   export async function fetchBaconsum() {
@@ -24,8 +24,12 @@
   let intervalId;
   onMount(() => {
     fetchBaconsum();
-    intervalId = setInterval(fetchBaconsum, d);
-    return () => clearInterval(intervalId);
+    // Only set interval if d is a positive number
+    if (typeof d === 'number' && d > 0) {
+      intervalId = setInterval(fetchBaconsum, d);
+      return () => clearInterval(intervalId);
+    }
+    return undefined;
   });
 </script>
 
