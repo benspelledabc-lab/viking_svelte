@@ -15,10 +15,23 @@
 </script>
 
 <svelte:head>
-  <title>Blank_Page</title>
+  <title>Blank Page</title>
   <meta name="description" content="A blank page for sandbox testing" />
 </svelte:head>
 
+<!-- <BlankPage url={currentUrl} /> -->
+
 <selection>
-  <BlankPage url={currentUrl} />
+  <h2>Sandbox</h2>
+  <div class="p-bubble parent-bubble">
+    
+    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+      This page is a sandbox for testing Svelte components.
+      It contains various examples of components and their usage.
+      Feel free to explore and modify the code to see how it works!
+      <br /> <br />      
+      <span class="bullet"><a href="/misc/about">About</a></span>     <br />
+      <span class="bullet"><a href="/misc/examples/baconsum">BaconSum Demo</a></span>      
+    </p>
+  </div>
 </selection>

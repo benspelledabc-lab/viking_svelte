@@ -51,13 +51,19 @@
       <p style="color:red;">{error}</p>
     {:else if page}
       <h2>{page.display_name}</h2>
+
+      <div class="p-bubble parent-bubble">
+        <h2>We be movin!</h2>
+        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+          I'm not sure where this page will end up, but it's on the move! I'm trying to keep the functionality but 
+          remove some of the noise. Stay tuned for updates as I figure out the best place for this content.
+        </p>
+      </div>
+
       <div class="p-bubble parent-bubble">
         <h2>Steam Stuff</h2>
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <span class="bullet"
-            ><a href="/pages/steam/recently-played">Recently Played Games</a
-            ></span
-          ><br />
+          <span class="bullet"><a href="/pages/steam/recently-played">Recently Played Games</a></span><br />
           <span class="bullet"><a href="/pages/steam/friends">Friends</a></span>
         </p>
       </div>
@@ -66,10 +72,7 @@
         <div class="p-bubble parent-bubble">
           {#each block.paras as para, i}
             <!-- dont auto escape the html -->
-            <p
-              class="p-bubble child-bubble"
-              style="animation-delay: {i * 0.2}s"
-            >
+            <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">
               {@html para}
             </p>
           {/each}

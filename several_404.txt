@@ -1,0 +1,160 @@
+log n track these....
+
+[404] GET /about.php
+
+[404] GET /030.php
+
+[404] GET /1.php
+
+[404] GET /wp-aaa.php
+
+[404] GET /222.php
+
+[404] GET /info.php
+
+[404] GET /wp-admin/js/wp-conflg.php
+
+[404] GET /item.php
+
+[404] GET /xv.php
+
+[404] GET /mpxct.php
+
+[404] GET /class-wp.php
+
+[404] GET /plugins/Cache/footer.php
+
+[404] GET /build.php
+
+[404] GET /admin.php
+
+[404] GET /aaa.php
+9:02:37 PM [vite] (client) hmr update /src/routes/misc/+page.svelte
+9:02:37 PM [vite] (ssr) page reload src/routes/misc/+page.svelte
+9:02:37 PM [vite] (ssr) page reload src/routes/misc/+page.svelte (x2)
+
+[404] GET /classgoto24.php
+
+[404] GET /inde.php
+
+[404] GET /geck.php
+
+[404] GET /wa.php
+
+[404] GET /gmo.php
+
+[404] GET /htaccess.php
+
+[404] GET /errorfile.php
+
+[404] GET /z60.php
+
+[404] GET /pp.php
+
+[404] GET /cong.php
+
+[404] GET /yellow.php
+
+[404] GET /file.php
+
+[404] GET /444.php
+
+[404] GET /g.php
+
+[404] GET /images/m.php
+
+[404] GET /themes/twentytwentytwo/index.php
+
+[404] GET /he.php
+
+[404] GET /thh.php
+
+[404] GET /wp-admin/maint/about.php
+
+[404] GET /wp-admin/maint/maint.php
+
+[404] GET /gifclass4.php
+
+[404] GET /m.php
+
+[404] GET /atomlib.php
+
+[404] GET /file7.php
+
+[404] GET /mail.php
+
+[404] GET /wp-admin/css/colors/blue/index.php
+
+[404] GET /flex.php
+
+[404] GET /randkeyword.php
+
+[404] GET /klex.php
+
+[404] GET /wp-admin/network/wp-conflg.php
+
+[404] GET /as.php
+
+[404] GET /wfile.php
+
+[404] GET /about3.php
+
+[404] GET /gm.php
+
+[404] GET /wp-admin/css/wp-conflg.php
+
+[404] GET /wb.php
+
+[404] GET /ilex.php
+
+[404] GET /wsd.php
+
+[404] GET /lock360.php
+
+[404] GET /gifclass.php
+
+[404] GET /plss3.php
+
+[404] GET /0x.php
+
+[404] GET /alpa.php
+
+[404] GET /simple.php
+
+[404] GET /fileas.php
+
+[404] GET /031.php
+
+[404] GET /abcd.php
+
+[404] GET /fv.php
+
+[404] GET /403.php
+
+[404] GET /error.php
+
+[404] GET /filesss.php
+
+[404] GET /css.php
+
+[404] GET /fwe.php
+
+[404] GET /bless5.php
+
+[404] GET /555.php
+
+[404] GET /wlex.php
+
+[404] GET /class20.php
+
+[404] GET /wp.php
+
+[404] GET /vee.php
+
+[404] GET /readme.php
+
+[404] GET /NewFile.php
+
+[404] GET /ffile.php
+
+[404] GET /lv.php

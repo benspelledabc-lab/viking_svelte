@@ -38,27 +38,22 @@
       >
         <a href={resolve("/handloads")}>Handloads</a>
       </li>
-      <li
-        aria-current={page.url.pathname.startsWith("/pages")
-          ? "page"
-          : undefined}
-      >
+      <li aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}>
         <a href={resolve("/pages")}>Pages</a>
       </li>
       <!-- <li aria-current={page.url.pathname === "/toolkit" ? "page" : undefined}>
         <a href={resolve("/toolkit")}>Toolkit</a>
       </li> -->
-      <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
+      <!-- <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
         <a href={resolve("/about")}>About</a>
+      </li> -->
+
+      <li aria-current={page.url.pathname.startsWith("/misc") ? "page" : undefined}>
+        <a href={resolve("/misc")}>MISC</a>
       </li>
 
       {#if $authStore.isLoggedIn}
-        <li
-          class="auth-action"
-          aria-current={page.url.pathname.startsWith("/toolbox")
-            ? "page"
-            : undefined}
-        >
+        <li class="auth-action" aria-current={page.url.pathname.startsWith("/toolbox") ? "page" : undefined}>
           <a href={resolve("/toolbox")}>Toolbox</a>
         </li>
       {/if}

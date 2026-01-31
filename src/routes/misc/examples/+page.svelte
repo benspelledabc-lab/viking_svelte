@@ -10,13 +10,13 @@
   import InsultNoThemeRepeat from "$lib/components/InsultNoThemeRepeat.svelte";
   import Baconsum from "$lib/components/Baconsum.svelte";
   import BlankPage from "$lib/components/BlankPage.svelte";
+  import { page as pageStore } from "$app/stores";
+  $: currentUrl = $pageStore.url.pathname;
 </script>
 
 <svelte:head>
-  <title>Blank_Page</title>
+  <title>Blank Page</title>
   <meta name="description" content="A blank page for sandbox testing" />
 </svelte:head>
 
-<selection>
-  <BlankPage />
-</selection>
+<BlankPage url={currentUrl} />

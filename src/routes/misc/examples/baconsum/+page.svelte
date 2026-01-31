@@ -11,9 +11,9 @@
     import Baconsum from "$lib/components/Baconsum.svelte";
 </script>
 
-<svelte:head>
-    <title>Home</title>
-    <meta name="description" content="The home page" />
+<svelte:head>   
+    <title>BaconSum</title>
+    <meta name="description" content="BaconSum is Lorem Ipsum for bacon lovers." />
 </svelte:head>
 
 <selection>
@@ -39,16 +39,16 @@
             delay of 5000ms. Default but also allow an override. Now I can do p
             or d or dp, I guess pd also.<br />
             <br />
-            &lt;Baconsum d=500 p=2 /&gt; for 2 paragraphs and refresh in 500ms,
+            &lt;Baconsum d=4000 p=2 /&gt; for 2 paragraphs and refresh in 4000ms,
             <br />
-            &lt;Baconsum d=2000 p=3 /&gt; for 3 paragraphs and refresh in 2000ms
+            &lt;Baconsum d=8000 p=3 /&gt; for 3 paragraphs and refresh in 8000ms
             <br />
             &lt;Baconsum /&gt; will default to 4 paragraphs and will refresh in 5000ms
             (default) <br />
         </p>
     </div>
 
-    <Baconsum d={500} p={2} />
-    <Baconsum d={2000} p={3} />
-    <Baconsum d={5000} />
+    <Baconsum d={4000} p={2} />
+    <Baconsum d={8000} p={3} />
+    <Baconsum />
 </selection>

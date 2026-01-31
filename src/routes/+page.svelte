@@ -43,10 +43,8 @@
       <br />
       &lt;Baconsum /&gt; will default to 4 paragraphs and will refresh in 5000ms
       (default) <br />
+      <br />
+      <a href="/misc/examples/baconsum">See a demo in the sandbox!</a>
     </p>
   </div>
-
-  <Baconsum d={500} p={2} />
-  <Baconsum d={2000} p={3} />
-  <Baconsum d={5000} />
 </selection>
