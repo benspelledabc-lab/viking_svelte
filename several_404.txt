@@ -1,4 +1,17 @@
-log n track these....
+
+-- CREATE OR REPLACE VIEW get_404_history AS
+-- SELECT
+--     path AS requested_url,
+--     COUNT(*) AS total_hit_count,
+--     MAX(ip_address) AS last_ip,
+--     MAX(attempted_at) AS last_seen
+-- FROM not_found_logs
+-- GROUP BY path;
+
+select * from get_404_history
+	ORDER BY last_seen DESC, total_hit_count DESC;
+
+    
 
 [404] GET /about.php
 
