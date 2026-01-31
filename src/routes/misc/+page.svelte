@@ -33,6 +33,8 @@
       <br /><span class="bullet"><a href="/misc/about">About</a></span>
       <br /><span class="bullet"><a href="/misc/examples/baconsum">BaconSum Demo</a></span>
       <br /><span class="bullet"><a href="/misc/examples/badlink">Bad Link Tracker Demo</a></span>
+      <br /><span class="bullet"><a href="/pages/404_history">404 History</a></span>
+
       
     </p>
   </div>
