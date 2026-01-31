@@ -26,6 +26,6 @@
 <h2>El Plugin</h2>
   <div class="p-bubble parent-bubble">    
     <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      <Top404s count={3} />
+      <Top404s count={10} />
     </p> 
   </div>  

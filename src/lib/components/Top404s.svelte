@@ -31,9 +31,11 @@
     <ul>
       {#each top404 as row}
         <li>
-          <strong>{row.path}</strong>
-          <span class="date">{row.last_seen}</span>
-          <span class="count">Hits: {row.total_hit_count}</span>
+            <span class="date">{row.last_seen}</span>
+            <!-- <strong>URL: {row.requested_url}</strong> -->
+            <span class="url">URL: {row.requested_url}</span>
+            <span class="count">Lifetime Hits: {row.total_hit_count}</span>
+            <span class="last_ip">Last IP: {row.last_ip}</span>
         </li>
 
       {/each}
@@ -63,11 +65,20 @@
     flex-direction: column;
   }
   .date {
+    font-weight: bolder;
     font-size: 0.85em;
     color: #888;
   }
   .count {
     font-size: 0.85em;
     color: #b36b00;
+  }
+  .url {
+    font-size: 0.85em;
+    color: #007acc;
+  }
+  .last_ip {
+    font-size: 0.85em;
+    color: #555;
   }
 </style>
