@@ -1,0 +1,69 @@
+<script>
+  import { onMount } from 'svelte';
+  import { page } from '$app/stores';
+  import { apiUrl } from '$lib/api';
+
+  let errorContent = null;
+  let loading = true;
+  let error = null;
+  let postResult = null;
+
+  onMount(async () => {
+    // Only log 404s
+    if ($page.status === 404) {
+      try {
+        const resp = await fetch(apiUrl('/not_found_logs'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', 
+          body: JSON.stringify({
+            path: $page.url.pathname,
+            user_agent: navigator.userAgent,
+            referer: document.referrer,
+            ip_address: undefined // Let backend infer if possible
+          })
+        });
+        postResult = await resp.json().catch(() => resp.statusText);
+        console.log('404 POST result:', postResult);
+      } catch (e) {
+        postResult = e.message;
+        console.error('404 POST error:', e);
+      }
+    }
+    try {
+      // Try to fetch error page content from API
+      const res = await fetch(apiUrl(`/page-content/page_error`));
+      if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+      errorContent = await res.json();
+      console.log('Fetched errorContent:', errorContent);
+    } catch (err) {
+      error = err.message;
+      console.error('Error fetching errorContent:', err);
+    } finally {
+      loading = false;
+    }
+  });
+</script>
+
+{#if loading}
+  <p>Loading error page...</p>
+{:else if errorContent}
+  <h1>{$page.status} - {$page.error?.message || 'Page Not Found'}</h1>
+  <h2>{errorContent.display_name}</h2>
+  <div class="p-bubble parent-bubble">
+    {#each errorContent.paragraphs as para, i}
+      <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">{@html para.paragraph}</p>
+    {/each}
+  </div>
+{:else}
+  <h1>{$page.status} - {$page.error?.message || 'Page Not Found'}</h1>
+  <p>The page you requested does not exist.</p>
+  {#if error}
+    <p style="color:red;">{error}</p>
+  {/if}
+{/if}
+
+<!-- Debug output for testing -->
+{#if postResult}
+  <pre style="background:#222;color:#fff;padding:1em;">POST result: {JSON.stringify(postResult, null, 2)}</pre>
+{/if}
