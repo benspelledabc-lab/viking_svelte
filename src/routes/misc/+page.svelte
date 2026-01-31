@@ -1,4 +1,7 @@
 <script lang="ts">
+    import Top404s from "$lib/components/Top404s.svelte";
+    import { fly } from 'svelte/transition';
+    let show404s = false;
   let page = null; // stores the page object
   let loading = true;
   let error = null;
@@ -24,18 +27,68 @@
 <selection>
   <h2>Sandbox</h2>
   <div class="p-bubble parent-bubble">
-    
     <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      This page is a sandbox for testing Svelte components.
-      It contains various examples of components and their usage.
-      Feel free to explore and modify the code to see how it works!
-      <br />       
+      This page is a sandbox for testing Svelte components.<br>
+      It contains various examples of components and their usage.<br>
+      Feel free to explore and modify the code to see how it works!<br>
       <br /><span class="bullet"><a href="/misc/about">About</a></span>
       <br /><span class="bullet"><a href="/misc/examples/baconsum">BaconSum Demo</a></span>
       <br /><span class="bullet"><a href="/misc/examples/badlink">Bad Link Tracker Demo</a></span>
       <br /><span class="bullet"><a href="/pages/404_history">404 History</a></span>
-
-      
     </p>
+    <button on:click={() => show404s = true} style="margin: 1em 0;">Show Recent 404s</button>
+    {#if show404s}
+      <div class="modal-overlay" on:click={() => show404s = false}>
+        <div class="modal-window" transition:fly="{{ x: -200, duration: 350 }}" on:click|stopPropagation>
+          <button class="close-btn" on:click={() => show404s = false}>&times;</button>
+          <Top404s count={3} />
+        </div>
+      </div>
+    {/if}
   </div>
+<style>
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 3em 0 0 3em;
+  }
+  .modal-window {
+    background: #fff;
+    border-radius: 1em;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+    padding: 2em 1.5em 1.5em 1.5em;
+    min-width: 320px;
+    max-width: 90vw;
+    min-height: 120px;
+    position: relative;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .close-btn {
+    position: absolute;
+    top: 0.5em;
+    right: 0.7em;
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #888;
+    cursor: pointer;
+    z-index: 1002;
+    line-height: 1;
+    padding: 0;
+  }
+  .close-btn:hover {
+    color: #b36b00;
+  }
+</style>
 </selection>
