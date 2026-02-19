@@ -9,4 +9,8 @@ COPY . .
 
 EXPOSE 5173
 
-CMD ["npm", "run", "dev", "--", "--host"]
+# works but.. not in fargate for w/e reason.
+#CMD ["npm", "run", "dev", "--", "--host"]
+
+#copilot said to use this
+CMD ["npm", "run", "preview", "--", "--host", "--port", "5173"]
