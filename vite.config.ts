@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [sveltekit()],
   server: {
     host: true, // listen on all network interfaces
-    port: 5173,
+    port: 5173, // this port is what the Dockerfile exposes, so it needs to match
     allowedHosts: [
       'viking.fargate.spelledabc.org',
       'viking.spelledabc.org',

@@ -7,6 +7,9 @@ RUN npm install
 
 COPY . .
 
+
+RUN echo "Rebuild: $(date)"
+
 EXPOSE 5173
 
 # works but.. not in fargate for w/e reason.
