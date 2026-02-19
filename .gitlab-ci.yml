@@ -1,7 +1,9 @@
 deploy:
   stage: build-and-push
-  image: amazon/aws-cli:latest
+  # image: amazon/aws-cli:latest
+  image: python:3.9
   script:
+    - pip install awscli
     - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --no-cli-pager
   needs:
     - build_and_push
