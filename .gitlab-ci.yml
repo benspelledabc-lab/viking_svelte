@@ -1,6 +1,6 @@
 stages:
   - build
-  - roll-out-to-ecs
+  - deploy
 
 variables:
   AWS_REGION: us-east-1
@@ -30,7 +30,7 @@ build:
       when: always
 
 deploy:
-  stage: roll-out-to-ecs
+  stage: deploy
   image: amazonlinux:2
   before_script:
     - yum install -y python3 pip
