@@ -24,8 +24,14 @@ build_and_push:
         docker push "$DOCKERHUB_USERNAME/svelte_ui:$VERSION_TAG"
       fi
   rules:
+    # Run on any push or merge to any branch if Docker Hub credentials are set
     - if: $DOCKERHUB_USERNAME && $DOCKERHUB_PASSWORD
       when: always
+      changes: ["**/*"]
+    # Also run on web edits (hotfixes) to main
+    - if: $CI_COMMIT_BRANCH == "main" && $DOCKERHUB_USERNAME && $DOCKERHUB_PASSWORD
+      when: always
+      allow_failure: false
 
 # Ensure you set the following CI/CD variables in your GitLab project:
 # - DOCKERHUB_USERNAME: Your Docker Hub username
