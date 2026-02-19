@@ -1,3 +1,13 @@
+deploy:
+  stage: build-and-push
+  image: amazon/aws-cli:latest
+  script:
+    - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --no-cli-pager
+  needs:
+    - build_and_push
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
+      when: always
 # .gitlab-ci.yml for svelte_ui
 # This pipeline builds the Docker image and pushes it to Docker Hub only
 # when there are changes to the repository and Docker Hub credentials are set... but maybe not.
