@@ -1,12 +1,8 @@
 stages:
-  - build
-  - roll-out-to-ecs
+  - build-and-push
 
-variables:
-  AWS_REGION: us-east-1
-
-build:
-  stage: build
+build_and_push:
+  stage: build-and-push
   image: docker:latest
   services:
     - docker:dind
@@ -29,16 +25,6 @@ build:
     - if: $DOCKER_USERNAME && $DOCKER_PASSWORD
       when: always
 
-deploy:
-  stage: roll-out-to-ecs
-  image: amazonlinux:2
-  before_script:
-    - yum install -y python3 pip
-    - pip3 install --upgrade awscli
-  script:    
-    - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --no-cli-pager
-  needs:
-    - build
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
-      when: always
+# Ensure you set the following CI/CD variables in your GitLab project:
+# - DOCKER_USERNAME: Your Docker Hub username
+# - DOCKER_PASSWORD: Your Docker Hub password or access token
