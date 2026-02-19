@@ -28,26 +28,26 @@ push:
   services:
     - docker:dind
   script:
-    - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     # Always push latest for any branch
-    - docker tag "$DOCKER_IMAGE:latest" "$DOCKERHUB_USERNAME/svelte_ui:latest"
-    - docker push "$DOCKERHUB_USERNAME/svelte_ui:latest"
+    - docker tag "$DOCKER_IMAGE:latest" "$DOCKER_USERNAME/svelte_ui:latest"
+    - docker push "$DOCKER_USERNAME/svelte_ui:latest"
     # If on main, also push stable and a timestamped version
     - |
       if [ "$CI_COMMIT_BRANCH" = "main" ]; then
-        docker tag "$DOCKER_IMAGE:latest" "$DOCKERHUB_USERNAME/svelte_ui:stable"
-        docker push "$DOCKERHUB_USERNAME/svelte_ui:stable"
+        docker tag "$DOCKER_IMAGE:latest" "$DOCKER_USERNAME/svelte_ui:stable"
+        docker push "$DOCKER_USERNAME/svelte_ui:stable"
         # Create a timestamp tag like svelte_ui:2026219_0952
         VERSION_TAG="$(date +'%Y%m%d_%H%M')"
-        docker tag "$DOCKER_IMAGE:latest" "$DOCKERHUB_USERNAME/svelte_ui:$VERSION_TAG"
-        docker push "$DOCKERHUB_USERNAME/svelte_ui:$VERSION_TAG"
+        docker tag "$DOCKER_IMAGE:latest" "$DOCKER_USERNAME/svelte_ui:$VERSION_TAG"
+        docker push "$DOCKER_USERNAME/svelte_ui:$VERSION_TAG"
       fi
   dependencies:
     - build
   rules:
-    - if: $DOCKERHUB_USERNAME && $DOCKERHUB_PASSWORD
+    - if: $DOCKER_USERNAME && $DOCKER_PASSWORD
       when: always
 
 # Ensure you set the following CI/CD variables in your GitLab project:
-# - DOCKERHUB_USERNAME: Your Docker Hub username
-# - DOCKERHUB_PASSWORD: Your Docker Hub password or access token
+# - DOCKER_USERNAME: Your Docker Hub username
+# - DOCKER_PASSWORD: Your Docker Hub password or access token
