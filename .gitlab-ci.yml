@@ -31,14 +31,15 @@ build:
 
 deploy:
   stage: deploy
-  image: amazonlinux:2
-  before_script:
-    - yum install -y python3 pip
-    - pip3 install --upgrade awscli
-  script:    
-    - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --no-cli-pager
-  needs:
-    - build
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
-      when: always
+    image: docker:latest
+    services:
+      - docker:dind
+    needs:
+      - build
+    script:
+      - apk add --no-cache python3 py3-pip
+      - pip3 install --upgrade awscli --break-system-packages
+      - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --region "$AWS_REGION" --no-cli-pager
+    rules:
+      - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
+        when: always
