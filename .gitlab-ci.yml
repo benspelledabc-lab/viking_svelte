@@ -1,5 +1,6 @@
 # .gitlab-ci.yml for svelte_ui
 # This pipeline builds the Docker image and pushes it to Docker Hub only
+# when there are changes to the repository and Docker Hub credentials are set... but maybe not.
 
 stages:
   - build-and-push
