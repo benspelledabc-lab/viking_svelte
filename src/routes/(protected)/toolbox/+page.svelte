@@ -45,6 +45,7 @@
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
           <a href={resolve("/toolbox/firearm/add")}>Add Firearm</a><br />
           <a href={resolve("/toolbox/handload/add")}>Add Handload</a><br />
+          <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
         </p>
       </div>
     </div>

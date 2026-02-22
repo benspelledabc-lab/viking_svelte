@@ -4,9 +4,10 @@
     import { onMount } from "svelte";
     let show404s = false;
 
+    // Show the 404 modal on page load, then hide it after 2.5 seconds
     onMount(() => {
       setTimeout(() => {
-        show404s = true;
+        show404s = false;
       }, 2500); // 2.5 seconds delay
     });
   let page = null; // stores the page object
@@ -41,6 +42,7 @@
       <br /><span class="bullet"><a href="/misc/examples/baconsum">BaconSum Demo</a></span>
       <br /><span class="bullet"><a href="/misc/examples/badlink">Bad Link Tracker Demo</a></span>
       <br /><span class="bullet"><a href="/pages/404_history">404 History</a></span>
+      <br /><span class="bullet"><a href="/knives/">Knife Sharpening Log</a></span>
     </p>
     <!-- Modal auto-shows on page load -->
     {#if show404s}
