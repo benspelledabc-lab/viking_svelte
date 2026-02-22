@@ -31,13 +31,16 @@
       <li aria-current={page.url.pathname === "/" ? "page" : undefined}>
         <a href={resolve("/")}>Home</a>
       </li>
-      <li
-        aria-current={page.url.pathname.startsWith("/handloads")
-          ? "page"
-          : undefined}
-      >
-        <a href={resolve("/handloads")}>Handloads</a>
+
+      <li class="dropdown" aria-current={page.url.pathname.startsWith("/outdoor") ? "page" : undefined}>
+        <a href={resolve("/outdoor")}>Outdoor</a>
+        <ul class="dropdown-content">
+          <li><a href={resolve("/outdoor/handloads")}>Handloads</a></li>
+          <li><a href={resolve("/outdoor/knives")}>Knives</a></li>          
+        </ul>
       </li>
+
+
       <li aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}>
         <a href={resolve("/pages")}>Pages</a>
       </li>
@@ -48,8 +51,9 @@
         <a href={resolve("/about")}>About</a>
       </li> -->
 
-      <li aria-current={page.url.pathname.startsWith("/misc") ? "page" : undefined}>
+      <li class="dropdown" aria-current={page.url.pathname.startsWith("/misc") ? "page" : undefined}>
         <a href={resolve("/misc")}>MISC</a>
+        
       </li>
 
       {#if $authStore.isLoggedIn}
@@ -222,5 +226,60 @@
 
   li.auth-action a:hover {
     opacity: 0.8;
+  }
+  .dropdown {
+    position: relative;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background: #ff0000;
+    color: #fff;
+    min-width: 160px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 1;
+    border-radius: 0.5em;
+    padding: 0;
+    top: 100%;
+    left: 0;
+      border: none;
+    overflow: visible;
+  }
+  .dropdown-content li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 0.7em 1em;
+    background: #3e3e3e;
+    border-bottom: 1px solid #e1dede;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .dropdown-content li:last-child a {
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+  }
+  .dropdown:hover .dropdown-content,
+  .dropdown:focus-within .dropdown-content {
+    display: block;
+  }
+  .dropdown-content li {
+    padding: 0;
+    text-align: left;
+  }
+  .dropdown-content li a {
+    /* removed duplicate rule to avoid override */
+  }
+  .dropdown-content li:last-child a {
+    border-bottom: none;
+  }
+  .dropdown-content li a:hover {
+    background: #0074d9;
+    color: #fff;
   }
 </style>

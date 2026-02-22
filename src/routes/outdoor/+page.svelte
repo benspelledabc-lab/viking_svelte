@@ -2,14 +2,7 @@
     import Top404s from "$lib/components/Top404s.svelte";
     import { fly } from 'svelte/transition';
     import { onMount } from "svelte";
-    let show404s = false;
 
-    // Show the 404 modal on page load, then hide it after 2.5 seconds
-    onMount(() => {
-      setTimeout(() => {
-        show404s = false;
-      }, 2500); // 2.5 seconds delay
-    });
   let page = null; // stores the page object
   let loading = true;
   let error = null;
@@ -25,34 +18,31 @@
 </script>
 
 <svelte:head>
-  <title>Blank Page</title>
-  <meta name="description" content="A blank page for sandbox testing" />
+  <title>Outdoor Sandbox</title>
+  <meta name="description" content="Outdoor elements." />
 </svelte:head>
 
 <!-- <BlankPage url={currentUrl} /> -->
 
 <selection>
-  <h2>Sandbox</h2>
-  <div class="p-bubble parent-bubble">
-    <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-      This page is a sandbox for testing Svelte components.<br>
-      It contains various examples of components and their usage.<br>
-      Feel free to explore and modify the code to see how it works!<br>
-      <br /><span class="bullet"><a href="/misc/examples/baconsum">BaconSum Demo</a></span>
-      <br /><span class="bullet"><a href="/misc/examples/badlink">Bad Link Tracker Demo</a></span>
-      <br /><span class="bullet"><a href="/pages/404_history">404 History</a></span>      
-    </p>
-    <!-- Modal auto-shows on page load -->
-    {#if show404s}
-      <div class="modal-overlay" on:click={() => show404s = false}>
-        <div class="modal-window" transition:fly="{{ x: -200, duration: 350 }}" on:click|stopPropagation>
-          <button class="close-btn" on:click={() => show404s = false}>&times;</button>
-          <Top404s count={5} />
-        </div>
-      </div>
-    {/if}
+  <div class="p-bubble parent-bubble bubble-table">
+    <h2>You really shouldn't be here, but incase you are, pick from a link below.</h2>
+    <div>
+      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">                
+        <span class="bullet"><a href="/outdoor/knives/">Knife Sharpening Log</a></span>
+        <br /><span class="bullet"><a href="/outdoor/handloads/">Handloads</a></span>
+      </p>
+      
+    </div>
   </div>
 <style>
+.bubble-table {
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 1rem;
+  background-color: #f7f3f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
   .modal-overlay {
     position: fixed;
     top: 0;
