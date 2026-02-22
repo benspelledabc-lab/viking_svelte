@@ -19,6 +19,11 @@ async function fetchKnives() {
 onMount(fetchKnives);
 </script>
 
+<svelte:head>
+  <title>Knife Sharpening Log</title>
+  <meta name="description" content="Knife Sharpening Log for me!" />
+</svelte:head>
+
 
 <h1>Knife Sharpening Log</h1>
 
