@@ -22,8 +22,8 @@
 <!-- <BlankPage url={currentUrl} /> -->
 
 <!-- <section class="about"> -->
-  <h1>About This Site</h1>
-  <div class="p-bubble parent-bubble">
+  <div class="p-bubble parent-bubble bubble-table">
+    <h1>About This Site</h1>
     <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
       Welcome to our sandbox—a unique space for firearm enthusiasts, handloaders, and those who appreciate a bit of offbeat humor. Here, you’ll find:
     </p>
@@ -44,3 +44,13 @@
     </p>
   </div>
 <!-- </section> -->
+
+<style>
+.bubble-table {
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 1rem;
+  background-color: #f7f3f0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+</style>
