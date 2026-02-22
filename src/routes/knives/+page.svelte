@@ -31,8 +31,6 @@ onMount(fetchKnives);
     <div class="error">{error}</div>
 {/if}
 
-
-<h2>Knives</h2>
 <div class="p-bubble parent-bubble bubble-table">
     <div class="table-container">
         <table>
@@ -58,6 +56,10 @@ onMount(fetchKnives);
             </tbody>
         </table>
     </div>
+</div>
+
+<div class="p-bubble parent-bubble"><h4>Knives listed as a zero angle blade are not measured accurately. 
+    They are placeholders for the knives I have but haven't measured.</h4>
 </div>
 
 <style>
