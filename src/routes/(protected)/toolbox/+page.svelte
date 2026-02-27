@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <a href={swaggerUrl(`/swagger`)}>
+    <a href={swaggerUrl(`/swagger`)} target="_blank" rel="noopener noreferrer">
       <img src={swagger} alt="Viking Swagger" width="400" height="300" />
     </a>
   {/if}
