@@ -10,6 +10,8 @@
   // reactive route param
   $: page_name = $page.params.page_name;
 
+  import JokeSum from "$lib/components/Joke-Random.svelte";
+
   // helper: group paragraphs by block_id
   function groupByBlock(paragraphs) {
     const groups = {};
@@ -77,3 +79,5 @@
     <p>No page content found for page called {page_name}.</p>
   {/if}
 </div>
+
+<JokeSum />
