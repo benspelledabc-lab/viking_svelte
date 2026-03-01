@@ -6,7 +6,8 @@ import { apiUrl } from "$lib/api";
 
 const knives = writable([]);
 
-let newKnife = { name: '', angle: '', image_path: '' };
+let newKnife = { name: '', angle: '' };
+let newKnifeImage = null;
 let editKnife = null;
 let error = '';
 
@@ -21,14 +22,20 @@ async function fetchKnives() {
 
 async function addKnife() {
     error = '';
+    const formData = new FormData();
+    formData.append('name', newKnife.name);
+    formData.append('angle', newKnife.angle);
+    if (newKnifeImage) {
+        formData.append('image', newKnifeImage);
+    }
     const res = await fetch(apiUrl('/knife'), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newKnife),
+        body: formData,
         credentials: 'include'
     });
     if (res.ok) {
-        newKnife = { name: '', angle: '', image_path: '' };
+        newKnife = { name: '', angle: '' };
+        newKnifeImage = null;
         fetchKnives();
     } else {
         error = 'Failed to add knife';
@@ -83,7 +90,7 @@ onMount(fetchKnives);
     <h2>Add Knife</h2>
     <input placeholder="Name" bind:value={newKnife.name} />
     <input placeholder="Angle" type="number" bind:value={newKnife.angle} />
-    <input placeholder="Image Path (optional)" bind:value={newKnife.image_path} />
+    <input type="file" accept="image/*" on:change={e => newKnifeImage = e.target.files[0]} />
     <button on:click={addKnife}>Add</button>
 </div>
 
