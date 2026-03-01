@@ -1,11 +1,8 @@
 <script lang="ts">
-  import swagger from "$lib/images/viking_swagger_steampunk.png";
-
-  import { resolve } from "$app/paths";
   let page = null; // stores the page object
   let loading = true;
   let error = null;
-  import { apiUrl, swaggerUrl } from "$lib/api"; // <-- helper for global API base
+  import { apiUrl } from "$lib/api"; // <-- helper for global API base
 
   import { onMount } from "svelte";
 
@@ -14,7 +11,7 @@
 
   onMount(async () => {
     try {
-      const res = await fetch("/placeholder.json");
+      const res = await fetch("/tos.json");
       if (res.ok) {
         content = await res.json();
       }
@@ -40,19 +37,12 @@
     </div>
   {:else}
     <div class="table-container">
-      <h2>The CRUDy stuff</h2>
+      <h2>Static TOS Page Header</h2>
       <div class="p-bubble parent-bubble">
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <a href={resolve("/toolbox/firearm/add")}>Add Firearm</a><br />
-          <a href={resolve("/toolbox/handload/add")}>Add Handload</a><br />
-          <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
-          <a href={resolve("/admin/journal_entry")}>Journal Entry CRUD</a><br />
+          Blah blah blah.. Placeholder stuff.
         </p>
       </div>
     </div>
-
-    <a href={swaggerUrl(`/swagger`)} target="_blank" rel="noopener noreferrer">
-      <img src={swagger} alt="Viking Swagger" width="400" height="300" />
-    </a>
   {/if}
 </selection>
