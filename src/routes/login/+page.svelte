@@ -12,8 +12,8 @@
     isLoading = false;
 
     if (success) {
-      // Redirect to home page or handloads
-      goto("/handloads");
+      // Redirect to home page or toolbox
+      goto("/toolbox");
     }
   }
 
