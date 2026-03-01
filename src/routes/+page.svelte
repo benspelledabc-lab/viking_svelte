@@ -11,6 +11,7 @@
   $: page_name = $page.params.page_name;
 
   import JokeSum from "$lib/components/Joke-Random.svelte";
+  import LatestJournalEntry from "$lib/components/Latest_Journal_Entry.svelte";
 
   // helper: group paragraphs by block_id
   function groupByBlock(paragraphs) {
@@ -81,3 +82,4 @@
 </div>
 
 <JokeSum />
+<LatestJournalEntry />
