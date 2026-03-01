@@ -108,26 +108,72 @@ onMount(fetchKnives);
 
 <!-- Knife List -->
 <h2>Knives</h2>
-<ul>
+<div class="knife-list">
     {#each $knives as knife}
-        <li>
-            <strong>{knife.name}</strong> (Angle: {knife.angle})
+        <div class="knife-card">
+            <div class="knife-header">
+                <strong>{knife.name}</strong>
+            </div>
             {#if knife.image_path}
-                {#if knife.image_path.startsWith('s3://')}
-                    <br /><img src={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="knife image" width="80" />
-                {:else}
-                    <br /><img src={knife.image_path} alt="knife image" width="80" />
-                {/if}
+                <div class="knife-image">
+                    {#if knife.image_path.startsWith('s3://')}
+                        <img src={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="knife image" width="80" />
+                    {:else}
+                        <img src={knife.image_path} alt="knife image" width="80" />
+                    {/if}
+                </div>
             {/if}
-            <button on:click={() => startEdit(knife)}>Edit</button>
-            <button on:click={() => deleteKnife(knife.id)}>Delete</button>
-        </li>
+            <div class="knife-angle">Angle: {knife.angle}</div>
+            <div class="knife-actions">
+                <button on:click={() => startEdit(knife)}>Edit</button>
+                <button on:click={() => deleteKnife(knife.id)}>Delete</button>
+            </div>
+        </div>
     {/each}
-</ul>
+</div>
 
 <style>
+/* ...existing code... */
 .form-section { margin-bottom: 2em; }
 input { margin: 0.2em; }
 .error { color: red; }
 img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
+
+.knife-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    margin-top: 1em;
+}
+.knife-card {
+    background: #fafbfc;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    padding: 1em 1.2em;
+    min-width: 200px;
+    max-width: 240px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.knife-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+.knife-angle {
+    font-size: 0.95em;
+    color: #555;
+}
+.knife-image {
+    margin-bottom: 0.5em;
+}
+.knife-actions {
+    margin-top: 0.5em;
+    display: flex;
+    gap: 0.5em;
+}
 </style>
