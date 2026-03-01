@@ -106,7 +106,11 @@ onMount(fetchKnives);
         <li>
             <strong>{knife.name}</strong> (Angle: {knife.angle})
             {#if knife.image_path}
-                <br /><img src={knife.image_path} alt="knife image" width="80" />
+                {#if knife.image_path.startsWith('s3://')}
+                    <br /><img src={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="knife image" width="80" />
+                {:else}
+                    <br /><img src={knife.image_path} alt="knife image" width="80" />
+                {/if}
             {/if}
             <button on:click={() => startEdit(knife)}>Edit</button>
             <button on:click={() => deleteKnife(knife.id)}>Delete</button>

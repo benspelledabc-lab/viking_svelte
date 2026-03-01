@@ -48,7 +48,15 @@ onMount(fetchKnives);
                         <td>{knife.angle}</td>
                         <td>
                             {#if knife.image_path}
-                                <img src={knife.image_path} alt="knife image" width="80" />
+                                {#if knife.image_path.startsWith('s3://')}
+                                    <a href={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} target="_blank" rel="noopener">
+                                        <img src={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="knife image" width="60" style="cursor:pointer;" />
+                                    </a>
+                                {:else}
+                                    <a href={knife.image_path} target="_blank" rel="noopener">
+                                        <img src={knife.image_path} alt="knife image" width="60" style="cursor:pointer;" />
+                                    </a>
+                                {/if}
                             {/if}
                         </td>
                     </tr>
