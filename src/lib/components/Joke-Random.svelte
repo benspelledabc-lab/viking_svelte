@@ -15,11 +15,11 @@
   export async function fetchJokesum() {
     try {
       const data = await apiRequest(`/joke/random`);
-      // The API returns { setup: "...", punchline: "...", category: "..." }
+      // The API now returns { setup: "...", punchline: "...", categories: ["...", ...] }
       if (data && data.setup) {
         jokesum.set([
           {
-            category: data.category || "Unknown",
+            categories: Array.isArray(data.categories) ? data.categories : [data.category || "Unknown"],
             setup: data.setup,
             punchline: data.punchline
           }
@@ -52,7 +52,13 @@
   <div class="p-bubble parent-bubble">
     {#each $jokesum as joke, i}
       <div class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">
-        <div><b>Category:</b> {joke.category}</div>
+        <div><b>Categories:</b>
+          {#if joke.categories && joke.categories.length > 0}
+            {joke.categories.join(', ')}
+          {:else}
+            Unknown
+          {/if}
+        </div>
         <div><b>Setup:</b> {joke.setup}</div>
         <div class="punchline-container">
           <b>Punchline:</b>
