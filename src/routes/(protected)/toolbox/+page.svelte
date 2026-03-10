@@ -29,6 +29,11 @@
 
 </script>
 
+<svelte:head>
+  <title>Toolbox</title>
+  <meta name="description" content="A collection of tools and utilities for managing the application." />
+</svelte:head>
+
 <selection>
   {#if content}
     <!-- <h2>Svelte is pimptastic... ish.</h2> -->

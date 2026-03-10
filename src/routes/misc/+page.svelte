@@ -25,8 +25,8 @@
 </script>
 
 <svelte:head>
-  <title>Blank Page</title>
-  <meta name="description" content="A blank page for sandbox testing" />
+  <title>Misc Junk</title>
+  <meta name="description" content="A bit bucket for junk" />
 </svelte:head>
 
 <!-- <BlankPage url={currentUrl} /> -->
