@@ -4,6 +4,7 @@ import { apiUrl } from '$lib/api';
 export type User = {
   id: number;
   username: string;
+  role: string;
 };
 
 export type AuthState = {
