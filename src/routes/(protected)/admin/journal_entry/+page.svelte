@@ -13,7 +13,9 @@ let editEntry = null;
 let error = '';
 
 async function fetchEntries() {
-    const res = await fetch(apiUrl('/journal_entries'));
+    const res = await fetch(apiUrl('/journal_entries'), {
+        credentials: 'include'
+    });
     if (res.ok) {
         entries.set(await res.json());
     } else {
@@ -105,17 +107,21 @@ onMount(fetchEntries);
 {/if}
 
 <!-- Journal Entry List -->
-<h2>Entries</h2>
-<div class="knife-list">
+<h2>Entries ({$entries.length} total)</h2>
+<div class="entries-container">
     {#each $entries as entry}
-        <div class="knife-card">
-            <div class="knife-header">
-                <strong>{entry.topic}</strong>
+        <div class="entry-row">
+            <div class="entry-content">
+                <div class="entry-header">
+                    <strong>{entry.topic}</strong>
+                    <span class="entry-date">{entry.dateEntered ? new Date(entry.dateEntered).toLocaleString() : ''}</span>
+                </div>
+                <div class="entry-body">{entry.body}</div>
+                <div class="entry-meta">
+                    <span class="entry-visibility">{entry.isViewable ? '👁️ Public' : '🔒 Private'} <span class="entry-id">(id: {entry.id})</span></span>
+                </div>
             </div>
-            <div class="knife-angle">{entry.dateEntered ? new Date(entry.dateEntered).toLocaleString() : ''}</div>
-            <div style="margin: 0.5em 0; width: 100%; white-space: pre-wrap;">{entry.body}</div>
-            <div style="font-size: 0.9em; color: #888; margin-bottom: 0.5em;">{entry.isViewable ? 'Viewable' : 'Private'}</div>
-            <div class="knife-actions">
+            <div class="entry-actions">
                 <button on:click={() => startEdit(entry)}>Edit</button>
                 <button on:click={() => deleteEntry(entry.id)}>Delete</button>
             </div>
@@ -128,43 +134,90 @@ onMount(fetchEntries);
 .form-section { margin-bottom: 2em; }
 input { margin: 0.2em; }
 .error { color: red; }
-img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
 
-.knife-list {
+.entries-container {
+    max-width: 1200px;
+    margin: 1em auto;
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.5em;
-    margin-top: 1em;
+    flex-direction: column;
+    gap: 1em;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 0.5em;
 }
-.knife-card {
+
+.entry-row {
     background: #fafbfc;
     border: 1px solid #d1d5db;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-    padding: 1em 1.2em;
-    min-width: 200px;
-    max-width: 240px;
+    padding: 1em;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    gap: 1em;
+    align-items: flex-start;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-.knife-header {
-    width: 100%;
+
+.entry-row:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.entry-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.entry-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5em;
-}
-.knife-angle {
-    font-size: 0.95em;
-    color: #555;
-}
-.knife-image {
-    margin-bottom: 0.5em;
-}
-.knife-actions {
-    margin-top: 0.5em;
-    display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
+}
+
+.entry-header strong {
+    font-size: 1.1em;
+    color: #333;
+}
+
+.entry-date {
+    font-size: 0.9em;
+    color: #666;
+    white-space: nowrap;
+}
+
+.entry-body {
+    margin: 0.5em 0;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    color: #444;
+}
+
+.entry-meta {
+    margin-top: 0.5em;
+}
+
+.entry-visibility {
+    font-size: 0.9em;
+    color: #888;
+}
+
+.entry-id {
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.entry-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    min-width: 80px;
+}
+
+.entry-actions button {
+    white-space: nowrap;
+    padding: 0.4em 0.8em;
 }
 </style>

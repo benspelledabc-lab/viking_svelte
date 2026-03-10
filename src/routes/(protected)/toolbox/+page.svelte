@@ -6,11 +6,12 @@
   let loading = true;
   let error = null;
   import { apiUrl, swaggerUrl } from "$lib/api"; // <-- helper for global API base
+  import { authStore } from "$lib/stores/auth";
 
   import { onMount } from "svelte";
 
   // Dynamic content
-  let content: { paragraphs: string[] } | null = null;
+  let content: { title?: string; paragraphs: string[] } | null = null;
 
   onMount(async () => {
     try {
@@ -22,6 +23,10 @@
       console.error(err);
     }
   });
+
+  // Helper function to check if user is admin or superadmin
+  $: isAdminUser = $authStore.user?.role === 'admin' || $authStore.user?.role === 'superadmin';
+
 </script>
 
 <selection>
@@ -39,17 +44,19 @@
       {/each}
     </div>
   {:else}
-    <div class="table-container">
-      <h2>The CRUDy stuff</h2>
-      <div class="p-bubble parent-bubble">
-        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <a href={resolve("/toolbox/firearm/add")}>Add Firearm</a><br />
-          <a href={resolve("/toolbox/handload/add")}>Add Handload</a><br />
-          <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
-          <a href={resolve("/admin/journal_entry")}>Journal Entry CRUD</a><br />
-        </p>
+    {#if isAdminUser}
+      <div class="table-container">
+        <h2>The CRUDy stuff</h2>
+        <div class="p-bubble parent-bubble">
+          <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+            <a href={resolve("/toolbox/firearm/add")}>Add Firearm</a><br />
+            <a href={resolve("/toolbox/handload/add")}>Add Handload</a><br />
+            <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
+            <a href={resolve("/admin/journal_entry")}>Journal Entry CRUD</a><br />
+          </p>
+        </div>
       </div>
-    </div>
+    {/if}
 
     <a href={swaggerUrl(`/swagger`)} target="_blank" rel="noopener noreferrer">
       <img src={swagger} alt="Viking Swagger" width="400" height="300" />
