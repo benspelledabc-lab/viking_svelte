@@ -115,8 +115,10 @@
     padding: 1rem;
     margin: 1rem auto;
     border-radius: 1rem;
-    background-color: #f7f3f0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .table-container {

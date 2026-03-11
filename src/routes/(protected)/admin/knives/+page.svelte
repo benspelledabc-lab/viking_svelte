@@ -144,6 +144,12 @@ img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
     flex-wrap: wrap;
     gap: 1.5em;
     margin-top: 1em;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 1.5em;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .knife-card {
     background: #fafbfc;

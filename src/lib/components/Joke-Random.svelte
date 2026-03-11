@@ -75,9 +75,33 @@
             <span class="punchline-hint">👈 Click to reveal</span>
           {/if}
         </div>
+        <div class="refresh-container">
+          <button on:click={fetchJokesum} class="refresh-btn" title="Get a new joke">🔄 Groan More</button>
+        </div>
       </div>
     {/each}
   <style>
+    .refresh-container {
+      margin-top: 1em;
+      text-align: left;
+    }
+    .refresh-btn {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5em 1em;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .refresh-btn:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .refresh-btn:active {
+      transform: translateY(0);
+    }
     .punchline-blur {
       filter: blur(0.5em);
       color: #888;

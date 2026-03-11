@@ -56,7 +56,7 @@
               <strong>{ $latestEntry.topic }</strong>
               <span class="journal-date">{ $latestEntry.dateEntered ? new Date($latestEntry.dateEntered).toLocaleString() : '' }</span>
             </div>
-            <div class="journal-body" style="margin-top:0.7em;">{ $latestEntry.body }</div>
+            <div class="journal-body" style="margin-top:0.7em;">{@html $latestEntry.body}</div>
             <div class="journal-viewable">{ $latestEntry.isViewable ? 'Public' : 'Private' }</div>
           </div>
         {/if}
@@ -93,6 +93,12 @@
   margin: 0.5em 0;
   width: 100%;
   white-space: pre-wrap;
+}
+.journal-body :global(img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin: 0.5em 0;
 }
 .journal-viewable {
   font-size: 0.9em;

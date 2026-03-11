@@ -116,7 +116,7 @@ onMount(fetchEntries);
                     <strong>{entry.topic}</strong>
                     <span class="entry-date">{entry.dateEntered ? new Date(entry.dateEntered).toLocaleString() : ''}</span>
                 </div>
-                <div class="entry-body">{entry.body}</div>
+                <div class="entry-body">{@html entry.body}</div>
                 <div class="entry-meta">
                     <span class="entry-visibility">{entry.isViewable ? '👁️ Public' : '🔒 Private'} <span class="entry-id">(id: {entry.id})</span></span>
                 </div>
@@ -193,6 +193,13 @@ input { margin: 0.2em; }
     white-space: pre-wrap;
     line-height: 1.5;
     color: #444;
+}
+
+.entry-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 0.5em 0;
 }
 
 .entry-meta {
