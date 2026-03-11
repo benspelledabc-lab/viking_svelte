@@ -30,12 +30,24 @@ let editFile: FileUpload | null = null;
 let error = '';
 let successMessage = '';
 
+// Pagination state
+let currentPage = 1;
+let perPage = 50;
+let totalFiles = 0;
+let totalPages = 0;
+
 const ROLES = ['user', 'power_user', 'admin', 'superadmin'];
 
 async function fetchFiles() {
-    const res = await fetch(apiUrl('/file_uploads'), { credentials: 'include' });
+    const res = await fetch(apiUrl(`/file_uploads?page=${currentPage}&per_page=${perPage}`), { 
+        credentials: 'include' 
+    });
     if (res.ok) {
-        files.set(await res.json());
+        const data = await res.json();
+        files.set(data.files);
+        totalFiles = data.total;
+        totalPages = data.pages;
+        currentPage = data.page;
     } else {
         error = 'Failed to fetch files';
     }
@@ -278,8 +290,66 @@ onMount(fetchFiles);
     </div>
 {/if}
 
+<!-- Pagination Controls Top -->
+{#if totalPages > 1}
+    <div class="pagination-controls-top">
+        <div class="per-page-selector">
+            <label>
+                Records per page:
+                <select bind:value={perPage} on:change={() => { currentPage = 1; fetchFiles(); }}>
+                    <option value={50}>50</option>
+                    <option value={100}>100</option>
+                    <option value={200}>200</option>
+                    <option value={500}>500</option>
+                    <option value={1000}>1000</option>
+                </select>
+            </label>
+        </div>
+        
+        <div class="pagination-info">
+            Showing {(currentPage - 1) * perPage + 1} - {Math.min(currentPage * perPage, totalFiles)} of {totalFiles} files
+        </div>
+        
+        <div class="pagination-buttons">
+            <button 
+                on:click={() => { currentPage = 1; fetchFiles(); }} 
+                disabled={currentPage === 1}
+                class="btn-nav"
+            >
+                First
+            </button>
+            
+            <button 
+                on:click={() => { currentPage -= 1; fetchFiles(); }} 
+                disabled={currentPage === 1}
+                class="btn-nav"
+            >
+                Previous
+            </button>
+            
+            <span class="page-indicator">Page {currentPage} of {totalPages}</span>
+            
+            <button 
+                on:click={() => { currentPage += 1; fetchFiles(); }} 
+                disabled={currentPage === totalPages}
+                class="btn-nav"
+            >
+                Next
+            </button>
+            
+            <button 
+                on:click={() => { currentPage = totalPages; fetchFiles(); }} 
+                disabled={currentPage === totalPages}
+                class="btn-nav"
+            >
+                Last
+            </button>
+        </div>
+    </div>
+{/if}
+
 <!-- File List -->
-<h2>Uploaded Files ({$files.length})</h2>
+<h2>Uploaded Files</h2>
 <div class="files-container">
     {#each $files as file}
         <div class="file-card">
@@ -311,7 +381,7 @@ onMount(fetchFiles);
                         type="text" 
                         readonly 
                         value={getDownloadUrl(file.filePath)} 
-                        on:click={(e) => e.target.select()}
+                        on:click={(e) => (e.target as HTMLInputElement)?.select()}
                         class="url-input"
                     />
                 </div>
@@ -490,11 +560,17 @@ button, .btn-link {
 }
 
 .files-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 1em auto;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1em;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 1.5em;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .file-card {
@@ -580,5 +656,72 @@ button, .btn-link {
 .file-actions .btn-link {
     padding: 0.4em 0.8em;
     font-size: 0.9em;
+}
+
+.pagination-controls-top {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    margin: 1em auto 2em;
+    max-width: 1400px;
+    padding: 1em;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.per-page-selector label {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+.per-page-selector select {
+    padding: 0.4em;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+.pagination-info {
+    text-align: center;
+    font-size: 0.95em;
+    color: #6b7280;
+}
+
+.pagination-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    flex-wrap: wrap;
+}
+
+.btn-nav {
+    background: #2563eb;
+    color: white;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.btn-nav:hover:not(:disabled) {
+    background: #1d4ed8;
+}
+
+.btn-nav:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.page-indicator {
+    padding: 0.5em 1em;
+    font-weight: 600;
+    color: #374151;
 }
 </style>
