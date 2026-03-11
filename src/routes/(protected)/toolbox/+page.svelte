@@ -58,6 +58,7 @@
             <a href={resolve("/toolbox/handload/add")}>Add Handload</a><br />
             <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
             <a href={resolve("/admin/journal_entry")}>Journal Entry CRUD</a><br />
+            <a href={resolve("/admin/file_uploads")}>File Uploads CRUD</a><br />
           </p>
         </div>
       </div>
