@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
+  import { browser } from "$app/environment";
   import { apiRequest } from "$lib/api";
 
   export let characterID = 96399509;
@@ -35,6 +36,15 @@
 
   // Helper function to extract ship name from kill page via Flask API
   async function fetchShipName(killmailId: number): Promise<{name: string, id: string | null, locationName: string | null, locationId: string | null}> {
+    if (!browser) {
+      return {
+        name: 'Unknown Ship',
+        id: null,
+        locationName: null,
+        locationId: null
+      };
+    }
+    
     try {
       const data = await apiRequest(`/zkillboard/ship/${killmailId}`);
       return {
@@ -55,6 +65,8 @@
   }
 
   export async function fetchZKillboardDeaths() {
+    if (!browser) return; // Only run on client-side
+    
     try {
       const data = await apiRequest(`/zkillboard/losses/${characterID}`);
       
