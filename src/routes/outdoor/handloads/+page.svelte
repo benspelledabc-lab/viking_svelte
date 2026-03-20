@@ -23,7 +23,7 @@
     window.addEventListener("resize", checkMobile);
 
     try {
-      handloads = await apiRequest(`/handloads`);
+      handloads = await apiRequest(`/outdoor/handloads`);
 
       // lets sort by flask, not here...
       // handloads.sort((a, b) =>
@@ -70,7 +70,7 @@
             <tr>
               <td
                 ><a
-                  href={`/handloads/${h.id}`}
+                  href={`/outdoor/handloads/${h.id}`}
                   style="color: blue; text-decoration: underline;"
                   >{h.caliber}</a
                 ></td
@@ -98,7 +98,7 @@
         <tr>
           <td
             ><a
-              href={`/handloads/${h.id}`}
+              href={`/outdoor/handloads/${h.id}`}
               style="color: blue; text-decoration: underline;">{h.caliber}</a
             ></td
           >
