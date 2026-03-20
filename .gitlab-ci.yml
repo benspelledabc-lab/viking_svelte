@@ -1,9 +1,11 @@
 stages:
   - build
   - deploy
+  - refresh
 
 variables:
   AWS_REGION: us-east-1
+  ASG_NAME: "L2_TERRAFORM"  # Configure this in GitLab CI/CD variables
 
 build:
   stage: build
@@ -39,3 +41,23 @@ deploy:
   rules:
     - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
       when: always
+
+# Manual job to refresh ASG instances (only on main branch)
+refresh_asg_instances:
+  stage: refresh
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  needs:
+    - deploy
+  script:
+    - echo "Starting ASG instance refresh for $ASG_NAME..."
+    - |
+      aws autoscaling start-instance-refresh \
+        --auto-scaling-group-name "$ASG_NAME" \
+        --region "$AWS_REGION" \
+        --preferences '{"MinHealthyPercentage": 90, "InstanceWarmup": 60}' \
+        --no-cli-pager
+    - echo "Instance refresh initiated successfully!"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY'
+      when: manual
+  allow_failure: true
