@@ -56,19 +56,15 @@
 
   export async function fetchZKillboardDeaths() {
     try {
-      const response = await fetch(`https://zkillboard.com/api/losses/characterID/${characterID}/`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
+      const data = await apiRequest(`/zkillboard/losses/${characterID}`);
       
-      if (Array.isArray(data) && data.length > 0) {
+      if (data.killmails && Array.isArray(data.killmails) && data.killmails.length > 0) {
         // Only take the first 2 most recent killmails
-        const recentKills = data.slice(0, 2);
+        const recentKills = data.killmails.slice(0, 2);
         
         // Fetch ship names for each killmail
         const enrichedData = await Promise.all(
-          recentKills.map(async (kill) => {
+          recentKills.map(async (kill: any) => {
             const shipData = await fetchShipName(kill.killmail_id);
             return {
               ...kill,
