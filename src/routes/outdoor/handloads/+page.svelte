@@ -23,7 +23,7 @@
     window.addEventListener("resize", checkMobile);
 
     try {
-      handloads = await apiRequest(`/outdoor/handloads`);
+      handloads = await apiRequest(`/handloads`);
 
       // lets sort by flask, not here...
       // handloads.sort((a, b) =>
