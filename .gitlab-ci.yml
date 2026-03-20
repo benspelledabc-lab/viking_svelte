@@ -1,6 +1,6 @@
 stages:
   - build
-  - deploy
+  # - deploy
   - refresh
 
 variables:
@@ -31,23 +31,23 @@ build:
     - if: $DOCKER_USERNAME && $DOCKER_PASSWORD
       when: always
 
-deploy:
-  stage: deploy
-  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest  
-  needs:
-    - build
-  script:
-    - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --region "$AWS_REGION" --no-cli-pager
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
-      when: always
+# deploy:
+#   stage: deploy
+#   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest  
+#   needs:
+#     - build
+#   script:
+#     - aws ecs update-service --cluster viking-ui --service viking-ui --force-new-deployment --region "$AWS_REGION" --no-cli-pager
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "main" && $AWS_ACCESS_KEY_ID && $AWS_SECRET_ACCESS_KEY && $DOCKER_USERNAME && $DOCKER_PASSWORD'
+#       when: always
 
 # Manual job to refresh ASG instances (only on main branch)
 refresh_asg_instances:
   stage: refresh
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
   needs:
-    - deploy
+    - build
   script:
     - echo "Starting ASG instance refresh for $ASG_NAME..."
     - |
