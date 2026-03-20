@@ -117,6 +117,7 @@
   });
 </script>
 
+
 <div class="table-container">
   <h2>zKillboard Deaths</h2>
   <div class="p-bubble parent-bubble">
