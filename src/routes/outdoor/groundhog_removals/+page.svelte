@@ -4,32 +4,38 @@ import { onMount } from 'svelte';
 import { writable } from 'svelte/store';
 import { apiUrl } from "$lib/api";
 
-const knives = writable([]);
+const removals = writable([]);
 let error = '';
 
-async function fetchKnives() {
-    const res = await fetch(apiUrl('/knives'));
+async function fetchRemovals() {
+    const res = await fetch(apiUrl('/groundhog_removals'));
     if (res.ok) {
-        knives.set(await res.json());
+        removals.set(await res.json());
     } else {
-        error = 'Failed to fetch knives';
+        error = 'Failed to fetch groundhog removals';
     }
 }
 
-onMount(fetchKnives);
+function formatDate(dateStr) {
+    if (!dateStr) return 'N/A';
+    return new Date(dateStr).toLocaleDateString();
+}
+
+onMount(fetchRemovals);
 </script>
 
 <svelte:head>
   <title>Groundhog Removals</title>
-  <meta name="description" content="Groundhog Removals for me!" />
+  <meta name="description" content="Groundhog Removals tracking" />
 </svelte:head>
 
 
 <div class="p-bubble parent-bubble bubble-table">
     <div class="table-container">
-    <h1>Groundhog Removals</h1>
-    <h4 style="color: red;">This is still in development. For now, look at the knife sharpening log.</h4>
-    </div></div>
+        <h1>Groundhog Removals</h1>
+        <p>Tracking successful groundhog removals with details on distance, conditions, and results.</p>
+    </div>
+</div>
 
 {#if error}
     <div class="error">{error}</div>
@@ -40,25 +46,33 @@ onMount(fetchKnives);
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Angle</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Weight (lbs)</th>
+                    <th>Distance (yds)</th>
+                    <th>Sex</th>
+                    <th>Temp (°F)</th>
                     <th>Image</th>
                 </tr>
             </thead>
             <tbody>
-                {#each $knives as knife, i}
+                {#each $removals as removal}
                     <tr>
-                        <td>{knife.name}</td>
-                        <td>{knife.angle}</td>
+                        <td>{formatDate(removal.removal_date)}</td>
+                        <td>{removal.time_of_removal || 'N/A'}</td>
+                        <td>{removal.estimated_weight_lbs || 'N/A'}</td>
+                        <td>{removal.shot_distance_yards || 'N/A'}</td>
+                        <td>{removal.sex || 'unknown'}</td>
+                        <td>{removal.temperature || 'N/A'}</td>
                         <td>
-                            {#if knife.image_path}
-                                {#if knife.image_path.startsWith('s3://')}
-                                    <a href={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} target="_blank" rel="noopener">
-                                        <img src={knife.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="knife image" width="60" style="cursor:pointer;" />
+                            {#if removal.image_path}
+                                {#if removal.image_path.startsWith('s3://')}
+                                    <a href={removal.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} target="_blank" rel="noopener">
+                                        <img src={removal.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="groundhog" width="60" style="cursor:pointer;" />
                                     </a>
                                 {:else}
-                                    <a href={knife.image_path} target="_blank" rel="noopener">
-                                        <img src={knife.image_path} alt="knife image" width="60" style="cursor:pointer;" />
+                                    <a href={removal.image_path} target="_blank" rel="noopener">
+                                        <img src={removal.image_path} alt="groundhog" width="60" style="cursor:pointer;" />
                                     </a>
                                 {/if}
                             {/if}
@@ -70,9 +84,11 @@ onMount(fetchKnives);
     </div>
 </div>
 
-<div class="p-bubble parent-bubble"><h4>Knives listed as a zero angle blade are not measured accurately. 
-    They are placeholders for the knives I have but haven't measured.</h4>
-</div>
+{#if $removals.length === 0}
+    <div class="p-bubble parent-bubble">
+        <h4>No groundhog removals recorded yet.</h4>
+    </div>
+{/if}
 
 <style>
 .bubble-table {
