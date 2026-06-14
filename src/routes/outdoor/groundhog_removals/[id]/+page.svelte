@@ -109,21 +109,40 @@ onMount(fetchRemoval);
                 </div>
 
                 <div class="detail-section">
-                    <h2>Equipment</h2>
+                    <h2>Equipment</h2>                    
                     <div class="detail-row">
-                        <span class="label">Firearm ID:</span>
-                        <span>{removal.firearm_id || 'N/A'}</span>
+                        <span class="label">Firearm:&nbsp;</span>&nbsp;
+                        <span>
+                            {#if removal.firearm}
+                                {removal.firearm.caliber} [{removal.firearm.make} {removal.firearm.model}]
+                            {:else}
+                                N/A
+                            {/if}
+                        </span>
                     </div>
                     <div class="detail-row">
-                        <span class="label">Handload ID:</span>
-                        <span>{removal.handload_id || 'N/A'}</span>
-                    </div>
+                        <span class="label">Handload:</span>
+                        <span>
+                            {#if removal.handload_id}
+                                <a href="/outdoor/handloads/{removal.handload_id}" class="handload-link">
+                                    View Handload #{removal.handload_id}
+                                </a>
+                            {:else}
+                                N/A
+                            {/if}                            
+                        </span>
+                    </div>                    
                 </div>
             </div>
 
             {#if removal.notes}
                 <div class="notes-section">
                     <h2>Notes</h2>
+                    <p>
+                        {#if removal.removal_date && new Date(removal.removal_date) < new Date('2026-06-01')}                                                  
+                            <span class="legacy-notice">Entries before June 2026 default to my 22-250 and the handload for that rifle. I lost the actual info in the database migration mostly due to lazyness.</span>
+                        {/if}
+                    </p>
                     <p>{removal.notes}</p>
                 </div>
             {/if}
@@ -386,5 +405,20 @@ h2 {
 
 .close-btn:hover {
     background: #d32f2f;
+}
+
+.handload-link {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.handload-link:hover {
+    text-decoration: underline;
+}
+
+.legacy-notice {
+    color: #d32f2f;
+    font-weight: 600;
 }
 </style>
