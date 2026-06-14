@@ -6,13 +6,18 @@ import { apiUrl } from "$lib/api";
 
 const removals = writable([]);
 let error = '';
+let loading = true;
 
 async function fetchRemovals() {
-    const res = await fetch(apiUrl('/groundhog_removals'));
-    if (res.ok) {
-        removals.set(await res.json());
-    } else {
-        error = 'Failed to fetch groundhog removals';
+    try {
+        const res = await fetch(apiUrl('/groundhog_removals'));
+        if (res.ok) {
+            removals.set(await res.json());
+        } else {
+            error = 'Failed to fetch groundhog removals';
+        }
+    } finally {
+        loading = false;
     }
 }
 
@@ -82,7 +87,14 @@ onMount(fetchRemovals);
     </div>
 </div>
 
-{#if $removals.length === 0}
+{#if loading}
+    <div class="p-bubble parent-bubble">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <p>Loading groundhog removals...</p>
+        </div>
+    </div>
+{:else if $removals.length === 0}
     <div class="p-bubble parent-bubble">
         <h4>No groundhog removals recorded yet.</h4>
     </div>
@@ -157,5 +169,24 @@ img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
     .mobile-hint {
         display: block;
     }
+}
+
+.spinner-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #4CAF50;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 </style>
