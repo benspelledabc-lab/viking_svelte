@@ -28,9 +28,10 @@
   <div class="p-bubble parent-bubble bubble-table">
     <h2>You really shouldn't be here, but incase you are, pick from a link below.</h2>
     <div>
-      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">                
-        <span class="bullet"><a href="/outdoor/knives/">Knife Sharpening Log</a></span>
-        <br /><span class="bullet"><a href="/outdoor/handloads/">Handloads</a></span>
+      <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">            
+        <span class="bullet"><a href="/outdoor/handloads/">Handloads</a></span>    
+        <br /><span class="bullet"><a href="/outdoor/knives/">Knife Sharpening Log</a></span>        
+        <br /><span class="bullet"><a href="/outdoor/groundhog_removals">Groundhog Removals</a></span>                
       </p>
       
     </div>
