@@ -37,6 +37,7 @@
         <ul class="dropdown-content">
           <li><a href={resolve("/outdoor/handloads")}>Handloads</a></li>
           <li><a href={resolve("/outdoor/knives")}>Knives</a></li>          
+          <li><a href={resolve("/outdoor/groundhog_removals")}>Groundhog Removals</a></li>          
         </ul>
       </li>
 

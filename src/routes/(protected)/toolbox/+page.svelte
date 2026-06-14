@@ -59,6 +59,7 @@
             <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
             <a href={resolve("/admin/journal_entry")}>Journal Entry CRUD</a><br />
             <a href={resolve("/admin/file_uploads")}>File Uploads CRUD</a><br />
+            <a href={resolve("/admin/groundhog_removals")}>Groundhog Removals CRUD</a><br />
           </p>
         </div>
       </div>
