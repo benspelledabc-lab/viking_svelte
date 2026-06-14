@@ -52,7 +52,7 @@ onMount(fetchRemovals);
                     <th>Distance (yds)</th>
                     <th>Sex</th>
                     <th>Temp (°F)</th>
-                    <th>Image</th>
+                    <th>Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,17 +65,14 @@ onMount(fetchRemovals);
                         <td>{removal.sex || 'unknown'}</td>
                         <td>{removal.temperature || 'N/A'}</td>
                         <td>
-                            {#if removal.image_path}
-                                {#if removal.image_path.startsWith('s3://')}
-                                    <a href={removal.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} target="_blank" rel="noopener">
-                                        <img src={removal.image_path.replace('s3://website-hosted-files', 'https://website-hosted-files.s3.amazonaws.com')} alt="groundhog" width="60" style="cursor:pointer;" />
-                                    </a>
-                                {:else}
-                                    <a href={removal.image_path} target="_blank" rel="noopener">
-                                        <img src={removal.image_path} alt="groundhog" width="60" style="cursor:pointer;" />
-                                    </a>
+                            <a href="/outdoor/groundhog_removals/{removal.id}" class="details-link">
+                                View Details
+                                {#if removal.image_path || (removal.images && removal.images.length > 0)}
+                                    <span class="image-count">
+                                        ({(removal.image_path ? 1 : 0) + (removal.images ? removal.images.length : 0)} 📷)
+                                    </span>
                                 {/if}
-                            {/if}
+                            </a>
                         </td>
                     </tr>
                 {/each}
@@ -133,4 +130,21 @@ tbody tr:hover {
 }
 .error { color: red; }
 img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
+
+.details-link {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.details-link:hover {
+    text-decoration: underline;
+}
+
+.image-count {
+    font-size: 0.85em;
+    color: #666;
+    margin-left: 0.3em;
+}
 </style>
