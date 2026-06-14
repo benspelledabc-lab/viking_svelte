@@ -21,6 +21,12 @@ function formatDate(dateStr) {
     return new Date(dateStr).toLocaleDateString();
 }
 
+function formatTime(timeStr) {
+    if (!timeStr) return 'N/A';
+    // Remove seconds from HH:MM:SS format
+    return timeStr.substring(0, 5);
+}
+
 onMount(fetchRemovals);
 </script>
 
@@ -43,15 +49,13 @@ onMount(fetchRemovals);
 
 <div class="p-bubble parent-bubble bubble-table">
     <div class="table-container">
+    <h4 class="mobile-hint">Small screen found: Scroll left|right.</h4>
         <table>
             <thead>
                 <tr>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Weight (lbs)</th>
-                    <th>Distance (yds)</th>
-                    <th>Sex</th>
-                    <th>Temp (°F)</th>
+                    <th>Yards</th>
                     <th>Details</th>
                 </tr>
             </thead>
@@ -59,11 +63,8 @@ onMount(fetchRemovals);
                 {#each $removals as removal}
                     <tr>
                         <td>{formatDate(removal.removal_date)}</td>
-                        <td>{removal.time_of_removal || 'N/A'}</td>
-                        <td>{removal.estimated_weight_lbs || 'N/A'}</td>
-                        <td>{removal.shot_distance_yards || 'N/A'}</td>
-                        <td>{removal.sex || 'unknown'}</td>
-                        <td>{removal.temperature || 'N/A'}</td>
+                        <td>{formatTime(removal.time_of_removal)}</td>   
+                        <td>{removal.shot_distance_yards || 'N/A'}</td>                   
                         <td>
                             <a href="/outdoor/groundhog_removals/{removal.id}" class="details-link">
                                 View Details
@@ -146,5 +147,15 @@ img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
     font-size: 0.85em;
     color: #666;
     margin-left: 0.3em;
+}
+
+.mobile-hint {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-hint {
+        display: block;
+    }
 }
 </style>
