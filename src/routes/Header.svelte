@@ -5,6 +5,7 @@
   import { goto } from "$app/navigation";
   import logo from "$lib/images/svelte-logo.svg";
   import github from "$lib/images/github.svg";
+  import logout from "$lib/images/logout.png";
 
   async function handleLogout() {
     await authStore.logout();
@@ -45,17 +46,6 @@
       <li aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}>
         <a href={resolve("/pages")}>Pages</a>
       </li>
-      <!-- <li aria-current={page.url.pathname === "/toolkit" ? "page" : undefined}>
-        <a href={resolve("/toolkit")}>Toolkit</a>
-      </li> -->
-      <!-- <li aria-current={page.url.pathname === "/about" ? "page" : undefined}>
-        <a href={resolve("/about")}>About</a>
-      </li> -->
-
-      <li class="dropdown" aria-current={page.url.pathname.startsWith("/misc") ? "page" : undefined}>
-        <a href={resolve("/misc")}>MISC</a>
-        
-      </li>
 
       {#if $authStore.isLoggedIn}
         <li class="auth-action" aria-current={page.url.pathname.startsWith("/toolbox") ? "page" : undefined}>
@@ -70,11 +60,18 @@
       {:else}
         <li class="auth-action">
           <a href="#" on:click|preventDefault={handleLogout}>
-            Logout: {$authStore.user?.username}
-          </a>
+            <img src={logout} alt="Logout" height="50px" />
+          </a>                    
         </li>
-      {/if}
 
+        <!-- <li class="auth-action">
+          <a href="#" on:click|preventDefault={handleLogout}>
+            Logout: {$authStore.user?.display_name}
+          </a>                    
+        </li> -->
+      {/if}
+      
+      
       <!-- <li aria-current={page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href={resolve('/sverdle')}>Sverdle</a>
 			</li> -->
@@ -88,7 +85,7 @@
   <!-- <div class="corner user-section">
     {#if $authStore.isLoggedIn && $authStore.user}
       <div class="user-info">
-        <span class="username">{$authStore.user.username}</span>
+        <span class="username">{$authStore.user.display_name}</span>
         <button class="logout-btn" on:click={handleLogout} title="Logout">
           Logout
         </button>

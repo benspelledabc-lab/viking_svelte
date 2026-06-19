@@ -68,6 +68,17 @@
         </p>
       </div>
 
+      <div class="p-bubble parent-bubble">
+        <h2>Misc Stuff</h2>
+        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+          <span class="bullet"><a href="/pages/misc/about">About</a></span><br />
+          <span class="bullet"><a href="/pages/misc/examples/404_history">404 History</a></span><br />
+          <span class="bullet"><a href="/pages/misc/examples/baconsum">Baconsum</a></span><br />
+          <span class="bullet"><a href="/pages/misc/examples/badlink">Bad Link *example*</a></span><br />
+          <span class="bullet"><a href="/pages/misc/other">Other</a></span><br />
+        </p>
+      </div>
+
       {#each groupedParagraphs as block}
         <div class="p-bubble parent-bubble">
           {#each block.paras as para, i}
