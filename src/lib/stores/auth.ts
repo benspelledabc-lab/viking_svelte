@@ -4,6 +4,7 @@ import { apiUrl } from '$lib/api';
 export type User = {
   id: number;
   username: string;
+  display_name: string;
   role: string;
 };
 
