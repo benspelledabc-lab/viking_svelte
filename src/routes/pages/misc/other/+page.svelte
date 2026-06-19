@@ -9,7 +9,7 @@
 
 <main>
   <h2>Other</h2>
-  <p>This is the Other page under MISC. Add your miscellaneous content here.</p>
+  <p>This is the Other page under MISC. needs content and formatting homie!</p>
 </main>
 
 <style>
