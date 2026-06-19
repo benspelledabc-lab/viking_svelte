@@ -24,11 +24,6 @@
 
     try {
       handloads = await apiRequest(`/handloads`);
-
-      // lets sort by flask, not here...
-      // handloads.sort((a, b) =>
-      //   a.caliber.toLowerCase().localeCompare(b.caliber.toLowerCase()),
-      // );
     } catch (err) {
       error = err instanceof Error ? err.message : "Failed to load handloads";
     } finally {

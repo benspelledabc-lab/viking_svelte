@@ -7,6 +7,7 @@
   let handload: any = null;
   let loading = true;
   let error: string | null = null;
+  let dopeDataCount = 0;
 
   //loading spinner
   import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
@@ -14,6 +15,23 @@
 
   // route param
   $: handload_id = $page.params.handload_id;
+
+  // Helper to check if DOPE data exists
+  function hasDopeData(data: any): boolean {
+    if (!data) return false;
+    
+    // Handle if it's a string (shouldn't be, but just in case)
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch {
+        return false;
+      }
+    }
+    
+    // Check if it's an object with keys
+    return typeof data === 'object' && Object.keys(data).length > 0;
+  }
 
   onMount(async () => {
     loading = true;
@@ -24,6 +42,25 @@
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       handload = await apiRequest(`/handload/${handload_id}`);
+      
+      // Count DOPE data entries
+      if (handload.dope_data) {
+        let dopeObj = handload.dope_data;
+        if (typeof dopeObj === 'string') {
+          try {
+            dopeObj = JSON.parse(dopeObj);
+          } catch (e) {
+            console.error('Failed to parse dope_data:', e);
+          }
+        }
+        if (typeof dopeObj === 'object') {
+          dopeDataCount = Object.keys(dopeObj).length;
+        }
+      }
+      
+      console.log('Handload data:', handload);
+      console.log('DOPE data:', handload.dope_data);
+      console.log('DOPE data count:', dopeDataCount);
     } catch (err) {
       error = err instanceof Error ? err.message : "Failed to load handload";
     } finally {
@@ -104,6 +141,24 @@
           <th>OCW Load</th>
           <td>{handload.is_ocw ? "Yes" : "No"}</td>
         </tr>
+        
+        <tr>
+          <th>Foot Pounds</th>
+          <td>{((handload.bullet_weight * Math.pow(handload.fps_avg, 2)) / 450240).toFixed(0)} ft-lbs</td>
+        </tr>
+
+        <tr>
+          <th>DOPE</th>
+          <td>
+            {#if dopeDataCount > 0}
+              <a href={resolve(`/outdoor/handloads/${handload.id}/dope`)} style="color: #2c3e50; text-decoration: underline;">
+                View DOPE Chart ({dopeDataCount} distances)
+              </a>
+            {:else}
+              <span style="color: #999;">No DOPE data</span>
+            {/if}
+          </td>
+        </tr>
 
         {#if handload.path_to_grt}
           <tr>
@@ -180,10 +235,6 @@
     border: 1px solid #ccc;
     padding: 0.6rem 1rem;
     text-align: left;
-  }
-  thead tr {
-    background-color: #d2b48c;
-    color: #000;
   }
   tbody tr:nth-child(even) {
     background-color: #e1dede;
