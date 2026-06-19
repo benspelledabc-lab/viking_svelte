@@ -104,7 +104,12 @@
           <tbody>
             {#each dopeEntries as entry}
               <tr>
-                <td class="distance">{entry.distance} yds</td>
+                <td class="distance">
+                  {entry.distance} yds
+                  {#if entry.distance === "1760"}
+                    <span class="mile-badge">1 MILE</span>
+                  {/if}
+                </td>
                 <td class="adjustment">{entry.adjustment.toFixed(1)}</td>
               </tr>
             {/each}
@@ -243,6 +248,18 @@
     font-weight: 600;
     color: #2c3e50;
     font-size: 1.1rem;
+  }
+
+  .mile-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    background: #27ae60;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 4px;
+    vertical-align: middle;
   }
 
   .adjustment {
