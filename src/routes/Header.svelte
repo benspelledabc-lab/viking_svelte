@@ -54,6 +54,7 @@
           {#if isAdminUser}          
             <li><a href={resolve("/pages/toolbox/")}>Admin Toolbox</a></li>
           {/if}
+          <li><a href={resolve("/pages/journal")}>Journal</a></li>
           <li><a href={resolve("/pages/steam")}>Steam Recent</a></li>
           <li><a href={resolve("/pages/steam/friends")}>Steam Friends</a></li>
           <li><a href={resolve("/pages/404_history")}>404 History</a></li>          
