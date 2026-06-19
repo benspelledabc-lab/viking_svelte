@@ -4,7 +4,9 @@
   let page = null; // stores the page object
   let loading = true;
   let error = null;
-  import { apiUrl } from "$lib/api"; // <-- helper for global API base
+  import { apiUrl, swaggerUrl } from "$lib/api"; // <-- helper for global API base
+  import { authStore } from "$lib/stores/auth";
+  import swagger from "$lib/images/viking_swagger_steampunk.png";
 
   // Helper: group paragraphs by block_id
   function groupByBlock(paragraphs) {
@@ -18,6 +20,9 @@
       paras,
     }));
   }
+
+  // Helper function to check if user is admin or superadmin
+  $: isAdminUser = $authStore.user?.role === 'admin' || $authStore.user?.role === 'superadmin';
 
   let groupedParagraphs = [];
 
@@ -59,7 +64,18 @@
           remove some of the noise. Stay tuned for updates as I figure out the best place for this content.
         </p>
       </div>
-
+      
+      {#if isAdminUser}
+      <div class="table-container">        
+        <div class="p-bubble parent-bubble">
+        <h2>Admin Toolbox</h2>
+          <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
+            <span class="bullet"><a href={resolve("/pages/toolbox/")}>Admin Toolbox</a></span><br />
+          </p>
+        </div>
+      </div>      
+    {/if}
+      
       <div class="p-bubble parent-bubble">
         <h2>Steam Stuff</h2>
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">

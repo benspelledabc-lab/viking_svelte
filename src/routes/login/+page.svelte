@@ -13,7 +13,7 @@
 
     if (success) {
       // Redirect to home page or toolbox
-      goto("/toolbox");
+      goto("/pages/toolbox");
     }
   }
 

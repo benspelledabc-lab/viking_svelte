@@ -6,6 +6,7 @@
   import logo from "$lib/images/svelte-logo.svg";
   import github from "$lib/images/github.svg";
   import logout from "$lib/images/logout.png";
+  import login from "$lib/images/login.png";
 
   async function handleLogout() {
     await authStore.logout();
@@ -47,16 +48,19 @@
         <a href={resolve("/pages")}>Pages</a>
       </li>
 
-      {#if $authStore.isLoggedIn}
-        <li class="auth-action" aria-current={page.url.pathname.startsWith("/toolbox") ? "page" : undefined}>
-          <a href={resolve("/toolbox")}>Toolbox</a>
+      <!-- {#if $authStore.isLoggedIn}
+        <li class="auth-action" aria-current={page.url.pathname.startsWith("/pages/toolbox") ? "page" : undefined}>
+          <a href={resolve("/pages/toolbox")}>Toolbox</a>
         </li>
-      {/if}
+      {/if} -->
 
       {#if !$authStore.isLoggedIn}
         <li aria-current={page.url.pathname === "/login" ? "page" : undefined}>
-          <a href={resolve("/login")}>Login</a>
+          <a href={resolve("/login")}><img src={login} alt="Login" height="50px" /></a>
         </li>
+        <!-- <li aria-current={page.url.pathname === "/login" ? "page" : undefined}>
+          <a href={resolve("/login")}>Login</a>
+        </li> -->
       {:else}
         <li class="auth-action">
           <a href="#" on:click|preventDefault={handleLogout}>
