@@ -117,14 +117,14 @@
         </table>
       </div>
 
-      <div class="info-box">
+      <!-- <div class="info-box">
         <h3>📊 DOPE Chart Summary</h3>
         <ul>
           <li><strong>Range:</strong> {dopeEntries[0].distance} - {dopeEntries[dopeEntries.length - 1].distance} yards</li>
           <li><strong>Data Points:</strong> {dopeEntries.length}</li>
           <li><strong>Total Drop:</strong> {dopeEntries[dopeEntries.length - 1].adjustment.toFixed(1)} (from zero)</li>
         </ul>
-      </div>
+      </div> -->
 
       {#if handload.firearm}
         <div class="firearm-info">
