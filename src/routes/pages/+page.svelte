@@ -64,28 +64,9 @@
           remove some of the noise. Stay tuned for updates as I figure out the best place for this content.
         </p>
       </div>
-      
-      {#if isAdminUser}
-      <div class="table-container">        
-        <div class="p-bubble parent-bubble">
-        <h2>Admin Toolbox</h2>
-          <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-            <span class="bullet"><a href={resolve("/pages/toolbox/")}>Admin Toolbox</a></span><br />
-          </p>
-        </div>
-      </div>      
-    {/if}
-      
+            
       <div class="p-bubble parent-bubble">
-        <h2>Steam Stuff</h2>
-        <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-          <span class="bullet"><a href="/pages/steam/recently-played">Recently Played Games</a></span><br />
-          <span class="bullet"><a href="/pages/steam/friends">Friends</a></span>
-        </p>
-      </div>
-
-      <div class="p-bubble parent-bubble">
-        <h2>Misc Stuff</h2>
+        <h2>Misc Stuff (Hard Coded)</h2>
         <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
           <span class="bullet"><a href="/pages/misc/about">About</a></span><br />
           <span class="bullet"><a href="/pages/misc/examples/404_history">404 History</a></span><br />
@@ -97,6 +78,7 @@
 
       {#each groupedParagraphs as block}
         <div class="p-bubble parent-bubble">
+          <h2>Dynamic Stuff (DB Pulled)</h2>
           {#each block.paras as para, i}
             <!-- dont auto escape the html -->
             <p class="p-bubble child-bubble" style="animation-delay: {i * 0.2}s">

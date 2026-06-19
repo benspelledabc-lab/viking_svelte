@@ -12,6 +12,10 @@
     await authStore.logout();
     goto("/login");
   }
+  
+  // Helper function to check if user is admin or superadmin
+  $: isAdminUser = $authStore.user?.role === 'admin' || $authStore.user?.role === 'superadmin';
+
 </script>
 
 <header>
@@ -44,15 +48,18 @@
       </li>
 
 
-      <li aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}>
+      <li class="dropdown" aria-current={page.url.pathname.startsWith("/pages")? "page": undefined}>
         <a href={resolve("/pages")}>Pages</a>
+        <ul class="dropdown-content">                            
+          {#if isAdminUser}          
+            <li><a href={resolve("/pages/toolbox/")}>Admin Toolbox</a></li>
+          {/if}
+          <li><a href={resolve("/pages/steam")}>Steam Recent</a></li>
+          <li><a href={resolve("/pages/steam/friends")}>Steam Friends</a></li>
+          <li><a href={resolve("/pages/404_history")}>404 History</a></li>          
+          <li><a href={resolve("/pages/misc/examples/baconsum")}>BaconSum</a></li>          
+        </ul>
       </li>
-
-      <!-- {#if $authStore.isLoggedIn}
-        <li class="auth-action" aria-current={page.url.pathname.startsWith("/pages/toolbox") ? "page" : undefined}>
-          <a href={resolve("/pages/toolbox")}>Toolbox</a>
-        </li>
-      {/if} -->
 
       {#if !$authStore.isLoggedIn}
         <li aria-current={page.url.pathname === "/login" ? "page" : undefined}>
