@@ -88,7 +88,7 @@
           {handload.bullet_name ? `${handload.bullet_name}, ` : ''}{handload.bullet_weight} gr • 
           {handload.powder_name} {handload.powder_charge} gr
         </p>
-        <p><strong>Velocity:</strong> {handload.fps_avg} fps (SD: {handload.fps_sd})</p>
+        <p><strong>Velocity:</strong> {handload.fps_avg} fps (ES: {handload.fps_es})</p>
       </div>
     </div>
 
