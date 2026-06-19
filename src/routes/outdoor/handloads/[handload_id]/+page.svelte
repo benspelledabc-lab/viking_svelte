@@ -104,6 +104,11 @@
           <th>OCW Load</th>
           <td>{handload.is_ocw ? "Yes" : "No"}</td>
         </tr>
+        
+        <tr>
+          <th>Foot Pounds</th>
+          <td>{((handload.bullet_weight * Math.pow(handload.fps_avg, 2)) / 450240).toFixed(0)} ft-lbs</td>
+        </tr>
 
         {#if handload.path_to_grt}
           <tr>
