@@ -61,13 +61,15 @@
       <table>
         <thead>
           <tr>
+            <th>User</th>
             <th>Caliber</th>
-            <th>Bullet Weight/Name</th>
+            <th>Bullet Weight</th>
           </tr>
         </thead>
         <tbody>
           {#each handloads as h}
             <tr>
+              <td>{h.user_display_name || 'Unknown'}</td>
               <td
                 ><a
                   href={`/outdoor/handloads/${h.id}`}
@@ -75,7 +77,7 @@
                   >{h.caliber}</a
                 ></td
               >
-              <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+              <td>{h.bullet_weight}gr</td>
             </tr>
           {/each}
         </tbody>
@@ -88,21 +90,22 @@
   <table>
     <thead>
       <tr>
-        <!-- <th>Load #</th> -->
+        <th>User</th>
         <th>Caliber</th>
-        <th>Bullet Weight/Name</th>
+        <th>Bullet Weight</th>
       </tr>
     </thead>
     <tbody>
       {#each handloads as h}
         <tr>
+          <td>{h.user_display_name || 'Unknown'}</td>
           <td
             ><a
               href={`/outdoor/handloads/${h.id}`}
               style="color: blue; text-decoration: underline;">{h.caliber}</a
             ></td
           >
-          <td>{h.bullet_weight}gr - {h.bullet_name}</td>
+          <td>{h.bullet_weight}gr</td>
         </tr>
       {/each}
     </tbody>
@@ -141,6 +144,10 @@
     position: relative;
   }
 
+  th:nth-child(1),
+  td:nth-child(1) {
+    min-width: 100px;
+  }
   th:nth-child(2),
   td:nth-child(2) {
     min-width: 120px;
