@@ -2,18 +2,25 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { resolve } from "$app/paths";
-  import { apiRequest } from "$lib/api";
+  import { apiRequest, apiUrl } from "$lib/api";
   import LoadingSpinner from "$lib/components/LoadingSpinner.svelte";
   import { fade } from "svelte/transition";
+  import { authStore } from "$lib/stores/auth";
 
   let handload: any = null;
   let loading = true;
   let error: string | null = null;
-  let dopeEntries: Array<{ distance: string; adjustment: number }> = [];
+  let successMessage: string | null = null;
+  let dopeEntries: Array<{ distance: string; adjustment: number; editing?: boolean }> = [];
+  let isEditMode = false;
+  let newDistance = "";
+  let newAdjustment = "";
+  let saving = false;
 
   $: handload_id = $page.params.handload_id;
+  $: isAdminUser = $authStore.user?.role === 'admin' || $authStore.user?.role === 'superadmin';
 
-  onMount(async () => {
+  async function loadHandload() {
     loading = true;
     error = null;
 
@@ -25,6 +32,7 @@
       console.log('DOPE page - dope_data:', handload.dope_data);
       
       // Parse DOPE data into sorted array
+      dopeEntries = [];
       if (handload.dope_data) {
         let dopeObj = handload.dope_data;
         
@@ -44,7 +52,8 @@
           dopeEntries = Object.entries(dopeObj)
             .map(([distance, adjustment]) => ({
               distance,
-              adjustment: Number(adjustment)
+              adjustment: Number(adjustment),
+              editing: false
             }))
             .sort((a, b) => Number(a.distance) - Number(b.distance));
           
@@ -56,7 +65,100 @@
     } finally {
       loading = false;
     }
-  });
+  }
+
+  function toggleEditMode() {
+    isEditMode = !isEditMode;
+    if (!isEditMode) {
+      // Cancel all inline edits
+      dopeEntries = dopeEntries.map(e => ({ ...e, editing: false }));
+      newDistance = "";
+      newAdjustment = "";
+    }
+  }
+
+  function addNewEntry() {
+    // Check if values are provided (handle both empty strings and actual empty values)
+    if (newDistance === "" || newDistance === null || newDistance === undefined) {
+      error = "Please enter a distance";
+      setTimeout(() => error = null, 3000);
+      return;
+    }
+    
+    if (newAdjustment === "" || newAdjustment === null || newAdjustment === undefined) {
+      error = "Please enter an adjustment";
+      setTimeout(() => error = null, 3000);
+      return;
+    }
+
+    // Convert to proper types
+    const distance = String(newDistance);
+    const adjustment = parseFloat(newAdjustment);
+
+    if (isNaN(adjustment)) {
+      error = "Adjustment must be a number";
+      setTimeout(() => error = null, 3000);
+      return;
+    }
+
+    // Check if distance already exists
+    if (dopeEntries.some(e => e.distance === distance)) {
+      error = "Distance already exists. Edit the existing entry instead.";
+      setTimeout(() => error = null, 3000);
+      return;
+    }
+
+    dopeEntries = [...dopeEntries, { distance, adjustment, editing: false }]
+      .sort((a, b) => Number(a.distance) - Number(b.distance));
+    
+    newDistance = "";
+    newAdjustment = "";
+  }
+
+  function deleteEntry(index: number) {
+    if (confirm(`Delete DOPE entry for ${dopeEntries[index].distance} yards?`)) {
+      dopeEntries = dopeEntries.filter((_, i) => i !== index);
+    }
+  }
+
+  async function saveChanges() {
+    saving = true;
+    error = null;
+    successMessage = null;
+
+    try {
+      // Convert array back to object
+      const dopeObj = dopeEntries.reduce((acc, entry) => {
+        acc[entry.distance] = entry.adjustment;
+        return acc;
+      }, {} as Record<string, number>);
+
+      const res = await fetch(apiUrl(`/handload/${handload_id}`), {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          dope_data: dopeObj
+        })
+      });
+
+      if (res.ok) {
+        successMessage = "DOPE data saved successfully!";
+        isEditMode = false;
+        await loadHandload();
+        setTimeout(() => successMessage = null, 3000);
+      } else {
+        const errorData = await res.json();
+        error = errorData.message || "Failed to save DOPE data";
+      }
+    } catch (err) {
+      error = err instanceof Error ? err.message : "Failed to save DOPE data";
+    } finally {
+      saving = false;
+    }
+  }
+
+  onMount(loadHandload);
 </script>
 
 <svelte:head>
@@ -69,10 +171,16 @@
     <LoadingSpinner size={92} thickness={18} />
     <h2>Loading DOPE data...</h2>
   </div>
-{:else if error}
-  <p style="color:red;">Error: {error}</p>
 {:else if handload}
   <div class="dope-container">
+    {#if error}
+      <div class="error-message">{error}</div>
+    {/if}
+    
+    {#if successMessage}
+      <div class="success-message">{successMessage}</div>
+    {/if}
+
     <div class="header-section">
       <h1>DOPE Data</h1>
       <p class="subtitle">Data On Previous Engagements</p>
@@ -90,7 +198,48 @@
         </p>
         <p><strong>Velocity:</strong> {handload.fps_avg} fps (ES: {handload.fps_es})</p>
       </div>
+
+      {#if isAdminUser}
+        <div class="edit-controls">
+          {#if !isEditMode}
+            <button class="btn-edit" on:click={toggleEditMode}>
+              ✏️ Edit DOPE Data
+            </button>
+          {:else}
+            <button class="btn-save" on:click={saveChanges} disabled={saving}>
+              {saving ? '💾 Saving...' : '💾 Save Changes'}
+            </button>
+            <button class="btn-cancel" on:click={toggleEditMode} disabled={saving}>
+              ❌ Cancel
+            </button>
+          {/if}
+        </div>
+      {/if}
     </div>
+
+    {#if isEditMode}
+      <div class="add-entry-form">
+        <h3>Add New Distance</h3>
+        <div class="form-inline">
+          <input 
+            type="number" 
+            placeholder="Distance (yds)" 
+            bind:value={newDistance}
+            class="input-distance"
+          />
+          <input 
+            type="number" 
+            step="0.1"
+            placeholder="Adjustment (MOA/MIL)" 
+            bind:value={newAdjustment}
+            class="input-adjustment"
+          />
+          <button class="btn-add" on:click={addNewEntry}>
+            ➕ Add
+          </button>
+        </div>
+      </div>
+    {/if}
 
     {#if dopeEntries.length > 0}
       <div class="table-container">
@@ -99,18 +248,48 @@
             <tr>
               <th>Distance (yards)</th>
               <th>Adjustment</th>
+              {#if isEditMode}
+                <th>Actions</th>
+              {/if}
             </tr>
           </thead>
           <tbody>
-            {#each dopeEntries as entry}
+            {#each dopeEntries as entry, index}
               <tr>
                 <td class="distance">
-                  {entry.distance} yds
-                  {#if entry.distance === "1760"}
-                    <span class="mile-badge">1 MILE</span>
+                  {#if isEditMode}
+                    <input 
+                      type="text" 
+                      bind:value={entry.distance}
+                      class="input-cell"
+                      readonly
+                    />
+                  {:else}
+                    {entry.distance} yds
+                    {#if entry.distance === "1760"}
+                      <span class="mile-badge">1 MILE</span>
+                    {/if}
                   {/if}
                 </td>
-                <td class="adjustment">{entry.adjustment.toFixed(1)}</td>
+                <td class="adjustment">
+                  {#if isEditMode}
+                    <input 
+                      type="number" 
+                      step="0.1"
+                      bind:value={entry.adjustment}
+                      class="input-cell"
+                    />
+                  {:else}
+                    {entry.adjustment.toFixed(1)}
+                  {/if}
+                </td>
+                {#if isEditMode}
+                  <td class="actions">
+                    <button class="btn-delete-small" on:click={() => deleteEntry(index)}>
+                      🗑️
+                    </button>
+                  </td>
+                {/if}
               </tr>
             {/each}
           </tbody>
@@ -138,9 +317,13 @@
     {:else}
       <div class="no-data">
         <p>No DOPE data recorded for this handload yet.</p>
-        <p class="hint">
-          Add DOPE data by editing the handload and including distance/adjustment values.
-        </p>
+        {#if isAdminUser && !isEditMode}
+          <button class="btn-edit" on:click={toggleEditMode}>
+            ➕ Add DOPE Data
+          </button>
+        {:else if !isAdminUser}
+          <p class="hint">Login as admin to add DOPE data.</p>
+        {/if}
       </div>
     {/if}
   </div>
@@ -199,6 +382,156 @@
     text-decoration: underline;
   }
 
+  .error-message {
+    background: rgba(244, 67, 54, 0.9);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .success-message {
+    background: rgba(76, 175, 80, 0.9);
+    color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .edit-controls {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .btn-edit, .btn-save, .btn-cancel, .btn-add {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.2s;
+  }
+
+  .btn-edit {
+    background: #ff9800;
+    color: white;
+  }
+
+  .btn-edit:hover {
+    background: #f57c00;
+  }
+
+  .btn-save {
+    background: #4caf50;
+    color: white;
+  }
+
+  .btn-save:hover:not(:disabled) {
+    background: #45a049;
+  }
+
+  .btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-cancel {
+    background: #757575;
+    color: white;
+  }
+
+  .btn-cancel:hover:not(:disabled) {
+    background: #616161;
+  }
+
+  .btn-cancel:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn-add {
+    background: #2196f3;
+    color: white;
+  }
+
+  .btn-add:hover {
+    background: #1976d2;
+  }
+
+  .btn-delete-small {
+    padding: 0.3rem 0.6rem;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+  }
+
+  .btn-delete-small:hover {
+    background: #d32f2f;
+  }
+
+  .add-entry-form {
+    background: rgba(33, 150, 243, 0.1);
+    border: 2px solid #2196f3;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .add-entry-form h3 {
+    margin: 0 0 1rem 0;
+    color: #2c3e50;
+  }
+
+  .form-inline {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .input-distance, .input-adjustment {
+    padding: 0.7rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .input-distance:focus, .input-adjustment:focus {
+    outline: none;
+    border-color: #2196f3;
+  }
+
+  .input-cell {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .input-cell:focus {
+    outline: none;
+    border-color: #2196f3;
+  }
+
+  .input-cell[readonly] {
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+
   .table-container {
     width: 100%;
     margin: 2rem auto;
@@ -207,7 +540,7 @@
 
   .dope-table {
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     margin: 0 auto;
     border-collapse: collapse;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -269,6 +602,10 @@
     font-weight: bold;
   }
 
+  .actions {
+    width: 80px;
+  }
+
   .info-box {
     background: #e8f4f8;
     border: 2px solid #3498db;
@@ -327,6 +664,10 @@
     color: #6c757d;
   }
 
+  .no-data button {
+    margin-top: 1rem;
+  }
+
   .hint {
     font-style: italic;
     font-size: 0.9rem;
@@ -349,9 +690,20 @@
       font-size: 0.9rem;
     }
 
-    .dope-table th,
-    .dope-table td {
-      padding: 0.6rem;
+    .form-inline {
+      flex-direction: column;
+    }
+
+    .input-distance, .input-adjustment {
+      min-width: 100%;
+    }
+
+    .edit-controls {
+      flex-direction: column;
+    }
+
+    .btn-edit, .btn-save, .btn-cancel {
+      width: 100%;
     }
   }
 </style>
