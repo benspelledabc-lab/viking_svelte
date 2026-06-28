@@ -54,8 +54,8 @@
         <h2>The CRUDy stuff</h2>
         <div class="p-bubble parent-bubble">
           <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-            <a href={resolve("/pages/toolbox/firearm/add")}>Add Firearm</a><br />
-            <a href={resolve("/pages/toolbox/handload/add")}>Add Handload</a><br />
+            <a href={resolve("/admin/handloads")}>Handload CRUD</a><br />
+            <a href={resolve("/admin/firearms")}>Firearm CRUD</a><br />
             <a href={resolve("/admin/knives")}>Knife CRUD</a><br />
             <a href={resolve("/admin/journal_entry")}>Journal Entry CRUD</a><br />
             <a href={resolve("/admin/file_uploads")}>File Uploads CRUD</a><br />

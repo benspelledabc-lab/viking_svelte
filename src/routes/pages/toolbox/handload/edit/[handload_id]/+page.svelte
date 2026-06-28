@@ -23,10 +23,17 @@
   let message = "";
   let loading = true;
   let error: string | null = null;
+  let firearms: any[] = [];
 
   onMount(async () => {
     try {
-      const handload = await apiRequest(`/handload/${handload_id}`);
+      // Fetch both the handload and all firearms
+      const [handload, firearmsData] = await Promise.all([
+        apiRequest(`/handload/${handload_id}`),
+        apiRequest("/firearms")
+      ]);
+
+      // Populate handload fields
       bulletName = handload.bullet_name || "";
       bulletWeight = handload.bullet_weight;
       caliber = handload.caliber || "";
@@ -39,6 +46,9 @@
       pathToGrt = handload.path_to_grt || "";
       powderCharge = handload.powder_charge;
       powderName = handload.powder_name || "";
+
+      // Store firearms list
+      firearms = firearmsData || [];
     } catch (err) {
       error = err instanceof Error ? err.message : "Failed to load handload";
     } finally {
@@ -53,7 +63,7 @@
       firearmId === undefined ||
       !powderName
     ) {
-      message = "Please fill in all required fields.";
+      message = "Please fill in all required fields (Caliber, Bullet Weight, Powder Name, and Firearm).";
       return;
     }
 
@@ -152,8 +162,15 @@
       </label>
 
       <label>
-        Firearm ID: <span class="required">*</span>
-        <input type="number" bind:value={firearmId} placeholder="e.g., 1" required />
+        Firearm: <span class="required">*</span>
+        <select bind:value={firearmId} required>
+          <option value={undefined}>Select a firearm...</option>
+          {#each firearms as firearm}
+            <option value={firearm.id}>
+              {firearm.make} {firearm.model} ({firearm.caliber}, {firearm.barrel_length}" barrel)
+            </option>
+          {/each}
+        </select>
       </label>
 
       <label class="checkbox-label">
@@ -215,7 +232,8 @@
   }
 
   input[type="text"],
-  input[type="number"] {
+  input[type="number"],
+  select {
     margin-top: 0.25rem;
     padding: 0.5rem;
     border: 1px solid #ccc;
@@ -223,7 +241,8 @@
     font-size: 1rem;
   }
 
-  input:focus {
+  input:focus,
+  select:focus {
     outline: none;
     border-color: #4a90e2;
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
