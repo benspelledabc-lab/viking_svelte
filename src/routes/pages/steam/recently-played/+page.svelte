@@ -27,25 +27,43 @@
   function proxifySteamContent(html) {
     if (!html) return html;
 
-    return html
-      .replace(
-        /href="(https:\/\/store\.steampowered\.com[^"]*)/g,
-        (match, url) => {
-          return `href="${apiUrl("/steam/proxy")}?url=${encodeURIComponent(url)}`;
-        },
-      )
-      .replace(
-        /src="(https:\/\/cdn\.cloudflare\.steamstatic\.com[^"]*)/g,
-        (match, url) => {
-          return `src="${apiUrl("/steam/proxy")}?url=${encodeURIComponent(url)}`;
-        },
-      )
-      .replace(
-        /src="(https:\/\/steamcdn-a\.akamaihd\.net[^"]*)/g,
-        (match, url) => {
-          return `src="${apiUrl("/steam/proxy")}?url=${encodeURIComponent(url)}`;
-        },
-      );
+    // List of Steam domains to proxy
+    const steamDomains = [
+      'https://store.steampowered.com',
+      'https://cdn.cloudflare.steamstatic.com',
+      'https://steamcdn-a.akamaihd.net',
+      'https://cdn.akamai.steamstatic.com',
+      'https://shared.cloudflare.steamstatic.com'
+    ];
+
+    // Replace all Steam URLs (in href, src, and other attributes)
+    let result = html;
+    
+    // Replace src attributes (images, videos, etc.)
+    for (const domain of steamDomains) {
+      const srcRegex = new RegExp(`src="(${domain.replace(/\./g, '\\.')}[^"]*)"`, 'g');
+      result = result.replace(srcRegex, (_match, url) => {
+        return `src="${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)}"`;
+      });
+    }
+
+    // Replace href attributes (links)
+    for (const domain of steamDomains) {
+      const hrefRegex = new RegExp(`href="(${domain.replace(/\./g, '\\.')}[^"]*)"`, 'g');
+      result = result.replace(hrefRegex, (_match, url) => {
+        return `href="${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)}"`;
+      });
+    }
+
+    // Replace background-image URLs in style attributes
+    for (const domain of steamDomains) {
+      const bgRegex = new RegExp(`url\\((${domain.replace(/\./g, '\\.')}[^)]*)\\)`, 'g');
+      result = result.replace(bgRegex, (_match, url) => {
+        return `url(${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)})`;
+      });
+    }
+
+    return result;
   }
 
   onMount(async () => {
@@ -58,7 +76,7 @@
       page = await res.json();
       console.log("Page data:", page);
     } catch (err) {
-      error = err.message;
+      error = err instanceof Error ? err.message : String(err);
     } finally {
       loading = false;
     }

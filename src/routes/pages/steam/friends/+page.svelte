@@ -39,6 +39,19 @@
     return d.toLocaleString(undefined, options); // uses local timezone
   }
 
+  // Proxy Steam URLs through our backend to bypass firewall
+  function proxySteamUrl(url) {
+    if (!url) return url;
+    
+    // Check if it's any Steam-related URL
+    if (url.includes('steam')) {
+      console.log('Proxying Steam URL:', url);
+      return `${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)}`;
+    }
+    
+    return url;
+  }
+
   onMount(async () => {
     try {
       // 🔧 simulate work (1.5 seconds)
@@ -47,6 +60,13 @@
       const res = await fetch(apiUrl(`/steam/friends-summaries`));
       if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
       page = await res.json();
+
+      // Debug: Log the first player's avatar URL
+      if (page.players && page.players.length > 0) {
+        console.log('Sample player data:', page.players[0]);
+        console.log('Avatar URL:', page.players[0].avatar);
+        console.log('Proxied URL:', proxySteamUrl(page.players[0].avatar));
+      }
 
       // Sort by lastlogoff (descending), then by personaname
       if (page.players) {
@@ -98,8 +118,29 @@
       {#each page.players as block}
         <div class="p-bubble parent-bubble">
           <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
-            <img src={block.avatar} alt={block.personaname} /> -
-            <a href={block.profileurl} title={block.personaname}
+            {#if block.avatar}
+              <img 
+                src={proxySteamUrl(block.avatar)} 
+                alt={block.personaname}
+                width="64"
+                height="64"
+                loading="lazy"
+                on:error={(e) => {
+                  console.error('Failed to load avatar for:', block.personaname);
+                  console.error('Original URL:', block.avatar);
+                  console.error('Proxied URL:', proxySteamUrl(block.avatar));
+                  console.error('Error:', e);
+                  e.target.style.display = 'none';
+                }}
+                on:load={() => {
+                  console.log('Successfully loaded avatar for:', block.personaname);
+                }}
+              />
+            {:else}
+              <span style="display:inline-block;width:64px;height:64px;background:#ccc;"></span>
+            {/if}
+            -
+            <a href={block.profileurl} title={block.personaname} target="_blank" rel="noopener noreferrer"
               ><strong>{@html block.personaname}</strong></a
             ><br />
             ( Last online: {formatLastLogoff(block.lastlogoff)} )
