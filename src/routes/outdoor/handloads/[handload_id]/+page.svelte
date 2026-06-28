@@ -3,6 +3,7 @@
   import { page } from "$app/stores";
   import { resolve } from "$app/paths";
   import { apiRequest } from "$lib/api"; // <-- helper with auth
+  import { authStore } from "$lib/stores/auth";
 
   let handload: any = null;
   let loading = true;
@@ -87,9 +88,13 @@
       <tbody>
         <tr>
           <th colspan="2" style="text-align:center; background:#d2b48c;">
-            <a href={resolve(`/pages/toolbox/handload/edit/${handload.id}`)} style="color: #000; text-decoration: underline;">
+            {#if $authStore.isLoggedIn}
+              <a href={resolve(`/pages/toolbox/handload/edit/${handload.id}`)} style="color: #000; text-decoration: underline;">
+                Handload {handload.id} Details
+              </a>
+            {:else}
               Handload {handload.id} Details
-            </a>
+            {/if}
           </th>
         </tr>
 
@@ -185,9 +190,13 @@
         {#if handload.firearm}
           <tr>
             <th colspan="2" style="text-align:center; background:#d2b48c;">
-              <a href={resolve(`/pages/toolbox/firearm/edit/${handload.firearm.id}`)} style="color: #000; text-decoration: underline;">
+              {#if $authStore.isLoggedIn}
+                <a href={resolve(`/pages/toolbox/firearm/edit/${handload.firearm.id}`)} style="color: #000; text-decoration: underline;">
+                  Firearm {handload.firearm.id} Details
+                </a>
+              {:else}
                 Firearm {handload.firearm.id} Details
-              </a>
+              {/if}
             </th>
           </tr>
 
