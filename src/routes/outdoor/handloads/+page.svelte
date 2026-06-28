@@ -107,6 +107,34 @@
   </table>
 {/if}
 
+<!-- Database Schema Image -->
+<div class="schema-section">
+  {#if isMobile}
+    <div class="p-bubble parent-bubble">
+      <p class="p-bubble child-bubble">
+        <strong>Needs Porting From Old Website:</strong><br/>
+        <a 
+          href="https://website-hosted-files.s3.amazonaws.com/imrunicorn/uploads/2026/06/641c1fce-a100-4bab-b60e-4042036603fe.png" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style="color: blue; text-decoration: underline;"
+        >
+          View Database Schema
+        </a>
+      </p>
+    </div>
+  {:else}
+    <h2>Needs Porting From Old Website</h2>
+    <div class="p-bubble parent-bubble">
+      <img 
+        src="https://website-hosted-files.s3.amazonaws.com/imrunicorn/uploads/2026/06/641c1fce-a100-4bab-b60e-4042036603fe.png" 
+        alt="Handloads Database Schema"
+        class="schema-image"
+      />
+    </div>
+  {/if}
+</div>
+
 <style>
   /* Bubble styling */
   .bubble-table {
@@ -188,5 +216,16 @@
     left: 0;
     white-space: nowrap;
     margin-top: 2px;
+  }
+
+  .schema-section {
+    margin-top: 2rem;
+  }
+
+  .schema-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
   }
 </style>
