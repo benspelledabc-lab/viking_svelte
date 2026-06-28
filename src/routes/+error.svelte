@@ -24,10 +24,17 @@
             ip_address: undefined // Let backend infer if possible
           })
         });
-        postResult = await resp.json().catch(() => resp.statusText);
-        console.log('404 POST result:', postResult);
+        
+        if (resp.ok) {
+          postResult = await resp.json();
+          console.log('404 logged successfully:', postResult);
+        } else {
+          const errorText = await resp.text();
+          postResult = { error: `Failed to log 404: ${resp.status} ${errorText}` };
+          console.error('404 POST failed:', resp.status, errorText);
+        }
       } catch (e) {
-        postResult = e.message;
+        postResult = { error: e.message };
         console.error('404 POST error:', e);
       }
     }
