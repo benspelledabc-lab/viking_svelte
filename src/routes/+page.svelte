@@ -13,6 +13,7 @@
   import JokeSum from "$lib/components/Joke-Random.svelte";
   import LatestJournalEntry from "$lib/components/Latest_Journal_Entry.svelte";
   import ZKillboardDeath from "$lib/components/ZKillboard_Death.svelte";
+  import Insult from "$lib/components/Insult.svelte";
 
   // helper: group paragraphs by block_id
   function groupByBlock(paragraphs) {
@@ -83,5 +84,6 @@
 </div>
 
 <!-- <JokeSum /> -->
+<Insult />
 <LatestJournalEntry />
 <ZKillboardDeath d={4 * 60 * 60 * 1000} /> <!-- refresh every 4 hours -->
