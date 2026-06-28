@@ -19,6 +19,49 @@
     return parts.join(" ");
   }
 
+  // Rewrite Steam URLs to route through your proxy
+  function proxifySteamContent(html) {
+    if (!html) return html;
+
+    // List of Steam domains to proxy
+    const steamDomains = [
+      'https://store.steampowered.com',
+      'https://cdn.cloudflare.steamstatic.com',
+      'https://steamcdn-a.akamaihd.net',
+      'https://cdn.akamai.steamstatic.com',
+      'https://shared.cloudflare.steamstatic.com'
+    ];
+
+    // Replace all Steam URLs (in href, src, and other attributes)
+    let result = html;
+    
+    // Replace src attributes (images, videos, etc.)
+    for (const domain of steamDomains) {
+      const srcRegex = new RegExp(`src="(${domain.replace(/\./g, '\\.')}[^"]*)"`,'g');
+      result = result.replace(srcRegex, (match, url) => {
+        return `src="${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)}"`;
+      });
+    }
+
+    // Replace href attributes (links)
+    for (const domain of steamDomains) {
+      const hrefRegex = new RegExp(`href="(${domain.replace(/\./g, '\\.')}[^"]*)"`,'g');
+      result = result.replace(hrefRegex, (match, url) => {
+        return `href="${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)}"`;
+      });
+    }
+
+    // Replace background-image URLs in style attributes
+    for (const domain of steamDomains) {
+      const bgRegex = new RegExp(`url\\((${domain.replace(/\./g, '\\.')}[^)]*)\\)`,'g');
+      result = result.replace(bgRegex, (match, url) => {
+        return `url(${apiUrl('/steam/proxy')}?url=${encodeURIComponent(url)})`;
+      });
+    }
+
+    return result;
+  }
+
   onMount(async () => {
     try {
       const res = await fetch(apiUrl(`/steam/recent-games`));
@@ -59,7 +102,7 @@
           <p class="p-bubble child-bubble" style="animation-delay: {3 * 0.2}s">
             <strong>{@html block.name}</strong> -
             <i>{formatPlaytime(block.playtime_forever)}</i><br /><br />
-            {@html block.about_the_game}
+            {@html proxifySteamContent(block.about_the_game)}
           </p>
         </div>
       {/each}
