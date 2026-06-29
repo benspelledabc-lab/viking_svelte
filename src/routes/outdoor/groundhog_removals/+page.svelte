@@ -45,6 +45,9 @@ onMount(fetchRemovals);
     <div class="table-container">
         <h1>Groundhog Removals</h1>
         <p>Tracking successful groundhog removals with details on distance, conditions, and results.</p>
+        <div class="nav-links">
+            <a href="/outdoor/groundhog_removals/stats" class="stats-link">📊 View Statistics & Graphs</a>
+        </div>
     </div>
 </div>
 
@@ -159,6 +162,28 @@ img { margin-top: 0.5em; border: 1px solid #ccc; border-radius: 4px; }
     font-size: 0.85em;
     color: #666;
     margin-left: 0.3em;
+}
+
+.nav-links {
+    margin: 20px 0;
+}
+
+.stats-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: all 0.3s;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.stats-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    border-color: rgba(255, 255, 255, 0.6);
 }
 
 .mobile-hint {
