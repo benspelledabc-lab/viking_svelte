@@ -23,6 +23,7 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
+		"chart.js": "^4.5.1",
 		"quill": "^2.0.3",
 		"svelte-quill": "^1.2.0",
 		"svelte-quilljs": "^1.0.1"
